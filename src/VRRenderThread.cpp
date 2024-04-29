@@ -50,7 +50,14 @@ VRRenderThread::VRRenderThread(QObject* parent) {
  * usage will increase for each start/stop thread cycle.
  */
 VRRenderThread::~VRRenderThread() {
+	/* Delete actors */
+	actors->Delete();
 
+	/* Delete VR objects */
+	renderer->Delete();
+	window->Delete();
+	camera->Delete();
+	interactor->Delete();
 }
 
 
@@ -71,7 +78,7 @@ void VRRenderThread::addActorOffline(vtkActor* actor) {
 }
 
 // Function to update the actors properties (colour etc)
-// maybe add this to addACtorOffline asw?
+// maybe add this to addActorOffline asw?
 // TODO
 
 
