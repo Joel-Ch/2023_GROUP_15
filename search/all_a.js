@@ -7,5 +7,6 @@ var searchData=
   ['on_5factionstart_5fvr_5ftriggered_39',['on_actionStart_VR_triggered',['../classMainWindow.html#a8ded108feb37f7794e2251f99c2136c1',1,'MainWindow']]],
   ['on_5factionstop_5fvr_5ftriggered_40',['on_actionStop_VR_triggered',['../classMainWindow.html#ab479b73b552fa37576cffd1e65965d91',1,'MainWindow']]],
   ['onclick_41',['onClick',['../classMainWindow.html#acafd65bdc08cecdd7bf2c071f470084e',1,'MainWindow']]],
-  ['opendialog_42',['openDialog',['../classMainWindow.html#a4765b81196c7f3b77ac9de9b3b41587c',1,'MainWindow']]]
+  ['opendialog_42',['openDialog',['../classMainWindow.html#a4765b81196c7f3b77ac9de9b3b41587c',1,'MainWindow']]],
+  ['openfile_43',['openFile',['../classMainWindow.html#a5fa02976edc2b08d9d33de20b4c9f845',1,'MainWindow']]]
 ];
