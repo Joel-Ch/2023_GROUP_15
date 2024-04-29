@@ -62,6 +62,13 @@ public:
      */
     void openDialog(const QString &name, const bool &visible, const QColor &colour);
 
+
+    /**
+	* @brief Opens a file.
+	* @param fileName The file name.
+	*/
+	void openFile(const QString& fileName);
+
     /**
      * @brief Updates the render window.
      */
