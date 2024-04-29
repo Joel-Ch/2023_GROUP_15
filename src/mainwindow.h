@@ -81,17 +81,6 @@ public:
     void updateRenderFromTree(const QModelIndex &index);
 
     /**
-	* @brief Updates the VR render window.
-	*/
-	void updateVRRender();
-
-	/**
-	* @brief Updates the VR render window from the tree.
-	* @param index The index of the tree.
-	*/
-	void updateVRRenderFromTree(const QModelIndex& index);
-
-    /**
      * @brief function called when an actor is clicked.
      * @param caller The caller object.
      * @param eventId The event id.
