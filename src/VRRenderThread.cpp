@@ -28,6 +28,7 @@
 #include <vtkCallbackCommand.h>
 
 
+
 /* The class constructor is called by MainWindow and runs in the primary program thread, this thread
  * will go on to handle the GUI (mouse clicks, etc). The OpenVRRenderWindowInteractor cannot be start()ed
  * in the constructor, as it will take control of the main thread to handle the VR interaction (headset
@@ -41,6 +42,8 @@ VRRenderThread::VRRenderThread(QObject* parent) {
 	rotateX = 0.;
 	rotateY = 0.;
 	rotateZ = 0.;
+
+	endRender = true;
 }
 
 
@@ -56,12 +59,14 @@ VRRenderThread::~VRRenderThread() {
 	/* Delete VR objects */
 	renderer->Delete();
 	window->Delete();
-	camera->Delete();
-	interactor->Delete();
+	if (camera != nullptr)
+		camera->Delete();
+	if (interactor != nullptr)
+		interactor->Delete();
 }
 
 
-void VRRenderThread::addActorOffline(vtkActor* actor) {
+void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 
 	/* Check to see if render thread is running */
 	if (!this->isRunning()) {
@@ -74,7 +79,14 @@ void VRRenderThread::addActorOffline(vtkActor* actor) {
 		actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
 		actors->AddItem(actor);
+
+		addActorModelPartMapping(actor, part);
 	}
+}
+
+void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
+{
+	actorToModelPart[actor] = part;
 }
 
 // Function to update the actors properties (colour etc)
@@ -101,6 +113,10 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 
 	case ROTATE_Z:
 		this->rotateZ = value;
+		break;
+
+	case SYNC_RENDER:
+		// Do nothing (Will do something in future)
 		break;
 	}
 }
@@ -141,6 +157,12 @@ void VRRenderThread::run() {
 	 * that appears on the computer screen
 	 */
 	window = vtkOpenVRRenderWindow::New();
+
+	// Check if a VR headset is connected
+	if (!window->IsHMDPresent()) {
+		emit statusUpdateMessage("No VR headset detected. Exiting VR thread.", 0);
+		return;
+	}
 
 	window->Initialize();
 	window->AddRenderer(renderer);
@@ -202,6 +224,26 @@ void VRRenderThread::run() {
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
 				a->RotateZ(rotateZ);
+			}
+
+			if (Command == SYNC_RENDER)
+			{
+				// Update all actors
+				actors->InitTraversal();
+				vtkActor* actor = nullptr;
+				while ((actor = actors->GetNextActor()) != nullptr)
+				{
+					ModelPart* part = actorToModelPart[actor];
+					QColor colour = part->colour();
+					bool visible = part->visible();
+					QString name = part->name();
+					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
+					actor->SetVisibility(visible);
+					// Update actor's mapper based on 'name' if applicable
+				}
+
+				// Reset the command
+				Command = NO_COMMAND;
 			}
 
 			/* Remember time now */

@@ -62,7 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
     renderer = vtkSmartPointer<vtkRenderer>::New();
     renderWindow->AddRenderer(renderer);
 
-    vrThread = vtkSmartPointer<VRRenderThread>::New();
+    vrThread = new VRRenderThread();
+	connect(vrThread, &VRRenderThread::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
 }
 
 MainWindow::~MainWindow()
@@ -281,6 +282,8 @@ void MainWindow::openFile(const QString& filePath)
             // Add the actor to the map
             actorToModelPart[newItem->getActor()] = newItem;
 
+	vrThread->addActorOffline(newItem->getActor(), newItem);
+
         updateRender();
     }
 
@@ -347,6 +350,8 @@ void MainWindow::receiveDialogData(const QString &name, const bool &visible, con
     selectedPart->setName(name);
     selectedPart->setVisible(visible);
     selectedPart->setColour(colour);
+
+	vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
 
     updateRender();
 }
@@ -473,7 +478,7 @@ void MainWindow::on_actionStart_VR_triggered()
             //TODO
 
 			// Add the actor to the VR renderer
-            vrThread->addActorOffline(actor);
+            vrThread->addActorOffline(actor, selectedPart);
         }
     }
 

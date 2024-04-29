@@ -169,6 +169,6 @@ private:
     Ui::MainWindow *ui;
     ModelPartList *partList;
 
-	vtkSmartPointer<VRRenderThread> vrThread;
+	VRRenderThread *vrThread;
 };
 #endif // MAINWINDOW_H
