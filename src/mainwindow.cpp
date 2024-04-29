@@ -170,33 +170,6 @@ void MainWindow::on_actionOpen_File_triggered()
 
 	emit statusUpdateMessage(QString("File Opened: ") + filePath, 0);
         }
-        else
-        {
-            // If no item is selected, create a new top-level item
-            QList<QVariant> data = {fileName, visible, colour};
-            QModelIndex parent; // An invalid QModelIndex so the item is added to the root
-            QModelIndex newIndex = partList->appendChild(parent, data);
-            // Get the new item
-            newItem = static_cast<ModelPart *>(newIndex.internalPointer());
-        }
-
-        // Update the tree view
-        partList->dataChanged(index, index);
-
-        // Load the STL file
-        newItem->loadSTL(filePath);
-
-        // Add the actor to the map
-        actorToModelPart[newItem->getActor()] = newItem;
-
-        updateRender();
-    }
-    else
-    {
-        // If no file was selected
-        emit statusUpdateMessage(QString("File Open Cancelled"), 0);
-    }
-}
 
 void MainWindow::on_actionOpen_Folder_triggered()
 {
