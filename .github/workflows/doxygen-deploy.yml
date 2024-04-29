@@ -7,7 +7,7 @@ on:
 
 jobs:
   # The job that will build worksheet 5
-  deploy-worksheet-7:
+  deploy-VRBaseStation:
     # Defines the operating system for the virtual computer
     runs-on: ubuntu-latest
 
