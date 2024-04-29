@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
         dialog.cpp
         NewTreeView.cpp
         NewTreeView.h
+        VRRenderThread.cpp
+        VRRenderThread.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
