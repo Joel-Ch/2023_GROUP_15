@@ -26,6 +26,7 @@
 #include <vtkProperty.h>
 #include <vtkPropPicker.h>
 #include <vtkCallbackCommand.h>
+#include "VRRenderThread.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -73,10 +74,15 @@ public:
     void updateRenderFromTree(const QModelIndex &index);
 
     /**
-     * @brief Adds an actor to the renderer.
-     * @param selectedPart The selected part.
-     */
-    // void addActorToRenderer(ModelPart* selectedPart);
+	* @brief Updates the VR render window.
+	*/
+	void updateVRRender();
+
+	/**
+	* @brief Updates the VR render window from the tree.
+	* @param index The index of the tree.
+	*/
+	void updateVRRenderFromTree(const QModelIndex& index);
 
     /**
      * @brief function called when an actor is clicked.
@@ -166,5 +172,7 @@ private:
 
     Ui::MainWindow *ui;
     ModelPartList *partList;
+
+	vtkSmartPointer<VRRenderThread> vrThread;
 };
 #endif // MAINWINDOW_H

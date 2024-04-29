@@ -460,15 +460,90 @@ void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *cli
 
 void MainWindow::on_actionStart_VR_triggered()
 {
-	emit statusUpdateMessage(QString("Starting VR"), 0);
+    emit statusUpdateMessage(QString("Starting VR"), 0);
+
+    // Add list of actors using addActorOffline()
+    // (Link these to new mappers)
+    for (int i = 0; i < partList->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex index = partList->index(i, 0, QModelIndex());
+        ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
+        vtkActor *actor = selectedPart->getNewActor();
+        if (actor)
+        {
+            // Copy properties from m_itemData to the new actor
+            vrThread->addActorOffline(actor);
+        }
+    }
+
+    // Start the thread
+    vrThread->start();
 }
 
 void MainWindow::on_actionStop_VR_triggered()
 {
 	emit statusUpdateMessage(QString("Stopping VR"), 0);
+	//vrThread->stop(); <- this is not a valid function but you get the idea
 }
 
+void MainWindow::updateVRRender()
+{
+    for (int i = 0; i < partList->rowCount(QModelIndex()); i++)
+    {
+        updateVRRenderFromTree(partList->index(i, 0, QModelIndex()));
+    }
+}
 
+void MainWindow::updateVRRenderFromTree(const QModelIndex& index)
+{
+    if (index.isValid())
+    {
+        ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+        // Retrieve actor from selected part and add to renderer
+        vtkSmartPointer<vtkActor> VRactor = selectedPart->getNewActor();
+        if (VRactor)
+        {
+            /*QColor qcolor = selectedPart->colour();
+            double red = qcolor.redF();
+            double green = qcolor.greenF();
+            double blue = qcolor.blueF();
+
+            // Set the color of the actor
+            actor->GetProperty()->SetColor(red, green, blue);
+            
+            // Check visibility and add or remove actor from renderer
+            if (selectedPart->visible())
+            {
+                if (!renderer->HasViewProp(actor))
+                {
+                    renderer->AddActor(actor);
+                }
+            }
+            else
+            {
+                renderer->RemoveActor(actor);
+            }*/
+            // THIS WHOLE SECTION NEEDS UPDATING
+            // should use vr properties not vtk ones
+			// This is also part 3 of getNewActor
+            // ->needs to be updated there rather than here? or maybe both? or here not there? one of them anyway
+			vrThread->addActorOffline(VRactor);
+        }
+    }
+
+    /* Check to see if this part has any children */
+    if (!partList->hasChildren(index) || (index.flags() & Qt::ItemNeverHasChildren))
+    {
+        return;
+    }
+
+    /* Loop through children and add their actors */
+    int rows = partList->rowCount(index);
+    for (int i = 0; i < rows; i++)
+    {
+        updateVRRenderFromTree(partList->index(i, 0, index));
+    }
+}
 
 /*
 List of cool bonus features:

@@ -5,6 +5,7 @@
  */
 
 #include "ModelPart.h"
+#include "vtkProperty.h"
 
 ModelPart::ModelPart(const QList<QVariant> &data, ModelPart *parent)
     : m_itemData(data), m_parentItem(parent)
@@ -148,7 +149,7 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() const
     return actor;
 }
 
-// vtkActor* ModelPart::getNewActor() {
+vtkActor* ModelPart::getNewActor() {
 /* This is a placeholder function that will be used in the next worksheet.
  *
  * The default mapper/actor combination can only be used to render the part in
@@ -157,8 +158,12 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() const
  * of this function. */
 
 /* 1. Create new mapper */
+	VRMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+	VRMapper->SetInputConnection(file->GetOutputPort());
 
 /* 2. Create new actor and link to mapper */
+	VRActor = vtkSmartPointer<vtkActor>::New();
+	VRActor->SetMapper(VRMapper);
 
 /* 3. Link the vtkProperties of the original actor to the new actor. This means
  *    if you change properties of the original part (colour, position, etc), the
@@ -169,6 +174,6 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() const
  */
 
 /* The new vtkActor pointer must be returned here */
-//    return nullptr;
+    return VRActor;
 
-//}
+}
