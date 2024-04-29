@@ -5,6 +5,8 @@
   *		Template to add VR rendering to your application.
   *
   *		P Evans 2022
+  * 
+  * @brief This class is used to create a thread that will handle the VR rendering
   */
 #ifndef VR_RENDER_THREAD_H
 #define VR_RENDER_THREAD_H

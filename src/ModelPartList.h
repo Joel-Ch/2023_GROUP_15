@@ -5,6 +5,8 @@
  *     Template for model part list that will be used to create the trewview.
  *
  *     P Evans 2022
+ * 
+ * @ brief This class represents a list of parts in the model treeview
  */
 
 #ifndef VIEWER_MODELPARTLIST_H

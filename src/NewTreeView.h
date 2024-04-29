@@ -1,5 +1,7 @@
 /*
  * @file NewTreeView.h
+ * 
+ * @brief This is used for finding clicks on the tree view.
  */
 #ifndef NEWTREEVIEW_H
 #define NEWTREEVIEW_H

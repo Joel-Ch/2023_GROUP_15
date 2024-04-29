@@ -5,6 +5,8 @@
  *     Template for model parts that will be added as treeview items
  *
  *     P Evans 2022
+ * 
+ * @brief This class represents a part in the model treeview
  */
 
 #ifndef VIEWER_MODELPART_H
