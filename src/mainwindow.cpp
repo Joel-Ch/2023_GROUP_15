@@ -456,20 +456,25 @@ void MainWindow::updateRenderFromTree(const QModelIndex &index)
 
 void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
 {
+    // create interactor
     vtkRenderWindowInteractor *interactor = vtkRenderWindowInteractor::SafeDownCast(caller);
     if (interactor)
     {
         int *clickPos = interactor->GetEventPosition();
 
+		// create picker
         vtkSmartPointer<vtkPropPicker> picker = vtkSmartPointer<vtkPropPicker>::New();
         if (picker->Pick(clickPos[0], clickPos[1], 0, renderer))
         {
+            // get the clicked actor
             vtkActor *actor = picker->GetActor();
             if (actor)
             {
+				// get the corresponding item
                 ModelPart *selectedPart = actorToModelPart[actor];
                 emit statusUpdateMessage(QString("Clicked on: ") + selectedPart->name(), 0);
                 QModelIndex index = partList->index(selectedPart, QModelIndex());
+				// select the corresponding item in the tree view
                 if (index.isValid())
                 {
                     ui->treeView->setCurrentIndex(index);
@@ -478,6 +483,7 @@ void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *cli
         }
         else
         {
+			// if no actor was clicked
             emit statusUpdateMessage(QString(""), 0);
             ui->treeView->clearSelection();
         }
