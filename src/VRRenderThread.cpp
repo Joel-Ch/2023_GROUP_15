@@ -70,6 +70,9 @@ void VRRenderThread::addActorOffline(vtkActor* actor) {
 	}
 }
 
+// Function to update the actors properties (colour etc)
+// maybe add this to addACtorOffline asw?
+// TODO
 
 
 void VRRenderThread::issueCommand(int cmd, double value) {

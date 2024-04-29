@@ -172,6 +172,7 @@ vtkActor* ModelPart::getNewActor() {
  *    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
  *    functions.
  */
+    VRActor->SetProperty(actor->GetProperty());
 
 /* The new vtkActor pointer must be returned here */
     return VRActor;
