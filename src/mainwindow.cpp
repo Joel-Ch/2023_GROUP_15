@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete partList;
     delete vrThread;
 }
 
@@ -279,20 +280,9 @@ void MainWindow::openFile(const QString& filePath)
 
             // Add the actor to the map
             actorToModelPart[newItem->getActor()] = newItem;
-        }
-        progress.setValue(stlFiles.size());
-
-        // Update the tree view
-        partList->dataChanged(QModelIndex(), QModelIndex());
 
         updateRender();
     }
-    // If no directory was selected
-    else
-    {
-        emit statusUpdateMessage(QString("Folder Open Cancelled"), 0);
-    }
-}
 
 // -----------------------------------------------------------------------------------------------
 // Dialog Box
