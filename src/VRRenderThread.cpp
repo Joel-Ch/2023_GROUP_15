@@ -58,9 +58,9 @@ VRRenderThread::~VRRenderThread() {
 
 	/* Delete VR objects (if they exist)*/
 	if (renderer != nullptr)
-	renderer->Delete();
+		renderer->Delete();
 	if (window != nullptr)
-	window->Delete();
+		window->Delete();
 	if (camera != nullptr)
 		camera->Delete();
 	if (interactor != nullptr)
@@ -240,10 +240,8 @@ void VRRenderThread::run() {
 					ModelPart* part = actorToModelPart[actor];
 					QColor colour = part->colour();
 					bool visible = part->visible();
-					QString name = part->name();
 					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
 					actor->SetVisibility(visible);
-					// Update actor's mapper based on 'name' if applicable
 				}
 
 				// Reset the command
