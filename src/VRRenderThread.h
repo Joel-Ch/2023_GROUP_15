@@ -5,8 +5,6 @@
   *		Template to add VR rendering to your application.
   *
   *		P Evans 2022
-  * 
-  * @brief This class is used to create a thread that will handle the VR rendering
   */
 #ifndef VR_RENDER_THREAD_H
 #define VR_RENDER_THREAD_H
@@ -27,9 +25,6 @@
 #include <vtkActorCollection.h>
 #include <vtkCommand.h>
 
-/* Other headers */
-#include "ModelPart.h"
-
 
 
 /* Note that this class inherits from the Qt class QThread which allows it to be a parallel thread
@@ -42,64 +37,35 @@ class VRRenderThread : public QThread {
     Q_OBJECT
 
 public:
-    /**
-	* @brief List of commands that can be issued to the VR thread
-	* @param END_RENDER Stop the rendering
-	* @param ROTATE_X Rotate the scene around the X axis
-	* @param ROTATE_Y Rotate the scene around the Y axis
-	* @param ROTATE_Z Rotate the scene around the Z axis
-	* @param SYNC_RENDER Synchronise the rendering
-	* @param NO_COMMAND No command issued
-	*/
+    /** List of command names */
     enum {
         END_RENDER,
         ROTATE_X,
         ROTATE_Y,
-        ROTATE_Z,
-        SYNC_RENDER,
-        NO_COMMAND
+        ROTATE_Z
     } Command;
 
 
-    /**  
-    * @brief Constructor
-    */
+    /**  Constructor
+      */
     VRRenderThread(QObject* parent = nullptr);
 
-    /**
-	* @brief Destructor
-    */
+    /**  Denstructor
+      */
     ~VRRenderThread();
 
-    /** 
-	* @brief Add an actor to the VR scene before the rendering starts
-	* @param actor The actor to add
-	* @param part The model part corresponding to the actor
-    */
-    void addActorOffline(vtkActor* actor, ModelPart* part);
-
-
-    /** 
-	* @brief Issue a command to the VR thread
-	* @param cmd The command to issue
-	* @param value The value to pass with the command
-    */
-    void issueCommand(int cmd, double value = 0);
-
-    /**
-	* @brief Map a model part to an actor
-	* @param actor The actor to map
-	* @param part The model part to map
-    */
-    void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
-
-signals:
-    /**
-     * @brief Emits a status update message.
-     * @param message The message to be displayed.
-     * @param timeout The timeout duration in milliseconds.
+    /** This allows actors to be added to the VR renderer BEFORE the VR
+      * interactor has been started
      */
-    void statusUpdateMessage(const QString& message, int timeout);
+    void addActorOffline(vtkActor* actor);
+
+
+    /** This allows commands to be issued to the VR thread in a thread safe way.
+      * Function will set variables within the class to indicate the type of
+      * action / animation / etc to perform. The rendering thread will then impelement this.
+      */
+    void issueCommand(int cmd, double value);
+
 
 protected:
     /** This is a re-implementation of a QThread function
@@ -134,9 +100,6 @@ private:
     double rotateX;         /*< Degrees to rotate around X axis (per time-step) */
     double rotateY;         /*< Degrees to rotate around Y axis (per time-step) */
     double rotateZ;         /*< Degrees to rotate around Z axis (per time-step) */
-
-	/* A map to link actors to model parts */
-    std::map<vtkActor*, ModelPart*> actorToModelPart;
 };
 
 
