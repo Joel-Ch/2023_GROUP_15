@@ -54,6 +54,7 @@ public:
       */
     ~VRRenderThread();
 
+
     /** This allows actors to be added to the VR renderer BEFORE the VR
       * interactor has been started
      */
@@ -65,6 +66,7 @@ public:
       * action / animation / etc to perform. The rendering thread will then impelement this.
       */
     void issueCommand(int cmd, double value);
+
 
 
 protected:

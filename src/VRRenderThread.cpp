@@ -113,10 +113,12 @@ void VRRenderThread::run() {
 	std::array<unsigned char, 4> bkg{ {26, 51, 102, 255} };
 	colors->SetColor("BkgColor", bkg.data());
 
+
 	// The renderer generates the image
 	// which is then displayed on the render window.
 	// It can be thought of as a scene to which the actor is added
 	renderer = vtkOpenVRRenderer::New();
+
 
 	renderer->SetBackground(colors->GetColor3d("BkgColor").GetData());
 

@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     renderWindow->AddRenderer(renderer);
 
     vrThread = new VRRenderThread();
-	//connect(vrThread, &VRRenderThread::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
+
 }
 
 MainWindow::~MainWindow()
