@@ -28,7 +28,6 @@
 #include <vtkCallbackCommand.h>
 
 
-
 /* The class constructor is called by MainWindow and runs in the primary program thread, this thread
  * will go on to handle the GUI (mouse clicks, etc). The OpenVRRenderWindowInteractor cannot be start()ed
  * in the constructor, as it will take control of the main thread to handle the VR interaction (headset
@@ -42,8 +41,6 @@ VRRenderThread::VRRenderThread(QObject* parent) {
 	rotateX = 0.;
 	rotateY = 0.;
 	rotateZ = 0.;
-
-	endRender = true;
 }
 
 
@@ -53,22 +50,11 @@ VRRenderThread::VRRenderThread(QObject* parent) {
  * usage will increase for each start/stop thread cycle.
  */
 VRRenderThread::~VRRenderThread() {
-	/* Delete actors */
-	actors->Delete();
 
-	/* Delete VR objects (if they exist)*/
-	if (renderer != nullptr)
-		renderer->Delete();
-	if (window != nullptr)
-		window->Delete();
-	if (camera != nullptr)
-		camera->Delete();
-	if (interactor != nullptr)
-		interactor->Delete();
 }
 
 
-void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
+void VRRenderThread::addActorOffline(vtkActor* actor) {
 
 	/* Check to see if render thread is running */
 	if (!this->isRunning()) {
@@ -81,19 +67,9 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 		actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
 		actors->AddItem(actor);
-
-		addActorModelPartMapping(actor, part);
 	}
 }
 
-void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
-{
-	actorToModelPart[actor] = part;
-}
-
-// Function to update the actors properties (colour etc)
-// maybe add this to addActorOffline asw?
-// TODO
 
 
 void VRRenderThread::issueCommand(int cmd, double value) {
@@ -116,10 +92,6 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 	case ROTATE_Z:
 		this->rotateZ = value;
 		break;
-
-	case SYNC_RENDER:
-		// Do nothing (Will do something in future)
-		break;
 	}
 }
 
@@ -141,33 +113,15 @@ void VRRenderThread::run() {
 	std::array<unsigned char, 4> bkg{ {26, 51, 102, 255} };
 	colors->SetColor("BkgColor", bkg.data());
 
-	/* The render window is the actual GUI window
-	 * that appears on the computer screen
-	 */
-	window = vtkOpenVRRenderWindow::New();
-
-	// Check if a VR headset is connected
-	if (!window->IsHMDPresent()) {
-		return;
-	}
-
-	window->Initialize();
-	
-	if (window == nullptr) {
-		return;
-	}
 
 	// The renderer generates the image
 	// which is then displayed on the render window.
 	// It can be thought of as a scene to which the actor is added
 	renderer = vtkOpenVRRenderer::New();
 
-	if (renderer == nullptr) {
-		return;
-	}
-	window->AddRenderer(renderer);
 
 	renderer->SetBackground(colors->GetColor3d("BkgColor").GetData());
+
 	/* Loop through list of actors provided and add to scene */
 	vtkActor* a;
 	actors->InitTraversal();
@@ -175,7 +129,13 @@ void VRRenderThread::run() {
 		renderer->AddActor(a);
 	}
 
-	window->SetWindowName("VR Render Window");
+	/* The render window is the actual GUI window
+	 * that appears on the computer screen
+	 */
+	window = vtkOpenVRRenderWindow::New();
+
+	window->Initialize();
+	window->AddRenderer(renderer);
 
 	/* Create Open VR Camera */
 	camera = vtkOpenVRCamera::New();
@@ -189,7 +149,6 @@ void VRRenderThread::run() {
 	interactor->SetRenderWindow(window);
 	interactor->Initialize();
 	window->Render();
-	interactor->Start();
 
 
 	/* Now start the VR - we will implement the command loop manually
@@ -235,24 +194,6 @@ void VRRenderThread::run() {
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
 				a->RotateZ(rotateZ);
-			}
-
-			if (Command == SYNC_RENDER)
-			{
-				// Update all actors
-				actors->InitTraversal();
-				vtkActor* actor = nullptr;
-				while ((actor = actors->GetNextActor()) != nullptr)
-				{
-					ModelPart* part = actorToModelPart[actor];
-					QColor colour = part->colour();
-					bool visible = part->visible();
-					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
-					actor->SetVisibility(visible);
-				}
-
-				// Reset the command
-				Command = NO_COMMAND;
 			}
 
 			/* Remember time now */
