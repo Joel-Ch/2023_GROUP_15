@@ -168,6 +168,7 @@ void VRRenderThread::run() {
 
 	window->Initialize();
 	window->AddRenderer(renderer);
+	window->SetWindowName("VR Render Window");
 
 	/* Create Open VR Camera */
 	camera = vtkOpenVRCamera::New();

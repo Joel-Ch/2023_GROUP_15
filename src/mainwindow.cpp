@@ -463,6 +463,8 @@ void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *cli
 
 void MainWindow::on_actionStart_VR_triggered()
 {
+	disconnect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
+
     emit statusUpdateMessage(QString("Starting VR"), 0);
 
     // Add list of actors using addActorOffline()
@@ -490,6 +492,7 @@ void MainWindow::on_actionStart_VR_triggered()
 
 void MainWindow::on_actionStop_VR_triggered()
 {
+	connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
 	emit statusUpdateMessage(QString("Stopping VR"), 0);
     vrThread->issueCommand(VRRenderThread::END_RENDER, 0.);
 }
