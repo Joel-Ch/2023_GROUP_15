@@ -148,14 +148,12 @@ void VRRenderThread::run() {
 
 	// Check if a VR headset is connected
 	if (!window->IsHMDPresent()) {
-		emit statusUpdateMessage("No VR headset detected. Exiting VR thread.", 0);
 		return;
 	}
 
 	window->Initialize();
 	
 	if (window == nullptr) {
-		emit statusUpdateMessage("Window not initialized.", 0);
 		return;
 	}
 
@@ -165,7 +163,6 @@ void VRRenderThread::run() {
 	renderer = vtkOpenVRRenderer::New();
 
 	if (renderer == nullptr) {
-		emit statusUpdateMessage("Renderer not initialized.", 0);
 		return;
 	}
 	window->AddRenderer(renderer);

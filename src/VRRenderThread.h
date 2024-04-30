@@ -93,14 +93,6 @@ public:
     */
     void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
 
-signals:
-    /**
-     * @brief Emits a status update message.
-     * @param message The message to be displayed.
-     * @param timeout The timeout duration in milliseconds.
-     */
-    void statusUpdateMessage(const QString& message, int timeout);
-
 protected:
     /** This is a re-implementation of a QThread function
       */
