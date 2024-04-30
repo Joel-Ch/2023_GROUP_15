@@ -56,8 +56,10 @@ VRRenderThread::~VRRenderThread() {
 	/* Delete actors */
 	actors->Delete();
 
-	/* Delete VR objects */
+	/* Delete VR objects (if they exist)*/
+	if (renderer != nullptr)
 	renderer->Delete();
+	if (window != nullptr)
 	window->Delete();
 	if (camera != nullptr)
 		camera->Delete();
@@ -179,6 +181,7 @@ void VRRenderThread::run() {
 	interactor->SetRenderWindow(window);
 	interactor->Initialize();
 	window->Render();
+	interactor->Start();
 
 
 	/* Now start the VR - we will implement the command loop manually
