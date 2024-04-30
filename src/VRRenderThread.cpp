@@ -167,7 +167,21 @@ void VRRenderThread::run() {
 	}
 
 	window->Initialize();
-	window->AddRenderer(renderer);
+	if (window->GetSize()[0] > 0 && window->GetSize()[1] > 0) {
+		// The window has been initialized
+		emit statusUpdateMessage("VR window initialized.", 0);
+	}
+	else {
+		// The window has not been initialized
+		emit statusUpdateMessage("VR window failed to initialize.", 0);
+	}
+	if (renderer != nullptr) {
+		window->AddRenderer(renderer);
+	}
+	else {
+		// Handle the error
+		emit statusUpdateMessage("Renderer not initialized.", 0);
+	}
 	window->SetWindowName("VR Render Window");
 
 	/* Create Open VR Camera */
