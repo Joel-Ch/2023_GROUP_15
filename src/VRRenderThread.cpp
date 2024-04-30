@@ -141,20 +141,6 @@ void VRRenderThread::run() {
 	std::array<unsigned char, 4> bkg{ {26, 51, 102, 255} };
 	colors->SetColor("BkgColor", bkg.data());
 
-	// The renderer generates the image
-	// which is then displayed on the render window.
-	// It can be thought of as a scene to which the actor is added
-	renderer = vtkOpenVRRenderer::New();
-
-	renderer->SetBackground(colors->GetColor3d("BkgColor").GetData());
-
-	/* Loop through list of actors provided and add to scene */
-	vtkActor* a;
-	actors->InitTraversal();
-	while ((a = (vtkActor*)actors->GetNextActor())) {
-		renderer->AddActor(a);
-	}
-
 	/* The render window is the actual GUI window
 	 * that appears on the computer screen
 	 */
@@ -167,21 +153,31 @@ void VRRenderThread::run() {
 	}
 
 	window->Initialize();
-	if (window->GetSize()[0] > 0 && window->GetSize()[1] > 0) {
-		// The window has been initialized
-		emit statusUpdateMessage("VR window initialized.", 0);
+	
+	if (window == nullptr) {
+		emit statusUpdateMessage("Window not initialized.", 0);
+		return;
 	}
-	else {
-		// The window has not been initialized
-		emit statusUpdateMessage("VR window failed to initialize.", 0);
-	}
-	if (renderer != nullptr) {
-		window->AddRenderer(renderer);
-	}
-	else {
-		// Handle the error
+
+	// The renderer generates the image
+	// which is then displayed on the render window.
+	// It can be thought of as a scene to which the actor is added
+	renderer = vtkOpenVRRenderer::New();
+
+	if (renderer == nullptr) {
 		emit statusUpdateMessage("Renderer not initialized.", 0);
+		return;
 	}
+	window->AddRenderer(renderer);
+
+	renderer->SetBackground(colors->GetColor3d("BkgColor").GetData());
+	/* Loop through list of actors provided and add to scene */
+	vtkActor* a;
+	actors->InitTraversal();
+	while ((a = (vtkActor*)actors->GetNextActor())) {
+		renderer->AddActor(a);
+	}
+
 	window->SetWindowName("VR Render Window");
 
 	/* Create Open VR Camera */
