@@ -159,7 +159,7 @@ private:
   vtkSmartPointer<vtkMapper> mapper;  /**< Mapper for rendering */
   vtkSmartPointer<vtkMapper> VRMapper;  /**< Mapper for rendering in VR*/
   vtkSmartPointer<vtkActor> actor;    /**< Actor for rendering */
-  vtkSmartPointer<vtkActor> VRActor;    /**< Actor for rendering in VR*/
+  vtkActor *VRActor;    /**< Actor for rendering in VR*/
   vtkColor3<unsigned char> vtkColour; /**< User defineable colour */
 };
 

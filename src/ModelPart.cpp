@@ -162,7 +162,7 @@ vtkActor* ModelPart::getNewActor() {
 	VRMapper->SetInputConnection(file->GetOutputPort());
 
 /* 2. Create new actor and link to mapper */
-	VRActor = vtkSmartPointer<vtkActor>::New();
+	VRActor = vtkActor::New();
 	VRActor->SetMapper(VRMapper);
 
 /* 3. Link the vtkProperties of the original actor to the new actor. This means
