@@ -25,6 +25,9 @@
 #include <vtkActorCollection.h>
 #include <vtkCommand.h>
 
+/* Other headers */
+#include "ModelPart.h"
+
 
 
 /* Note that this class inherits from the Qt class QThread which allows it to be a parallel thread
@@ -42,7 +45,8 @@ public:
         END_RENDER,
         ROTATE_X,
         ROTATE_Y,
-        ROTATE_Z
+        ROTATE_Z,
+        SYNC_RENDER
     } Command;
 
 
@@ -58,7 +62,7 @@ public:
     /** This allows actors to be added to the VR renderer BEFORE the VR
       * interactor has been started
      */
-    void addActorOffline(vtkActor* actor);
+    void addActorOffline(vtkActor* actor, ModelPart* part);
 
 
     /** This allows commands to be issued to the VR thread in a thread safe way.
@@ -66,6 +70,13 @@ public:
       * action / animation / etc to perform. The rendering thread will then impelement this.
       */
     void issueCommand(int cmd, double value);
+
+    /**
+    * @brief Map a model part to an actor
+    * @param actor The actor to map
+    * @param part The model part to map
+    */
+    void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
 
 
 
@@ -102,6 +113,13 @@ private:
     double rotateX;         /*< Degrees to rotate around X axis (per time-step) */
     double rotateY;         /*< Degrees to rotate around Y axis (per time-step) */
     double rotateZ;         /*< Degrees to rotate around Z axis (per time-step) */
+
+    /* When set high calls the sync render section
+    */
+    bool syncRender;
+
+    /* A map to link actors to model parts */
+    std::map<vtkActor*, ModelPart*> actorToModelPart;
 };
 
 

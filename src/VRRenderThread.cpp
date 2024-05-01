@@ -41,6 +41,11 @@ VRRenderThread::VRRenderThread(QObject* parent) {
 	rotateX = 0.;
 	rotateY = 0.;
 	rotateZ = 0.;
+
+	//TODO how do we initialise the command enum
+
+	endRender = true;
+	syncRender = false;
 }
 
 
@@ -50,16 +55,26 @@ VRRenderThread::VRRenderThread(QObject* parent) {
  * usage will increase for each start/stop thread cycle.
  */
 VRRenderThread::~VRRenderThread() {
-
+	if (actors != nullptr)
+		actors->Delete();
+	if (renderer != nullptr)
+		renderer->Delete();
+	if (window != nullptr)
+		window->Delete();
+	if (camera != nullptr)
+		camera->Delete();
+	if (interactor != nullptr)
+		interactor->Delete();
 }
 
 
-void VRRenderThread::addActorOffline(vtkActor* actor) {
+void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 
 	/* Check to see if render thread is running */
 	if (!this->isRunning()) {
 		double* ac = actor->GetOrigin();
 
+		addActorModelPartMapping(actor, part);
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
@@ -67,6 +82,7 @@ void VRRenderThread::addActorOffline(vtkActor* actor) {
 		actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
 		actors->AddItem(actor);
+
 	}
 }
 
@@ -92,8 +108,17 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 	case ROTATE_Z:
 		this->rotateZ = value;
 		break;
+	case SYNC_RENDER:
+		this->syncRender = true;
+		break;
 	}
 }
+
+void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
+{
+	actorToModelPart[actor] = part;
+}
+
 
 /* This function runs in a separate thread. This means that the program
  * can fork into two separate execution paths. This thread is triggered by
@@ -134,6 +159,10 @@ void VRRenderThread::run() {
 	 */
 	window = vtkOpenVRRenderWindow::New();
 
+	if (!window->IsHMDPresent()) {
+		return;
+	}
+
 	window->Initialize();
 	window->AddRenderer(renderer);
 
@@ -149,6 +178,7 @@ void VRRenderThread::run() {
 	interactor->SetRenderWindow(window);
 	interactor->Initialize();
 	window->Render();
+	interactor->Start();
 
 
 	/* Now start the VR - we will implement the command loop manually
@@ -194,6 +224,24 @@ void VRRenderThread::run() {
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
 				a->RotateZ(rotateZ);
+			}
+
+			if (syncRender)
+			{
+				// Update all actors
+				actors->InitTraversal();
+				vtkActor* actor = nullptr;
+				while ((actor = actors->GetNextActor()) != nullptr)
+				{
+					ModelPart* part = actorToModelPart[actor];
+					QColor colour = part->colour();
+					bool visible = part->visible();
+					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
+					actor->SetVisibility(visible);
+				}
+
+				// Reset the command
+				syncRender = false;
 			}
 
 			/* Remember time now */

@@ -351,7 +351,7 @@ void MainWindow::receiveDialogData(const QString &name, const bool &visible, con
     selectedPart->setVisible(visible);
     selectedPart->setColour(colour);
 
-	//vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
+	vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
 
     updateRender();
 }
@@ -480,7 +480,7 @@ void MainWindow::on_actionStart_VR_triggered()
             //TODO
 
 			// Add the actor to the VR renderer
-            vrThread->addActorOffline(actor);
+            vrThread->addActorOffline(actor, selectedPart);
         }
     }
 
@@ -492,9 +492,14 @@ void MainWindow::on_actionStart_VR_triggered()
 
 void MainWindow::on_actionStop_VR_triggered()
 {
+    disconnect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
 	connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
 	emit statusUpdateMessage(QString("Stopping VR"), 0);
     vrThread->issueCommand(VRRenderThread::END_RENDER, 0.);
+
+    //TODO
+    // the code crashes if you try to run the vr again after stopping it (we probably need to delete/not create two copies of  the renderer etc)
+    connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
 }
 /*
 List of cool bonus features:
