@@ -118,7 +118,10 @@ void MainWindow::handleTreeClicked(const QModelIndex &index)
     /* In this case, we will retrieve the name string from the internal QVariant data array */
     QString text = selectedPart->data(0).toString();
 
-    emit statusUpdateMessage(QString("The selected item is: ") + text, 0);
+    if (selectedPart->isFolder())
+		emit statusUpdateMessage(QString("Folder: ") + text, 0);
+    else
+		emit statusUpdateMessage(QString("Item: ") + text, 0);
 }
 
 void MainWindow::on_actionDelete_Item_triggered()
@@ -214,6 +217,9 @@ void MainWindow::on_actionOpen_Folder_triggered()
         // Create a new parent item with the folder name
         QList<QVariant> parentData = {dirName /*, true, QColor(255, 255, 255) */};
         QModelIndex folderIndex = partList->appendChild(parentIndex, parentData);
+
+		// Set the folder flag
+		static_cast<ModelPart*>(folderIndex.internalPointer())->setFolder();
 
         int i = 0;
         foreach (QString fileName, stlFiles)
@@ -322,6 +328,12 @@ void MainWindow::on_actionItem_Options_triggered()
         emit statusUpdateMessage(QString("No item selected"), 0);
         return;
     }
+
+	if (selectedPart->isFolder())
+	{
+		emit statusUpdateMessage(QString("Cannot edit a folder"), 0);
+		return;
+	}
 
     // Open the dialog with the selected item's data
     openDialog(selectedPart->name(), selectedPart->visible(), selectedPart->colour());

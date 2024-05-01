@@ -121,6 +121,16 @@ public:
    */
   QString name() const;
 
+  /** Set folder flag
+	* @brief Set this item as a folder
+    */
+  void setFolder();
+
+  /** Get folder flag
+	* @return true if this item is a folder
+	*/
+  bool isFolder();
+
   /** Remove a child from this item
    * @param child is the child to remove
    */
@@ -145,6 +155,8 @@ private:
   QList<ModelPart *> m_childItems; /**< List (array) of child items */
   QList<QVariant> m_itemData;      /**< List (array of column data for item */
   ModelPart *m_parentItem;         /**< Pointer to parent */
+
+  bool folderFlag; /**< True if this item is a folder */
 
   /* These are some part properties */
   /*NB: DO NOT USE THESE: m_itemData contains the data in the order name,visible, colour. DO NOT USE MULTIPLE VARIABLES FOR THE SAME INFORMATION*/

@@ -8,7 +8,7 @@
 #include "vtkProperty.h"
 
 ModelPart::ModelPart(const QList<QVariant> &data, ModelPart *parent)
-    : m_itemData(data), m_parentItem(parent)
+	: m_itemData(data), m_parentItem(parent), folderFlag(false), VRActor(nullptr)
 {
 }
 
@@ -113,6 +113,16 @@ void ModelPart::setName(const QString &name)
 QString ModelPart::name() const
 {
     return m_itemData.at(0).value<QString>();
+}
+
+void ModelPart::setFolder()
+{
+	folderFlag = true;
+}
+
+bool ModelPart::isFolder()
+{
+	return folderFlag;
 }
 
 void ModelPart::removeChild(ModelPart *child)
