@@ -136,6 +136,15 @@ void MainWindow::on_actionDelete_Item_triggered()
     QModelIndex index = ui->treeView->currentIndex();
     ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
 
+	if (!selectedPart)
+	{
+		emit statusUpdateMessage(QString("No item selected"), 0);
+		return;
+	}
+
+	// Remove the actor from the map
+	actorToModelPart.erase(selectedPart->getActor());
+
     // Delete the selected item
     QModelIndex parentIndex = index.parent();
     int row = index.row();
@@ -155,7 +164,6 @@ void MainWindow::on_actionDelete_Item_triggered()
     partList->dataChanged(parentIndex, parentIndex);
 
     // remove item from map
-	actorToModelPart.erase(selectedPart->getActor());
 
     // Update the render window
     updateRender();
