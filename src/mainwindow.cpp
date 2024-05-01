@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDelete_Item, &QAction::triggered, this, &MainWindow::on_actionDelete_Item_triggered);
 	connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
 	connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
+    connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 
     /* Create/allocate the ModelList */
     this->partList = new ModelPartList("Parts List");
@@ -150,6 +151,9 @@ void MainWindow::on_actionDelete_Item_triggered()
     // Update the tree view
     partList->dataChanged(parentIndex, parentIndex);
 
+    // remove item from map
+	actorToModelPart.erase(selectedPart->getActor());
+
     // Update the render window
     updateRender();
 }
@@ -241,14 +245,14 @@ void MainWindow::openFile(const QString& filePath)
         return;
     }
 
-            // Get the current index
-            QModelIndex index = ui->treeView->currentIndex();
+    // Get the current index
+    QModelIndex index = ui->treeView->currentIndex();
 
     QString fileName = QFileInfo(filePath).fileName();
 
-            // Default values for the new item
-            QString visible("true");
-            QColor colour(255, 255, 255);
+    // Default values for the new item
+    QString visible("true");
+    QColor colour(255, 255, 255);
 
     // Create a new blank item
     ModelPart* newItem{};
@@ -276,16 +280,15 @@ void MainWindow::openFile(const QString& filePath)
     // Update the tree view
     partList->dataChanged(index, index);
 
-            // Load the STL file
+    // Load the STL file
     newItem->loadSTL(filePath);
 
-            // Add the actor to the map
-            actorToModelPart[newItem->getActor()] = newItem;
+    // Add the actor to the map
+    actorToModelPart[newItem->getActor()] = newItem;
 
-	//vrThread->addActorOffline(newItem->getActor(), newItem);
+    updateRender();
 
-        updateRender();
-    }
+}
 
 // -----------------------------------------------------------------------------------------------
 // Dialog Box
@@ -501,6 +504,17 @@ void MainWindow::on_actionStop_VR_triggered()
     // the code crashes if you try to run the vr again after stopping it (we probably need to delete/not create two copies of  the renderer etc)
     connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
 }
+
+void MainWindow::on_actionSync_VR_triggered()
+{
+	disconnect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
+
+	emit statusUpdateMessage(QString("Syncing VR"), 0);
+	vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
+
+	connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
+}
+
 /*
 List of cool bonus features:
 

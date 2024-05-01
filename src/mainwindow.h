@@ -153,6 +153,11 @@ public slots:
 	void on_actionStop_VR_triggered();
 
     /**
+    * @brief Handles the sync VR event.
+    */
+    void on_actionSync_VR_triggered();
+
+    /**
      * @brief Receives dialog data.
      * @param name The name data.
      * @param visible The visibility data.
