@@ -79,6 +79,8 @@ public:
     void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
 
 
+    void updateVRActors();
+
 
 protected:
     /** This is a re-implementation of a QThread function

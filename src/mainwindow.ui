@@ -107,6 +107,7 @@
    <addaction name="actionOpen_File"/>
    <addaction name="actionStart_VR"/>
    <addaction name="actionStop_VR"/>
+   <addaction name="actionSync_VR"/>
   </widget>
   <action name="actionOpen_File">
    <property name="icon">
@@ -166,6 +167,14 @@
    </property>
    <property name="text">
     <string>Stop VR</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSync_VR">
+   <property name="text">
+    <string>Sync VR</string>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>

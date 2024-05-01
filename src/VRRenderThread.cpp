@@ -92,7 +92,7 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 
 	/* Update class variables according to command */
 	switch (cmd) {
-		/* These are just a few basic examples */
+		
 	case END_RENDER:
 		this->endRender = true;
 		break;
@@ -108,6 +108,7 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 	case ROTATE_Z:
 		this->rotateZ = value;
 		break;
+
 	case SYNC_RENDER:
 		this->syncRender = true;
 		break;
@@ -118,6 +119,32 @@ void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
 {
 	actorToModelPart[actor] = part;
 }
+
+
+//void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
+//	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
+//	for (const auto& pair : mainSceneMap) {
+//		if (actorToModelPart.find(pair.first) == actorToModelPart.end()) {
+//			// Add the actor to the VR scene
+//			vtkSmartPointer<vtkActor> vrActor = createVRActorFromVTKActor(pair.first);
+//			renderer->AddActor(vrActor);
+//			actorToModelPart[vrActor] = pair.second;
+//		}
+//	}
+//
+//	// Find model parts in the VR scene but not in the main scene and remove corresponding actors from the VR scene
+//	for (auto it = actorToModelPart.begin(); it != actorToModelPart.end(); /* no increment here */) {
+//		if (mainSceneMap.find(it->first) == mainSceneMap.end()) {
+//			// Remove the actor from the VR scene
+//			renderer->RemoveActor(it->first);
+//			it = actorToModelPart.erase(it); // erase returns the iterator to the next element
+//		}
+//		else {
+//			++it;
+//		}
+//	}
+//}
+
 
 
 /* This function runs in a separate thread. This means that the program
@@ -248,4 +275,6 @@ void VRRenderThread::run() {
 			t_last = std::chrono::steady_clock::now();
 		}
 	}
+
+	window->Finalize();
 }
