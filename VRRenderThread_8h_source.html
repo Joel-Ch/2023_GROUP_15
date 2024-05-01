@@ -124,45 +124,47 @@ $(function() {
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">addActorModelPartMapping</a>(vtkActor* actor, <a class="code" href="classModelPart.html">ModelPart</a>* part);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">/* Standard VTK VR Classes */</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderWindow&gt;              window;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderWindowInteractor&gt;    interactor;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderer&gt;                  renderer;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    vtkSmartPointer&lt;vtkOpenVRCamera&gt;                    camera;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">/* Use to synchronise passing of data to VR thread */</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    QMutex                                              mutex;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    QWaitCondition                                      condition;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    vtkSmartPointer&lt;vtkActorCollection&gt;                 actors;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    std::chrono::time_point&lt;std::chrono::steady_clock&gt;  t_last;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">bool</span>                                                endRender;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">/* Some variables to indicate animation actions to apply.</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">double</span> rotateX;         <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">double</span> rotateY;         <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">double</span> rotateZ;         <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">/* When set high calls the sync render section</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">    */</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">bool</span> syncRender;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">/* A map to link actors to model parts */</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    std::map&lt;vtkActor*, ModelPart*&gt; actorToModelPart;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> updateVRActors();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">/* Standard VTK VR Classes */</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderWindow&gt;              window;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderWindowInteractor&gt;    interactor;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    vtkSmartPointer&lt;vtkOpenVRRenderer&gt;                  renderer;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    vtkSmartPointer&lt;vtkOpenVRCamera&gt;                    camera;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">/* Use to synchronise passing of data to VR thread */</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    QMutex                                              mutex;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    QWaitCondition                                      condition;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    vtkSmartPointer&lt;vtkActorCollection&gt;                 actors;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    std::chrono::time_point&lt;std::chrono::steady_clock&gt;  t_last;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">bool</span>                                                endRender;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">/* Some variables to indicate animation actions to apply.</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">     *</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">double</span> rotateX;         <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">double</span> rotateY;         <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">double</span> rotateZ;         <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">/* When set high calls the sync render section</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">    */</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">bool</span> syncRender;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">/* A map to link actors to model parts */</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    std::map&lt;vtkActor*, ModelPart*&gt; actorToModelPart;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aModelPart_8h_html"><div class="ttname"><a href="ModelPart_8h.html">ModelPart.h</a></div><div class="ttdoc">This class represents a part in the model treeview.</div></div>
 <div class="ttc" id="aclassModelPart_html"><div class="ttname"><a href="classModelPart.html">ModelPart</a></div><div class="ttdoc">This class represents a part in the model treeview.</div><div class="ttdef"><b>Definition:</b> ModelPart.h:31</div></div>
 <div class="ttc" id="aclassVRRenderThread_html"><div class="ttname"><a href="classVRRenderThread.html">VRRenderThread</a></div><div class="ttdef"><b>Definition:</b> VRRenderThread.h:39</div></div>
@@ -171,8 +173,8 @@ $(function() {
 <div class="ttc" id="aclassVRRenderThread_html_a35976e55f6655840aa217aa8a066f196"><div class="ttname"><a href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread::VRRenderThread</a></div><div class="ttdeci">VRRenderThread(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:36</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a887ba74b8a5b02f927e4564049b85ffb"><div class="ttname"><a href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">VRRenderThread::Command</a></div><div class="ttdeci">enum VRRenderThread::@0 Command</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_abbc905472309a2da473241a596e43813"><div class="ttname"><a href="classVRRenderThread.html#abbc905472309a2da473241a596e43813">VRRenderThread::issueCommand</a></div><div class="ttdeci">void issueCommand(int cmd, double value)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:91</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_aecf9f05cbed8fa4e45b90c2d5aa203b1"><div class="ttname"><a href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">VRRenderThread::addActorModelPartMapping</a></div><div class="ttdeci">void addActorModelPartMapping(vtkActor *actor, ModelPart *part)</div><div class="ttdoc">Map a model part to an actor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:117</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:127</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_aecf9f05cbed8fa4e45b90c2d5aa203b1"><div class="ttname"><a href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">VRRenderThread::addActorModelPartMapping</a></div><div class="ttdeci">void addActorModelPartMapping(vtkActor *actor, ModelPart *part)</div><div class="ttdoc">Map a model part to an actor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:118</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:153</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
