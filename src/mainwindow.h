@@ -66,8 +66,9 @@ public:
     /**
 	* @brief Opens a file.
 	* @param fileName The file name.
+	* @param parentIndex The parent index. (set as null if no parent index)
 	*/
-	void openFile(const QString& fileName);
+	void openFile(const QString& fileName, QModelIndex& parentIndex);
 
     /**
      * @brief Updates the render window.

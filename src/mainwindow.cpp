@@ -172,10 +172,13 @@ void MainWindow::on_actionOpen_File_triggered()
         "C:\\",
         tr("STL Files(*.stl);;Text Files(*.txt)"));
 
-	openFile(filePath);
+    QModelIndex index;
+	openFile(filePath, index);
+
+    updateRender();
 
 	emit statusUpdateMessage(QString("File Opened: ") + filePath, 0);
-        }
+}
 
 void MainWindow::on_actionOpen_Folder_triggered()
 {
@@ -210,7 +213,7 @@ void MainWindow::on_actionOpen_Folder_triggered()
         }
         // Create a new parent item with the folder name
         QList<QVariant> parentData = {dirName /*, true, QColor(255, 255, 255) */};
-        ModelPart *folderItem = static_cast<ModelPart *>(partList->appendChild(parentIndex, parentData).internalPointer());
+        QModelIndex folderIndex = partList->appendChild(parentIndex, parentData);
 
         int i = 0;
         foreach (QString fileName, stlFiles)
@@ -220,7 +223,7 @@ void MainWindow::on_actionOpen_Folder_triggered()
             if (progress.wasCanceled())
                 break;
             emit statusUpdateMessage(QString("File Opened: ") + fileName, 0);
-			openFile(dirName + "/" + fileName);
+			openFile(dirName + "/" + fileName, folderIndex);
         }
         progress.setValue(stlFiles.size());
 
@@ -236,7 +239,7 @@ void MainWindow::on_actionOpen_Folder_triggered()
     }
 }
 
-void MainWindow::openFile(const QString& filePath)
+void MainWindow::openFile(const QString& filePath, QModelIndex& parentIndex)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -257,9 +260,21 @@ void MainWindow::openFile(const QString& filePath)
     // Create a new blank item
     ModelPart* newItem{};
 
-    // Check if an item is selected
-    if (ui->treeView->selectionModel()->hasSelection())
+	// Check if a parent index is provided (if a folder is opened)
+    if (parentIndex.isValid())
     {
+        // initialise the new item with the parent item's data
+        newItem = new ModelPart({ fileName, visible, colour });
+        // Get the parent item
+        ModelPart* parentPart = static_cast<ModelPart*>(parentIndex.internalPointer());
+        // Append the new item to the parent item
+        parentPart->appendChild(newItem);
+    }
+	// Check if an item is selected (if a file is opened as a child)
+    else if (ui->treeView->selectionModel()->hasSelection())
+    {
+        // If no parent index is provided but an item is selected, append the new item to the selected item
+        QModelIndex selectedIndex = ui->treeView->currentIndex();
         // initialise the new item with the selected item's data
         newItem = new ModelPart({ fileName, visible, colour });
         // Get the selected item
@@ -267,12 +282,12 @@ void MainWindow::openFile(const QString& filePath)
         // Append the new item to the selected item
         selectedPart->appendChild(newItem);
     }
+	// Check if no item is selected (if a file is opened as a top-level item)
     else
     {
-        // If no item is selected, create a new top-level item
+        // If no parent index is provided and no item is selected, create a new top-level item
         QList<QVariant> data = { fileName, visible, colour };
-        QModelIndex parent; // An invalid QModelIndex so the item is added to the root
-        QModelIndex newIndex = partList->appendChild(parent, data);
+        QModelIndex newIndex = partList->appendChild(parentIndex, data);
         // Get the new item
         newItem = static_cast<ModelPart*>(newIndex.internalPointer());
     }
@@ -285,9 +300,6 @@ void MainWindow::openFile(const QString& filePath)
 
     // Add the actor to the map
     actorToModelPart[newItem->getActor()] = newItem;
-
-    updateRender();
-
 }
 
 // -----------------------------------------------------------------------------------------------
