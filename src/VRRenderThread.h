@@ -79,7 +79,7 @@ public:
     void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
 
 
-    void updateVRActors();
+    void syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap);
 
 
 protected:
