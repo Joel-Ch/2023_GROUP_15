@@ -205,8 +205,6 @@ void VRRenderThread::run() {
 	interactor->SetRenderWindow(window);
 	interactor->Initialize();
 	window->Render();
-	interactor->Start();
-
 
 	/* Now start the VR - we will implement the command loop manually
 	 * so it can be interrupted to make modifications to the actors
