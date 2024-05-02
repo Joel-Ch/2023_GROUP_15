@@ -216,74 +216,76 @@ void VRRenderThread::run() {
 	t_last = std::chrono::steady_clock::now();
 
 	while (!interactor->GetDone() && !this->endRender) {
-		mutex.lock();
-		interactor->DoOneEvent(window, renderer);
-		mutex.unlock();
+		if (mutex.tryLock()) {
+			// Mutex was not locked, so VRRenderThread has locked it now
+			interactor->DoOneEvent(window, renderer);
+			mutex.unlock();
 
-		/* Check to see if enough time has elapsed since last update
-		 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
-		 * is really just checking if more than 20ms have elaspsed since the last animation step. The
-		 * complications comes from the fact that numbers representing time on computers don't usually have
-		 * standard second/millisecond units. Because everything is a class in C++, the converion from
-		 * computer units to seconds/milliseconds ends up looking like what you see below.
-		 *
-		 * My choice of 20ms is arbitrary, if this value is too small the animation calculations could begin to
-		 * interfere with the interator processes and make the simulation unresponsive. If it is too large
-		 * the animations will be jerky. Play with the value to see what works best.
-		 */
-		if (std::chrono::duration_cast <std::chrono::milliseconds> (std::chrono::steady_clock::now() - t_last).count() > 20) {
+			/* Check to see if enough time has elapsed since last update
+			 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
+			 * is really just checking if more than 20ms have elaspsed since the last animation step. The
+			 * complications comes from the fact that numbers representing time on computers don't usually have
+			 * standard second/millisecond units. Because everything is a class in C++, the converion from
+			 * computer units to seconds/milliseconds ends up looking like what you see below.
+			 *
+			 * My choice of 20ms is arbitrary, if this value is too small the animation calculations could begin to
+			 * interfere with the interator processes and make the simulation unresponsive. If it is too large
+			 * the animations will be jerky. Play with the value to see what works best.
+			 */
+			if (std::chrono::duration_cast <std::chrono::milliseconds> (std::chrono::steady_clock::now() - t_last).count() > 20) {
 
-			/* Do things that might need doing ... */
-			vtkActorCollection* actorList = renderer->GetActors();
-			vtkActor* a;
+				/* Do things that might need doing ... */
+				vtkActorCollection* actorList = renderer->GetActors();
+				vtkActor* a;
 
-			/* X Rotation */
-			actorList->InitTraversal();
-			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				if (a != nullptr) {
-					a->RotateX(rotateX);
+				/* X Rotation */
+				actorList->InitTraversal();
+				while ((a = (vtkActor*)actorList->GetNextActor())) {
+					if (a != nullptr) {
+						a->RotateX(rotateX);
+					}
 				}
-			}
-			rotateX = 0;
+				rotateX = 0;
 
-			/* Y Rotation */
-			actorList->InitTraversal();
-			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				if (a != nullptr) {
-					a->RotateY(rotateY);
+				/* Y Rotation */
+				actorList->InitTraversal();
+				while ((a = (vtkActor*)actorList->GetNextActor())) {
+					if (a != nullptr) {
+						a->RotateY(rotateY);
+					}
 				}
-			}
-			rotateY = 0;
+				rotateY = 0;
 
-			/* Z Rotation */
-			actorList->InitTraversal();
-			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				if (a != nullptr) {
-					a->RotateZ(rotateZ);
+				/* Z Rotation */
+				actorList->InitTraversal();
+				while ((a = (vtkActor*)actorList->GetNextActor())) {
+					if (a != nullptr) {
+						a->RotateZ(rotateZ);
+					}
 				}
-			}
-			rotateZ = 0;
+				rotateZ = 0;
 
-			if (syncRender)
-			{
-				// Update all actors
-				actors->InitTraversal();
-				vtkActor* actor = nullptr;
-				while ((actor = actors->GetNextActor()) != nullptr)
+				if (syncRender)
 				{
-					ModelPart* part = actorToModelPart[actor];
-					QColor colour = part->colour();
-					bool visible = part->visible();
-					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
-					actor->SetVisibility(visible);
+					// Update all actors
+					actors->InitTraversal();
+					vtkActor* actor = nullptr;
+					while ((actor = actors->GetNextActor()) != nullptr)
+					{
+						ModelPart* part = actorToModelPart[actor];
+						QColor colour = part->colour();
+						bool visible = part->visible();
+						actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
+						actor->SetVisibility(visible);
+					}
+
+					// Reset the command
+					syncRender = false;
 				}
 
-				// Reset the command
-				syncRender = false;
+				/* Remember time now */
+				t_last = std::chrono::steady_clock::now();
 			}
-
-			/* Remember time now */
-			t_last = std::chrono::steady_clock::now();
 		}
 	}
 
