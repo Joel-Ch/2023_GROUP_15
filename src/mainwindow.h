@@ -93,6 +93,21 @@ public:
      */
     void onClick(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData);
 
+    /**
+    * @brief Handles the end interaction event.
+    * @param caller The caller object.
+    * @param eventId The event id.
+    * @param clientData The client data.
+    * @param callData The call data.
+    */
+    void onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
+
+	/**
+		 * @brief Sets the mutex.
+			 * @param mutex The mutex to be set.
+				 */
+    void setMutex(QMutex& mutex);
+
 signals:
     /**
      * @brief Emits a status update message.
@@ -161,16 +176,6 @@ public slots:
     */
     void on_actionSync_VR_triggered();
 
-
-	/**
-	* @brief Handles the end interaction event.
-	* @param caller The caller object.
-	* @param eventId The event id.
-	* @param clientData The client data.
-	* @param callData The call data.
-	*/
-    void onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
-
     /**
      * @brief Receives dialog data.
      * @param name The name data.
@@ -185,7 +190,7 @@ private:
 
     std::unordered_map<vtkActor *, ModelPart *> actorToModelPart;
 
-    QMutex mutex;
+    QMutex* mutex;
 
     Ui::MainWindow *ui;
     ModelPartList *partList;

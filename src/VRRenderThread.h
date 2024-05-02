@@ -81,6 +81,12 @@ public:
 
     void syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap);
 
+	/** This function is used to get the mutex that is used to synchronise
+		  * the passing of data to the VR thread
+		  * @return The mutex
+			  */
+    QMutex& getMutex();
+
 
 protected:
     /** This is a re-implementation of a QThread function

@@ -33,7 +33,9 @@
  * in the constructor, as it will take control of the main thread to handle the VR interaction (headset
  * rotation etc. This means that a second thread is needed to handle the VR.
  */
-VRRenderThread::VRRenderThread(QObject* parent) {
+VRRenderThread::VRRenderThread(QObject* parent)
+	: QThread(parent)
+{
 	/* Initialise actor list */
 	actors = vtkActorCollection::New();
 
@@ -143,6 +145,10 @@ void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mai
 			++it;
 		}
 	}
+}
+
+QMutex& VRRenderThread::getMutex() {
+	return this->mutex;
 }
 
 
