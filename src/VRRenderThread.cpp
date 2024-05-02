@@ -70,7 +70,7 @@ VRRenderThread::~VRRenderThread() {
 
 
 void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
-
+	QMutexLocker locker(&mutex);
 	/* Check to see if render thread is running */
 	if (!this->isRunning()) {
 		double* ac = actor->GetOrigin();
