@@ -6,8 +6,7 @@ var searchData=
   ['setcolour_61',['setColour',['../classModelPart.html#abb0819f303fea07fdc053ba750d4684d',1,'ModelPart']]],
   ['setfolder_62',['setFolder',['../classModelPart.html#aaa5eabdc73105590f989104f8010c196',1,'ModelPart']]],
   ['setinitialvalues_63',['setInitialValues',['../classDialog.html#adb504b7eac41e447b8f17c3c9f420c63',1,'Dialog']]],
-  ['setmutex_64',['setMutex',['../classMainWindow.html#a9734280519e69d7e1390486937a5e676',1,'MainWindow']]],
-  ['setname_65',['setName',['../classModelPart.html#a8cad7d6be5b07838adc46fae8395946e',1,'ModelPart']]],
-  ['setvisible_66',['setVisible',['../classModelPart.html#a96c8cca32bd530bf28c6ab6a1ccc2353',1,'ModelPart']]],
-  ['statusupdatemessage_67',['statusUpdateMessage',['../classMainWindow.html#a86443ea744fda3e9bad328c2fd1c3d6b',1,'MainWindow']]]
+  ['setname_64',['setName',['../classModelPart.html#a8cad7d6be5b07838adc46fae8395946e',1,'ModelPart']]],
+  ['setvisible_65',['setVisible',['../classModelPart.html#a96c8cca32bd530bf28c6ab6a1ccc2353',1,'ModelPart']]],
+  ['statusupdatemessage_66',['statusUpdateMessage',['../classMainWindow.html#a86443ea744fda3e9bad328c2fd1c3d6b',1,'MainWindow']]]
 ];

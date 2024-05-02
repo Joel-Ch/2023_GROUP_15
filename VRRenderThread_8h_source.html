@@ -111,7 +111,7 @@ $(function() {
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">   50</a></span>&#160;    } <a class="code" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">Command</a>;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classVRRenderThread.html#a774e187161f0723337f34962c08b15e3">VRRenderThread</a>(QMutex&amp; mutex, QObject* parent = <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">~VRRenderThread</a>();</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
@@ -126,7 +126,7 @@ $(function() {
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> syncVRActors(std::unordered_map&lt;vtkActor*, ModelPart*&gt;&amp; mainSceneMap);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    QMutex&amp; <a class="code" href="classVRRenderThread.html#a5c9a48238a95f4f7658752fcd338abe1">getMutex</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classVRRenderThread.html#a19f14f4e8f799ac986658abe3baf330d">   88</a></span>&#160;    QMutex&amp; <a class="code" href="classVRRenderThread.html#a19f14f4e8f799ac986658abe3baf330d">getMutex</a>();</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">protected</span>:</div>
@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    vtkSmartPointer&lt;vtkOpenVRCamera&gt;                    camera;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">/* Use to synchronise passing of data to VR thread */</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    QMutex                                              mutex;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    QMutex&amp;                                              mutex;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    QWaitCondition                                      condition;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    vtkSmartPointer&lt;vtkActorCollection&gt;                 actors;</div>
@@ -171,13 +171,13 @@ $(function() {
 <div class="ttc" id="aclassModelPart_html"><div class="ttname"><a href="classModelPart.html">ModelPart</a></div><div class="ttdoc">This class represents a part in the model treeview.</div><div class="ttdef"><b>Definition:</b> ModelPart.h:31</div></div>
 <div class="ttc" id="aclassVRRenderThread_html"><div class="ttname"><a href="classVRRenderThread.html">VRRenderThread</a></div><div class="ttdef"><b>Definition:</b> VRRenderThread.h:39</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a145af5f93d8b56a6ac85a6d5f436b5fc"><div class="ttname"><a href="classVRRenderThread.html#a145af5f93d8b56a6ac85a6d5f436b5fc">VRRenderThread::addActorOffline</a></div><div class="ttdeci">void addActorOffline(vtkActor *actor, ModelPart *part)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:73</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_a19f14f4e8f799ac986658abe3baf330d"><div class="ttname"><a href="classVRRenderThread.html#a19f14f4e8f799ac986658abe3baf330d">VRRenderThread::getMutex</a></div><div class="ttdeci">QMutex &amp; getMutex()</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a21c23037bf11cd2a1592076c7e499de0"><div class="ttname"><a href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">VRRenderThread::~VRRenderThread</a></div><div class="ttdeci">~VRRenderThread()</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:59</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_a35976e55f6655840aa217aa8a066f196"><div class="ttname"><a href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread::VRRenderThread</a></div><div class="ttdeci">VRRenderThread(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:36</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_a5c9a48238a95f4f7658752fcd338abe1"><div class="ttname"><a href="classVRRenderThread.html#a5c9a48238a95f4f7658752fcd338abe1">VRRenderThread::getMutex</a></div><div class="ttdeci">QMutex &amp; getMutex()</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:150</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_a774e187161f0723337f34962c08b15e3"><div class="ttname"><a href="classVRRenderThread.html#a774e187161f0723337f34962c08b15e3">VRRenderThread::VRRenderThread</a></div><div class="ttdeci">VRRenderThread(QMutex &amp;mutex, QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:36</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a887ba74b8a5b02f927e4564049b85ffb"><div class="ttname"><a href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">VRRenderThread::Command</a></div><div class="ttdeci">enum VRRenderThread::@0 Command</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_abbc905472309a2da473241a596e43813"><div class="ttname"><a href="classVRRenderThread.html#abbc905472309a2da473241a596e43813">VRRenderThread::issueCommand</a></div><div class="ttdeci">void issueCommand(int cmd, double value)</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:93</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_aecf9f05cbed8fa4e45b90c2d5aa203b1"><div class="ttname"><a href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">VRRenderThread::addActorModelPartMapping</a></div><div class="ttdeci">void addActorModelPartMapping(vtkActor *actor, ModelPart *part)</div><div class="ttdoc">Map a model part to an actor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:120</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:160</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:156</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
