@@ -240,6 +240,7 @@ void VRRenderThread::run() {
 					a->RotateX(rotateX);
 				}
 			}
+			rotateX = 0;
 
 			/* Y Rotation */
 			actorList->InitTraversal();
@@ -248,6 +249,7 @@ void VRRenderThread::run() {
 					a->RotateY(rotateY);
 				}
 			}
+			rotateY = 0;
 
 			/* Z Rotation */
 			actorList->InitTraversal();
@@ -256,6 +258,7 @@ void VRRenderThread::run() {
 					a->RotateZ(rotateZ);
 				}
 			}
+			rotateZ = 0;
 
 			if (syncRender)
 			{
