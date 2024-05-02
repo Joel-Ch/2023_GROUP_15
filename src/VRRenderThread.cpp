@@ -236,19 +236,25 @@ void VRRenderThread::run() {
 			/* X Rotation */
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				a->RotateX(rotateX);
+				if (a != nullptr) {
+					a->RotateX(rotateX);
+				}
 			}
 
 			/* Y Rotation */
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				a->RotateY(rotateY);
+				if (a != nullptr) {
+					a->RotateY(rotateY);
+				}
 			}
 
 			/* Z Rotation */
 			actorList->InitTraversal();
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
-				a->RotateZ(rotateZ);
+				if (a != nullptr) {
+					a->RotateZ(rotateZ);
+				}
 			}
 
 			if (syncRender)
