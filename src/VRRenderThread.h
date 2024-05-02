@@ -51,7 +51,8 @@ public:
         ROTATE_X,
         ROTATE_Y,
         ROTATE_Z,
-        SYNC_RENDER
+        SYNC_RENDER,
+		SYNC_ACTORS
     } Command;
 
 
@@ -82,7 +83,10 @@ public:
     */
     void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
 
-
+    /**
+	* @brief Sync the actors in the VR scene with the actors in the main scene
+	* @param mainSceneMap A map of actors in the main scene
+    */
     void syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap);
 
 
@@ -126,7 +130,7 @@ private:
     bool syncActors;
 
     /* A map to link actors to model parts */
-    std::map<vtkActor*, ModelPart*> actorToModelPart;
+    std::map<vtkActor*, ModelPart*> actorMap;
 };
 
 

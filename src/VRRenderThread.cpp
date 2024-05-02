@@ -118,27 +118,29 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 
 void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
 {
-	actorToModelPart[actor] = part;
+	QMutexLocker locker(&mutex);
+	actorMap[actor] = part;
 }
 
 
 void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
 	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
+	QMutexLocker locker(&mutex);
 	for (const auto& pair : mainSceneMap) {
-		if (actorToModelPart.find(pair.first) == actorToModelPart.end()) {
+		if (actorMap.find(pair.first) == actorMap.end()) {
 			// Add the actor to the VR scene
 			vtkSmartPointer<vtkActor> vrActor = pair.second->getNewActor();
 			renderer->AddActor(vrActor);
-			actorToModelPart[vrActor] = pair.second;
+			actorMap[vrActor] = pair.second;
 		}
 	}
 
 	// Find model parts in the VR scene but not in the main scene and remove corresponding actors from the VR scene
-	for (auto it = actorToModelPart.begin(); it != actorToModelPart.end(); /* no increment here */) {
+	for (auto it = actorMap.begin(); it != actorMap.end(); /* no increment here */) {
 		if (mainSceneMap.find(it->first) == mainSceneMap.end()) {
 			// Remove the actor from the VR scene
 			renderer->RemoveActor(it->first);
-			it = actorToModelPart.erase(it); // erase returns the iterator to the next element
+			it = actorMap.erase(it); // erase returns the iterator to the next element
 		}
 		else {
 			++it;
@@ -243,11 +245,8 @@ void VRRenderThread::run() {
 	t_last = std::chrono::steady_clock::now();
 
 	while (!interactor->GetDone() && !this->endRender) {
-			mutex.lock();
-			// Mutex was not locked, so VRRenderThread has locked it now
 			interactor->DoOneEvent(window, renderer);
-			// Mutex is unlocked now
-			mutex.unlock();
+
 
 			/* Check to see if enough time has elapsed since last update
 			 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
@@ -293,15 +292,15 @@ void VRRenderThread::run() {
 				}
 				rotateZ = 0;
 
-				mutex.lock();
 				if (syncRender)
 				{
+					mutex.lock();
 					// Update all actors
 					actors->InitTraversal();
 					vtkActor* actor = nullptr;
 					while ((actor = actors->GetNextActor()) != nullptr)
 					{
-						ModelPart* part = actorToModelPart[actor];
+						ModelPart* part = actorMap[actor];
 						QColor colour = part->colour();
 						bool visible = part->visible();
 						actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
@@ -310,8 +309,8 @@ void VRRenderThread::run() {
 
 					// Reset the command
 					syncRender = false;
+					mutex.unlock();
 				}
-				mutex.unlock();
 
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();

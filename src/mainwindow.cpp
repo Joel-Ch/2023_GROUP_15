@@ -466,6 +466,11 @@ void MainWindow::updateRender()
     renderer->ResetCamera();
     renderer->ResetCameraClippingRange();
     renderer->Render();
+
+	if (vrThread->isRunning())
+    {
+		vrThread->syncVRActors(actorToModelPart);
+	}
 }
 
 void MainWindow::updateRenderFromTree(const QModelIndex &index)
