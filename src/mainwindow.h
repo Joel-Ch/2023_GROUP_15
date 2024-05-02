@@ -29,7 +29,11 @@
 #include "VRRenderThread.h"
 #include <vtkRendererCollection.h>
 #include <QMutex>
-
+#include <vtkLight.h>
+#include <vtkTexture.h>
+#include <vtkJPEGReader.h>
+#include <vtkImageData.h>
+#include <vtkSkybox.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui

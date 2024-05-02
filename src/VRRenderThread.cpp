@@ -198,7 +198,35 @@ void VRRenderThread::run() {
 	/* Create Open VR Camera */
 	camera = vtkOpenVRCamera::New();
 	renderer->SetActiveCamera(camera);
+	
+	/* Create Skybox*/
+	/*
+	vtkSmartPointer<vtkTexture> texture = vtkSmartPointer<vtkTexture>::New();
+	texture->CubeMapOn();
 
+	vtkSmartPointer<vtkJPEGReader> reader = vtkSmartPointer<vtkJPEGReader>::New();
+	std::string imageFileNames[6] = {
+		"skybox/posx.jpg",
+		"skybox/negx.jpg",
+		"skybox/posy.jpg",
+		"skybox/negy.jpg",
+		"skybox/posz.jpg",
+		"skybox/negz.jpg"
+	};
+	// Load the six images
+	for (int i = 0; i < 6; i++)
+	{
+		reader->SetFileName(imageFileNames[i].c_str());
+		reader->Update();
+		texture->SetInputData(i, reader->GetOutput());
+	}
+
+	vtkSmartPointer<vtkSkybox> skybox = vtkSmartPointer<vtkSkybox>::New();
+	skybox->SetTexture(texture);
+
+	// Add the skybox to the renderer
+	renderer->AddActor(skybox);
+	*/
 	/* The render window interactor captures mouse events
 	 * and will perform appropriate camera or actor manipulation
 	 * depending on the nature of the events.

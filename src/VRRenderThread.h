@@ -24,6 +24,11 @@
 #include <vtkOpenVRCamera.h>	
 #include <vtkActorCollection.h>
 #include <vtkCommand.h>
+#include <vtkLight.h>
+#include <vtkTexture.h>
+#include <vtkJPEGReader.h>
+#include <vtkImageData.h>
+#include <vtkSkybox.h>
 
 /* Other headers */
 #include "ModelPart.h"
