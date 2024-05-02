@@ -57,7 +57,7 @@ public:
 
     /**  Constructor
       */
-    VRRenderThread(QMutex& mutex, QObject* parent = nullptr);
+    VRRenderThread(QObject* parent = nullptr);
 
     /**  Denstructor
       */
@@ -74,8 +74,7 @@ public:
       * Function will set variables within the class to indicate the type of
       * action / animation / etc to perform. The rendering thread will then impelement this.
       */
-    void issueCommand(int cmd, double value);
-
+    void issueCommand(int cmd, double value = 0);
     /**
     * @brief Map a model part to an actor
     * @param actor The actor to map
@@ -85,12 +84,6 @@ public:
 
 
     void syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap);
-
-	/** This function is used to get the mutex that is used to synchronise
-		  * the passing of data to the VR thread
-		  * @return The mutex
-			  */
-    QMutex& getMutex();
 
 
 protected:
@@ -106,7 +99,7 @@ private:
     vtkSmartPointer<vtkOpenVRCamera>                    camera;
 
     /* Use to synchronise passing of data to VR thread */
-    QMutex&                                              mutex;
+    QMutex                                              mutex;
     QWaitCondition                                      condition;
 
     /** List of actors that will need to be added to the VR scene */
@@ -130,6 +123,7 @@ private:
     /* When set high calls the sync render section
     */
     bool syncRender;
+    bool syncActors;
 
     /* A map to link actors to model parts */
     std::map<vtkActor*, ModelPart*> actorToModelPart;

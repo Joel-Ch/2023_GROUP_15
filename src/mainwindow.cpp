@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	renderer->AddLight(light);
 
-    vrThread = new VRRenderThread(mutex);
+    vrThread = new VRRenderThread();
     /*
 	// Create a skybox ------------------------------------------------------------------
     vtkSmartPointer<vtkTexture> texture = vtkSmartPointer<vtkTexture>::New();
@@ -220,6 +220,7 @@ void MainWindow::on_actionDelete_Item_triggered()
     partList->dataChanged(parentIndex, parentIndex);
 
     // remove item from map
+	actorToModelPart.erase(selectedPart->getActor());
 
     // Update the render window
     updateRender();
@@ -442,7 +443,7 @@ void MainWindow::receiveDialogData(const QString &name, const bool &visible, con
     selectedPart->setVisible(visible);
     selectedPart->setColour(colour);
 
-	vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
+	vrThread->issueCommand(VRRenderThread::SYNC_RENDER);
 
     updateRender();
 }
@@ -586,7 +587,7 @@ void MainWindow::on_actionStop_VR_triggered()
     disconnect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
 	connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
 	emit statusUpdateMessage(QString("Stopping VR"), 0);
-    vrThread->issueCommand(VRRenderThread::END_RENDER, 0.);
+    vrThread->issueCommand(VRRenderThread::END_RENDER);
 
     //TODO
     // the code crashes if you try to run the vr again after stopping it (we probably need to delete/not create two copies of  the renderer etc)
@@ -598,7 +599,7 @@ void MainWindow::on_actionSync_VR_triggered()
 	disconnect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 
 	emit statusUpdateMessage(QString("Syncing VR"), 0);
-	vrThread->issueCommand(VRRenderThread::SYNC_RENDER, 0.);
+	vrThread->issueCommand(VRRenderThread::SYNC_RENDER);
 
 	connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 }
@@ -618,11 +619,9 @@ void MainWindow::onEndInteraction(vtkObject* caller, long unsigned int eventId, 
             if (currentOrientation[0] != previousOrientation[0] ||
                 currentOrientation[1] != previousOrientation[1] ||
                 currentOrientation[2] != previousOrientation[2]) {
-                mutex.lock();
                 vrThread->issueCommand(VRRenderThread::ROTATE_X, currentOrientation[0]);
                 vrThread->issueCommand(VRRenderThread::ROTATE_Y, currentOrientation[1]);
                 vrThread->issueCommand(VRRenderThread::ROTATE_Z, currentOrientation[2]);
-				mutex.unlock();
             }
 			std::copy(currentOrientation, currentOrientation + 3, previousOrientation);
         }

@@ -188,8 +188,6 @@ private:
 
     std::unordered_map<vtkActor *, ModelPart *> actorToModelPart;
 
-    QMutex mutex;
-
     Ui::MainWindow *ui;
     ModelPartList *partList;
 

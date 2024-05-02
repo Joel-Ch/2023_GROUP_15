@@ -33,8 +33,7 @@
  * in the constructor, as it will take control of the main thread to handle the VR interaction (headset
  * rotation etc. This means that a second thread is needed to handle the VR.
  */
-VRRenderThread::VRRenderThread(QMutex& mutex, QObject* parent)
-	: QThread(parent), mutex(mutex)
+VRRenderThread::VRRenderThread(QObject* parent)
 {
 	/* Initialise actor list */
 	actors = vtkActorCollection::New();
@@ -89,11 +88,12 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 }
 
 
+
 void VRRenderThread::issueCommand(int cmd, double value) {
 
 	/* Update class variables according to command */
 	switch (cmd) {
-		
+
 	case END_RENDER:
 		this->endRender = true;
 		break;
@@ -124,7 +124,6 @@ void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
 
 void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
 	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
-	mutex.lock();
 	for (const auto& pair : mainSceneMap) {
 		if (actorToModelPart.find(pair.first) == actorToModelPart.end()) {
 			// Add the actor to the VR scene
@@ -145,7 +144,6 @@ void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mai
 			++it;
 		}
 	}
-	mutex.unlock();
 }
 
 
@@ -245,7 +243,7 @@ void VRRenderThread::run() {
 	t_last = std::chrono::steady_clock::now();
 
 	while (!interactor->GetDone() && !this->endRender) {
-		if (mutex.tryLock()) {
+			mutex.lock();
 			// Mutex was not locked, so VRRenderThread has locked it now
 			interactor->DoOneEvent(window, renderer);
 			// Mutex is unlocked now
@@ -295,6 +293,7 @@ void VRRenderThread::run() {
 				}
 				rotateZ = 0;
 
+				mutex.lock();
 				if (syncRender)
 				{
 					// Update all actors
@@ -312,11 +311,11 @@ void VRRenderThread::run() {
 					// Reset the command
 					syncRender = false;
 				}
+				mutex.unlock();
 
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();
 			}
-		}
 	}
 
 	window->Finalize();
