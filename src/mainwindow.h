@@ -102,12 +102,6 @@ public:
     */
     void onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
 
-	/**
-		 * @brief Sets the mutex.
-			 * @param mutex The mutex to be set.
-				 */
-    void setMutex(QMutex& mutex);
-
 signals:
     /**
      * @brief Emits a status update message.
@@ -190,7 +184,7 @@ private:
 
     std::unordered_map<vtkActor *, ModelPart *> actorToModelPart;
 
-    QMutex* mutex;
+    QMutex mutex;
 
     Ui::MainWindow *ui;
     ModelPartList *partList;

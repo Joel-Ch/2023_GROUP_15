@@ -52,7 +52,7 @@ public:
 
     /**  Constructor
       */
-    VRRenderThread(QObject* parent = nullptr);
+    VRRenderThread(QMutex& mutex, QObject* parent = nullptr);
 
     /**  Denstructor
       */
@@ -101,7 +101,7 @@ private:
     vtkSmartPointer<vtkOpenVRCamera>                    camera;
 
     /* Use to synchronise passing of data to VR thread */
-    QMutex                                              mutex;
+    QMutex&                                              mutex;
     QWaitCondition                                      condition;
 
     /** List of actors that will need to be added to the VR scene */
