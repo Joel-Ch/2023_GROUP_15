@@ -89,7 +89,6 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 }
 
 
-
 void VRRenderThread::issueCommand(int cmd, double value) {
 
 	/* Update class variables according to command */
@@ -125,6 +124,7 @@ void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
 
 void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
 	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
+	mutex.lock();
 	for (const auto& pair : mainSceneMap) {
 		if (actorToModelPart.find(pair.first) == actorToModelPart.end()) {
 			// Add the actor to the VR scene
@@ -145,6 +145,7 @@ void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mai
 			++it;
 		}
 	}
+	mutex.unlock();
 }
 
 
@@ -247,6 +248,8 @@ void VRRenderThread::run() {
 		if (mutex.tryLock()) {
 			// Mutex was not locked, so VRRenderThread has locked it now
 			interactor->DoOneEvent(window, renderer);
+			// Mutex is unlocked now
+			mutex.unlock();
 
 			/* Check to see if enough time has elapsed since last update
 			 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
@@ -313,7 +316,6 @@ void VRRenderThread::run() {
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();
 			}
-			mutex.unlock();
 		}
 	}
 
