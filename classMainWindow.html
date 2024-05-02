@@ -125,6 +125,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#a88fc14a44cd3f25a202e6de5af5024c2">on_actionSync_VR_triggered</a> ()</td></tr>
 <tr class="memdesc:a88fc14a44cd3f25a202e6de5af5024c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the sync VR event. <br /></td></tr>
 <tr class="separator:a88fc14a44cd3f25a202e6de5af5024c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94312478f0d91c4b7586efb562e62857"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#a94312478f0d91c4b7586efb562e62857">onEndInteraction</a> (vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)</td></tr>
+<tr class="memdesc:a94312478f0d91c4b7586efb562e62857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the end interaction event.  <a href="classMainWindow.html#a94312478f0d91c4b7586efb562e62857">More...</a><br /></td></tr>
+<tr class="separator:a94312478f0d91c4b7586efb562e62857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b95ec298d0279d43bcce061763f9dd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#a2b95ec298d0279d43bcce061763f9dd8">receiveDialogData</a> (const QString &amp;name, const bool &amp;visible, const QColor &amp;colour)</td></tr>
 <tr class="memdesc:a2b95ec298d0279d43bcce061763f9dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives dialog data.  <a href="classMainWindow.html#a2b95ec298d0279d43bcce061763f9dd8">More...</a><br /></td></tr>
 <tr class="separator:a2b95ec298d0279d43bcce061763f9dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,6 +271,65 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>function called when an actor is clicked. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">caller</td><td>The caller object. </td></tr>
+    <tr><td class="paramname">eventId</td><td>The event id. </td></tr>
+    <tr><td class="paramname">clientData</td><td>The client data. </td></tr>
+    <tr><td class="paramname">callData</td><td>The call data. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a94312478f0d91c4b7586efb562e62857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94312478f0d91c4b7586efb562e62857">&#9670;&nbsp;</a></span>onEndInteraction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::onEndInteraction </td>
+          <td>(</td>
+          <td class="paramtype">vtkObject *&#160;</td>
+          <td class="paramname"><em>caller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long unsigned int&#160;</td>
+          <td class="paramname"><em>eventId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>clientData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handles the end interaction event. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">caller</td><td>The caller object. </td></tr>

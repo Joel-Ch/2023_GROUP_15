@@ -8,6 +8,7 @@ var searchData=
   ['on_5factionstop_5fvr_5ftriggered_43',['on_actionStop_VR_triggered',['../classMainWindow.html#ab479b73b552fa37576cffd1e65965d91',1,'MainWindow']]],
   ['on_5factionsync_5fvr_5ftriggered_44',['on_actionSync_VR_triggered',['../classMainWindow.html#a88fc14a44cd3f25a202e6de5af5024c2',1,'MainWindow']]],
   ['onclick_45',['onClick',['../classMainWindow.html#acafd65bdc08cecdd7bf2c071f470084e',1,'MainWindow']]],
-  ['opendialog_46',['openDialog',['../classMainWindow.html#a4765b81196c7f3b77ac9de9b3b41587c',1,'MainWindow']]],
-  ['openfile_47',['openFile',['../classMainWindow.html#a0470a76285317add8f70fb59e995cf19',1,'MainWindow']]]
+  ['onendinteraction_46',['onEndInteraction',['../classMainWindow.html#a94312478f0d91c4b7586efb562e62857',1,'MainWindow']]],
+  ['opendialog_47',['openDialog',['../classMainWindow.html#a4765b81196c7f3b77ac9de9b3b41587c',1,'MainWindow']]],
+  ['openfile_48',['openFile',['../classMainWindow.html#a0470a76285317add8f70fb59e995cf19',1,'MainWindow']]]
 ];
