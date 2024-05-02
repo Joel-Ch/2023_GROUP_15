@@ -27,6 +27,8 @@
 #include <vtkPropPicker.h>
 #include <vtkCallbackCommand.h>
 #include "VRRenderThread.h"
+#include <vtkRendererCollection.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -157,6 +159,16 @@ public slots:
     * @brief Handles the sync VR event.
     */
     void on_actionSync_VR_triggered();
+
+
+	/**
+	* @brief Handles the end interaction event.
+	* @param caller The caller object.
+	* @param eventId The event id.
+	* @param clientData The client data.
+	* @param callData The call data.
+	*/
+    void onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
 
     /**
      * @brief Receives dialog data.
