@@ -109,6 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memItemLeft" align="right" valign="top"><a id="afc6e52e11883c0480e3b001ca74ecb0a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>syncVRActors</b> (std::unordered_map&lt; vtkActor *, <a class="el" href="classModelPart.html">ModelPart</a> * &gt; &amp;mainSceneMap)</td></tr>
 <tr class="separator:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c9a48238a95f4f7658752fcd338abe1"><td class="memItemLeft" align="right" valign="top">QMutex &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a5c9a48238a95f4f7658752fcd338abe1">getMutex</a> ()</td></tr>
+<tr class="separator:a5c9a48238a95f4f7658752fcd338abe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -238,6 +240,24 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>This allows actors to be added to the VR renderer BEFORE the VR interactor has been started </p>
+
+</div>
+</div>
+<a id="a5c9a48238a95f4f7658752fcd338abe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c9a48238a95f4f7658752fcd338abe1">&#9670;&nbsp;</a></span>getMutex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex &amp; VRRenderThread::getMutex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This function is used to get the mutex that is used to synchronise the passing of data to the VR thread </p><dl class="section return"><dt>Returns</dt><dd>The mutex </dd></dl>
 
 </div>
 </div>
