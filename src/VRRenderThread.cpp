@@ -219,7 +219,6 @@ void VRRenderThread::run() {
 		if (mutex.tryLock()) {
 			// Mutex was not locked, so VRRenderThread has locked it now
 			interactor->DoOneEvent(window, renderer);
-			mutex.unlock();
 
 			/* Check to see if enough time has elapsed since last update
 			 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
@@ -286,6 +285,7 @@ void VRRenderThread::run() {
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();
 			}
+			mutex.unlock();
 		}
 	}
 
