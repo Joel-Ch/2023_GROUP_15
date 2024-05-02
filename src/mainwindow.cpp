@@ -576,9 +576,11 @@ void MainWindow::onEndInteraction(vtkObject* caller, long unsigned int eventId, 
             if (currentOrientation[0] != previousOrientation[0] ||
                 currentOrientation[1] != previousOrientation[1] ||
                 currentOrientation[2] != previousOrientation[2]) {
+                mutex.lock();
                 vrThread->issueCommand(VRRenderThread::ROTATE_X, currentOrientation[0]);
                 vrThread->issueCommand(VRRenderThread::ROTATE_Y, currentOrientation[1]);
                 vrThread->issueCommand(VRRenderThread::ROTATE_Z, currentOrientation[2]);
+				mutex.unlock();
             }
 			std::copy(currentOrientation, currentOrientation + 3, previousOrientation);
         }

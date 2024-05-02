@@ -28,6 +28,7 @@
 #include <vtkCallbackCommand.h>
 #include "VRRenderThread.h"
 #include <vtkRendererCollection.h>
+#include <QMutex>
 
 
 QT_BEGIN_NAMESPACE
@@ -183,6 +184,8 @@ private:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
 
     std::unordered_map<vtkActor *, ModelPart *> actorToModelPart;
+
+    QMutex mutex;
 
     Ui::MainWindow *ui;
     ModelPartList *partList;

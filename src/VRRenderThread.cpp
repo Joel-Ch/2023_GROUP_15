@@ -214,7 +214,9 @@ void VRRenderThread::run() {
 	t_last = std::chrono::steady_clock::now();
 
 	while (!interactor->GetDone() && !this->endRender) {
+		mutex.lock();
 		interactor->DoOneEvent(window, renderer);
+		mutex.unlock();
 
 		/* Check to see if enough time has elapsed since last update
 		 * This looks overcomplicated (and it is, C++ loves to make things unecessarily complicated!) but
