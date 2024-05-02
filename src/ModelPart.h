@@ -23,6 +23,7 @@
 #include <vtkActor.h>
 #include <vtkColor.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkDataSetMapper.h>
 
 /** ModelPart class
  * @brief This class represents a part in the model treeview
