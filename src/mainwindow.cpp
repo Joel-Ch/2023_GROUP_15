@@ -43,21 +43,35 @@ MainWindow::MainWindow(QWidget *parent)
     renderWindow->GetInteractor()->SetPicker(PropPicker);
 
     // Connect the event with a callback function
-    vtkSmartPointer<vtkCallbackCommand> callback = vtkSmartPointer<vtkCallbackCommand>::New();
+    vtkSmartPointer<vtkCallbackCommand> clickCallback = vtkSmartPointer<vtkCallbackCommand>::New();
 
-    // Create a lambda function that captures this and calls onClick
+    // Create a lambda function that captures clicks and calls onClick
     auto onClickLambda = [](vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
     {
         static_cast<MainWindow *>(clientData)->onClick(caller, eventId, clientData, callData);
     };
 
     // Set the callback to the lambda function
-    callback->SetClientData(this);
-    callback->SetCallback(onClickLambda);
+    clickCallback->SetClientData(this);
+    clickCallback->SetCallback(onClickLambda);
 
-    renderWindow->GetInteractor()->AddObserver(vtkCommand::LeftButtonPressEvent, callback);
+    renderWindow->GetInteractor()->AddObserver(vtkCommand::LeftButtonPressEvent, clickCallback);
 
     // ---------------------------------------------------------------------------------------------------
+
+    // Create a lambda function that captures rotation and calls onEndInteraction
+    auto onEndInteractionLambda = [](vtkObject* caller, long unsigned int eventId, void* clientData, void* callData)
+        {
+            static_cast<MainWindow*>(clientData)->onEndInteraction(caller, eventId, clientData, callData);
+        };
+
+    // Set the callback to the lambda function
+    vtkSmartPointer<vtkCallbackCommand> interactionEndCallback = vtkSmartPointer<vtkCallbackCommand>::New();
+    interactionEndCallback->SetClientData(this);
+    interactionEndCallback->SetCallback(onEndInteractionLambda);
+    renderWindow->GetInteractor()->AddObserver(vtkCommand::EndInteractionEvent, interactionEndCallback);
+
+
 
     // Add a renderer
     renderer = vtkSmartPointer<vtkRenderer>::New();
@@ -546,6 +560,33 @@ void MainWindow::on_actionSync_VR_triggered()
 
 	connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 }
+
+void MainWindow::onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData)
+{
+    vtkRenderWindowInteractor* interactor = vtkRenderWindowInteractor::SafeDownCast(caller);
+    vtkRenderer* renderer = interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
+    if (renderer)
+    {
+        vtkCamera* camera = renderer->GetActiveCamera();
+        if (camera)
+        {
+            const double* currentOrientation = camera->GetOrientation();
+
+            // Only issue the rotation commands if the orientation has changed
+            if (currentOrientation[0] != previousOrientation[0] ||
+                currentOrientation[1] != previousOrientation[1] ||
+                currentOrientation[2] != previousOrientation[2]) {
+                vrThread->issueCommand(VRRenderThread::ROTATE_X, currentOrientation[0]);
+                vrThread->issueCommand(VRRenderThread::ROTATE_Y, currentOrientation[1]);
+                vrThread->issueCommand(VRRenderThread::ROTATE_Z, currentOrientation[2]);
+            }
+			std::copy(currentOrientation, currentOrientation + 3, previousOrientation);
+        }
+    }
+}
+
+
+
 
 /*
 List of cool bonus features:
