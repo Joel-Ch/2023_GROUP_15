@@ -8,6 +8,5 @@ var searchData=
   ['setinitialvalues_61',['setInitialValues',['../classDialog.html#adb504b7eac41e447b8f17c3c9f420c63',1,'Dialog']]],
   ['setname_62',['setName',['../classModelPart.html#a8cad7d6be5b07838adc46fae8395946e',1,'ModelPart']]],
   ['setvisible_63',['setVisible',['../classModelPart.html#a96c8cca32bd530bf28c6ab6a1ccc2353',1,'ModelPart']]],
-  ['statusupdatemessage_64',['statusUpdateMessage',['../classMainWindow.html#a86443ea744fda3e9bad328c2fd1c3d6b',1,'MainWindow']]],
-  ['syncvractors_65',['syncVRActors',['../classVRRenderThread.html#afc6e52e11883c0480e3b001ca74ecb0a',1,'VRRenderThread']]]
+  ['statusupdatemessage_64',['statusUpdateMessage',['../classMainWindow.html#a86443ea744fda3e9bad328c2fd1c3d6b',1,'MainWindow']]]
 ];

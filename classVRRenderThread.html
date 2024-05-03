@@ -90,6 +90,8 @@ Public Types</h2></td></tr>
 , <br />
 &#160;&#160;<b>SYNC_RENDER</b>
 , <b>SYNC_ACTORS</b>
+, <b>CLIP_FILTER</b>
+, <b>SHRINK_FILTER</b>
 <br />
  }</td></tr>
 <tr class="separator:af5393c7e3267e22c69da6e0617296e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,9 +106,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a> (int cmd, double value=0)</td></tr>
 <tr class="separator:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#afc6e52e11883c0480e3b001ca74ecb0a">syncVRActors</a> (std::unordered_map&lt; vtkActor *, <a class="el" href="classModelPart.html">ModelPart</a> * &gt; &amp;mainSceneMap)</td></tr>
-<tr class="memdesc:afc6e52e11883c0480e3b001ca74ecb0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync the actors in the VR scene with the actors in the main scene.  <a href="classVRRenderThread.html#afc6e52e11883c0480e3b001ca74ecb0a">More...</a><br /></td></tr>
-<tr class="separator:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b7f8d307d620560e8673c32b6e36ef"><td class="memItemLeft" align="right" valign="top"><a id="a96b7f8d307d620560e8673c32b6e36ef"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>applyClipFilter</b> (bool applyFilter)</td></tr>
+<tr class="separator:a96b7f8d307d620560e8673c32b6e36ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc4249c609414f2c154465e8f37093e4"><td class="memItemLeft" align="right" valign="top"><a id="afc4249c609414f2c154465e8f37093e4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>applyShrinkFilter</b> (bool applyFilter)</td></tr>
+<tr class="separator:afc4249c609414f2c154465e8f37093e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -254,32 +259,6 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This is a re-implementation of a QThread function </p>
-
-</div>
-</div>
-<a id="afc6e52e11883c0480e3b001ca74ecb0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc6e52e11883c0480e3b001ca74ecb0a">&#9670;&nbsp;</a></span>syncVRActors()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void VRRenderThread::syncVRActors </td>
-          <td>(</td>
-          <td class="paramtype">std::unordered_map&lt; vtkActor *, <a class="el" href="classModelPart.html">ModelPart</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mainSceneMap</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sync the actors in the VR scene with the actors in the main scene. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mainSceneMap</td><td>A map of actors in the main scene </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
