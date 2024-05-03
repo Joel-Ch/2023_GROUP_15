@@ -209,8 +209,6 @@ void MainWindow::on_actionDelete_Item_triggered()
     // Update the tree view
     partList->dataChanged(parentIndex, parentIndex);
 
-    // remove item from map
-	actorToModelPart.erase(selectedPart->getActor());
 
     // Update the render window
     updateRender();
