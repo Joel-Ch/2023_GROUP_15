@@ -385,9 +385,14 @@ void VRRenderThread::run() {
 
 	// Delete the actors
 	vtkActorCollection* actorList = renderer->GetActors();
-	vtkActor* a;
 	actorList->InitTraversal();
 	while ((a = (vtkActor*)actorList->GetNextActor())) {
+		if (a != nullptr) {
+			a->Delete();
+		}
+	}
+	actors->InitTraversal();
+	while ((a = (vtkActor*)actors->GetNextActor())) {
 		if (a != nullptr) {
 			a->Delete();
 		}
