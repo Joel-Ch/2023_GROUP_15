@@ -134,28 +134,14 @@ MainWindow::~MainWindow()
 // Slots
 void MainWindow::handleButton1()
 {
-    // THIS IS JUST A FILLER FUNCTION - Displays item data
-    QModelIndex index = ui->treeView->currentIndex();
-    ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
-    if (!index.isValid())
-    {
-        emit statusUpdateMessage("No Item Selected", 0);
-        return;
-    }
-
-    QString name = selectedPart->data(0).toString();
-    bool visible = selectedPart->data(1).toBool();
-    QString colour = selectedPart->data(2).toString();
-    // THIS FUNCTION FINDS OUT THE LAST SELECTED ITEM, EVEN IF IT HAS BEEN UNSELECTED - HOW?!
-
-    // This causes MainWindow to emit the signal that will then be received by the statusbar’s slot
-    emit statusUpdateMessage(name + QString::number(visible) + colour, 0);
+    vrThread->issueCommand(VRRenderThread::CLIP_FILTER);
+	emit statusUpdateMessage(QString("Clipping Filter"), 0);
 }
 
 void MainWindow::handleButton2()
 {
-    // FILLER FUNCTION - Clears selection
-    ui->treeView->clearSelection();
+	vrThread->issueCommand(VRRenderThread::SHRINK_FILTER);
+	emit statusUpdateMessage(QString("Shrink Filter"), 0);
 }
 
 void MainWindow::handleTreeClicked(const QModelIndex &index)

@@ -152,6 +152,10 @@ public:
    */
   vtkActor* getNewActor();
 
+  void setOriginalData(vtkSmartPointer<vtkDataSet> data);
+
+  vtkSmartPointer<vtkDataSet> getOriginalData();
+
 private:
   QList<ModelPart *> m_childItems; /**< List (array) of child items */
   QList<QVariant> m_itemData;      /**< List (array of column data for item */
@@ -174,6 +178,8 @@ private:
   vtkSmartPointer<vtkActor> actor;    /**< Actor for rendering */
   vtkActor *VRActor;    /**< Actor for rendering in VR*/
   vtkColor3<unsigned char> vtkColour; /**< User defineable colour */
+
+  vtkSmartPointer<vtkDataSet> originalData; /**< Original data from file */
 };
 
 #endif

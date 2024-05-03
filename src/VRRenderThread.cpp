@@ -47,6 +47,8 @@ VRRenderThread::VRRenderThread(QObject* parent)
 
 	endRender = true;
 	syncRender = false;
+	shrinkFilter = false;
+	clipFilter = false;
 }
 
 
@@ -76,6 +78,8 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 		double* ac = actor->GetOrigin();
 
 		actorMap[actor] = part;
+		part->getOriginalData() = actor->GetMapper()->GetInput();
+
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
@@ -113,6 +117,14 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 	case SYNC_RENDER:
 		this->syncRender = true;
 		break;
+
+	case SHRINK_FILTER:
+		this->shrinkFilter = true;
+		break;
+
+	case CLIP_FILTER:
+		this->clipFilter = true;
+		break;
 	}
 }
 
@@ -141,6 +153,59 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 //		}
 //	}
 //}
+
+void VRRenderThread::applyShrinkFilter(bool applyFilter)
+{
+	QMutexLocker locker(&mutex);
+	vtkActorCollection* actorList = renderer->GetActors();
+	vtkActor* a;
+	actorList->InitTraversal();
+	while ((a = (vtkActor*)actorList->GetNextActor())) {
+		if (a != nullptr) {
+			if (applyFilter) {
+				vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+				shrinkFilter->SetInputData(a->GetMapper()->GetInput());
+				shrinkFilter->SetShrinkFactor(0.5);
+				shrinkFilter->Update();
+				a->GetMapper()->SetInputConnection(shrinkFilter->GetOutputPort());
+			}
+			else {
+				// Reset the actor's data to the original data if the filter is not applied
+				vtkSmartPointer<vtkTrivialProducer> producer = vtkSmartPointer<vtkTrivialProducer>::New();
+				producer->SetOutput(actorMap[a]->getOriginalData());
+				a->GetMapper()->SetInputConnection(producer->GetOutputPort());
+			}
+		}
+	}
+}
+
+void VRRenderThread::applyClipFilter(bool applyFilter)
+{
+	QMutexLocker locker(&mutex);
+	vtkActorCollection* actorList = renderer->GetActors();
+	vtkActor* a;
+	actorList->InitTraversal();
+	while ((a = (vtkActor*)actorList->GetNextActor())) {
+		if (a != nullptr) {
+			if (applyFilter) {
+				vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
+				plane->SetOrigin(0, 0, 0);
+				plane->SetNormal(-1, 0, 0);
+				vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+				clipFilter->SetInputData(a->GetMapper()->GetInput());
+				clipFilter->SetClipFunction(plane.Get());
+				clipFilter->Update();
+				a->GetMapper()->SetInputConnection(clipFilter->GetOutputPort());
+			}
+			else {
+				// Reset the actor's data to the original data if the filter is not applied
+				vtkSmartPointer<vtkTrivialProducer> producer = vtkSmartPointer<vtkTrivialProducer>::New();
+				producer->SetOutput(actorMap[a]->getOriginalData());
+				a->GetMapper()->SetInputConnection(producer->GetOutputPort());
+			}
+		}
+	}
+}
 
 
 
@@ -318,6 +383,21 @@ void VRRenderThread::run() {
 					syncRender = false;
 					mutex.unlock();
 				}
+
+				if (clipFilter)
+				{
+					applyClipFilter(true);
+					clipFilter = false;
+				}
+				else
+					applyClipFilter(false);
+
+				if (shrinkFilter) {
+					applyShrinkFilter(true);
+					shrinkFilter = false;
+				}
+				else
+					applyShrinkFilter(true);
 
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();
