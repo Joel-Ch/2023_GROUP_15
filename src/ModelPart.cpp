@@ -170,17 +170,17 @@ vtkActor* ModelPart::getNewActor() {
 
     pd->DeepCopy(mapper->GetInputDataObject(0, 0));
 
-    vtkSmartPointer<vtkMapper>vrMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    VRMapper = vtkSmartPointer<vtkDataSetMapper>::New();
 
     if (file == nullptr) {
         qDebug() << "ERROR: nothing in file reader";
         return nullptr;
     }
 
-    vrMapper->SetInputDataObject(pd);
+    VRMapper->SetInputDataObject(pd);
 
-    vtkSmartPointer<vtkActor> VRActor = vtkActor::New();
-    VRActor->SetMapper(vrMapper);
+    VRActor = vtkActor::New();
+    VRActor->SetMapper(VRMapper);
 
     VRActor->SetProperty(actor->GetProperty());
     /* The new vtkActor pointer must be returned here */
