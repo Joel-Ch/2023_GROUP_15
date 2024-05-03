@@ -182,4 +182,12 @@ vtkActor* ModelPart::getNewActor() {
     return vrActor;
 }
 
+void ModelPart::setOriginalData(vtkSmartPointer<vtkDataSet> data)
+{
+	originalData = data;
+}
 
+vtkSmartPointer<vtkDataSet> ModelPart::getOriginalData()
+{
+	return originalData;
+}
