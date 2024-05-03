@@ -466,6 +466,10 @@ void MainWindow::updateRenderFromTree(const QModelIndex &index)
     if (index.isValid())
     {
         ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
+        if (selectedPart->isFolder())
+        {
+            return;
+        }
         // Retrieve actor from selected part and add to renderer
         vtkSmartPointer<vtkActor> actor = selectedPart->getActor();
         if (actor)
