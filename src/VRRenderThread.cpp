@@ -78,7 +78,7 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 		double* ac = actor->GetOrigin();
 
 		actorMap[actor] = part;
-		part->getOriginalData() = actor->GetMapper()->GetInput();
+		part->setOriginalData(actor->GetMapper()->GetInput());
 
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
