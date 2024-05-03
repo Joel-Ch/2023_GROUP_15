@@ -104,9 +104,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a> (int cmd, double value=0)</td></tr>
 <tr class="separator:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecf9f05cbed8fa4e45b90c2d5aa203b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">addActorModelPartMapping</a> (vtkActor *actor, <a class="el" href="classModelPart.html">ModelPart</a> *part)</td></tr>
-<tr class="memdesc:aecf9f05cbed8fa4e45b90c2d5aa203b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a model part to an actor.  <a href="classVRRenderThread.html#aecf9f05cbed8fa4e45b90c2d5aa203b1">More...</a><br /></td></tr>
-<tr class="separator:aecf9f05cbed8fa4e45b90c2d5aa203b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#afc6e52e11883c0480e3b001ca74ecb0a">syncVRActors</a> (std::unordered_map&lt; vtkActor *, <a class="el" href="classModelPart.html">ModelPart</a> * &gt; &amp;mainSceneMap)</td></tr>
 <tr class="memdesc:afc6e52e11883c0480e3b001ca74ecb0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync the actors in the VR scene with the actors in the main scene.  <a href="classVRRenderThread.html#afc6e52e11883c0480e3b001ca74ecb0a">More...</a><br /></td></tr>
 <tr class="separator:afc6e52e11883c0480e3b001ca74ecb0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,43 +173,6 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aecf9f05cbed8fa4e45b90c2d5aa203b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecf9f05cbed8fa4e45b90c2d5aa203b1">&#9670;&nbsp;</a></span>addActorModelPartMapping()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void VRRenderThread::addActorModelPartMapping </td>
-          <td>(</td>
-          <td class="paramtype">vtkActor *&#160;</td>
-          <td class="paramname"><em>actor</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classModelPart.html">ModelPart</a> *&#160;</td>
-          <td class="paramname"><em>part</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Map a model part to an actor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">actor</td><td>The actor to map </td></tr>
-    <tr><td class="paramname">part</td><td>The model part to map </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a145af5f93d8b56a6ac85a6d5f436b5fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a145af5f93d8b56a6ac85a6d5f436b5fc">&#9670;&nbsp;</a></span>addActorOffline()</h2>
 
