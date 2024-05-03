@@ -90,11 +90,7 @@ Public Types</h2></td></tr>
 , <br />
 &#160;&#160;<b>SYNC_RENDER</b>
 , <b>SYNC_ACTORS</b>
-, <b>CLIP_FILTER</b>
-, <b>SHRINK_FILTER</b>
-, <br />
-&#160;&#160;<b>REMOVE_CLIP_FILTER</b>
-, <b>REMOVE_SHRINK_FILTER</b>
+, <b>REMOVE_FILTERS</b>
 <br />
  }</td></tr>
 <tr class="separator:af5393c7e3267e22c69da6e0617296e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,12 +105,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a> (int cmd, double value=0)</td></tr>
 <tr class="separator:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96b7f8d307d620560e8673c32b6e36ef"><td class="memItemLeft" align="right" valign="top"><a id="a96b7f8d307d620560e8673c32b6e36ef"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>applyClipFilter</b> (bool applyFilter)</td></tr>
-<tr class="separator:a96b7f8d307d620560e8673c32b6e36ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc4249c609414f2c154465e8f37093e4"><td class="memItemLeft" align="right" valign="top"><a id="afc4249c609414f2c154465e8f37093e4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>applyShrinkFilter</b> (bool applyFilter)</td></tr>
-<tr class="separator:afc4249c609414f2c154465e8f37093e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97fac783faacb7b35490f250d093d7c7"><td class="memItemLeft" align="right" valign="top"><a id="a97fac783faacb7b35490f250d093d7c7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>applyClipFilter</b> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="separator:a97fac783faacb7b35490f250d093d7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="memItemLeft" align="right" valign="top"><a id="a4cb6ce06654e3f0990b77ac494eedfbe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>applyShrinkFilter</b> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="separator:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8ae1f0008e5b82470d2061142aeeeb0"><td class="memItemLeft" align="right" valign="top"><a id="ae8ae1f0008e5b82470d2061142aeeeb0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeFilters</b> ()</td></tr>
+<tr class="separator:ae8ae1f0008e5b82470d2061142aeeeb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
