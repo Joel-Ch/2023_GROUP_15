@@ -199,6 +199,19 @@ void VRRenderThread::run() {
 	/* Create Open VR Camera */
 	camera = vtkOpenVRCamera::New();
 	renderer->SetActiveCamera(camera);
+
+	vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
+	light->SetLightTypeToSceneLight();
+	light->SetPosition(5, 5, 15);
+	light->SetPositional(true);
+	light->SetConeAngle(90);
+	light->SetFocalPoint(0, 0, 0);
+	light->SetDiffuseColor(1, 1, 1);
+	light->SetAmbientColor(1, 1, 1);
+	light->SetSpecularColor(1, 1, 1);
+	light->SetIntensity(0.5);
+
+	renderer->AddLight(light);
 	
 	/* Create Skybox*/
 	/*
