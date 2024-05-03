@@ -169,7 +169,7 @@ void VRRenderThread::applyClipFilter(ModelPart* selectedPart)
 	if (!this->isRunning()) {
 		return;
 	}
-	vtkActor* a = selectedPart->getVRActor();
+	vtkSmartPointer<vtkActor> a = selectedPart->getVRActor();
 	vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
 	plane->SetOrigin(0, 0, 0);
 	plane->SetNormal(-1, 0, 0);

@@ -179,12 +179,12 @@ vtkActor* ModelPart::getNewActor() {
 
     vrMapper->SetInputDataObject(pd);
 
-    vtkActor* vrActor = vtkActor::New();
-    vrActor->SetMapper(vrMapper);
+    vtkSmartPointer<vtkActor> VRActor = vtkActor::New();
+    VRActor->SetMapper(vrMapper);
 
-    vrActor->SetProperty(actor->GetProperty());
+    VRActor->SetProperty(actor->GetProperty());
     /* The new vtkActor pointer must be returned here */
-    return vrActor;
+    return VRActor;
 }
 
 void ModelPart::setOriginalData(vtkSmartPointer<vtkDataSet> data)
