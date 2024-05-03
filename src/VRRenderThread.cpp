@@ -409,7 +409,7 @@ void VRRenderThread::run() {
 				}
 				if (shrinkFilterRemoved)
 				{
-					applyShrinkFilter(true);
+					applyShrinkFilter(false);
 					shrinkFilterRemoved = false;
 				}
 
