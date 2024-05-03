@@ -76,13 +76,7 @@ public:
       * action / animation / etc to perform. The rendering thread will then impelement this.
       */
     void issueCommand(int cmd, double value = 0);
-    /**
-    * @brief Map a model part to an actor
-    * @param actor The actor to map
-    * @param part The model part to map
-    */
-    void addActorModelPartMapping(vtkActor* actor, ModelPart* part);
-
+    
     /**
 	* @brief Sync the actors in the VR scene with the actors in the main scene
 	* @param mainSceneMap A map of actors in the main scene

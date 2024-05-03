@@ -75,7 +75,7 @@ void VRRenderThread::addActorOffline(vtkActor* actor, ModelPart* part) {
 	if (!this->isRunning()) {
 		double* ac = actor->GetOrigin();
 
-		addActorModelPartMapping(actor, part);
+		actorMap[actor] = part;
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
@@ -116,37 +116,31 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 	}
 }
 
-void VRRenderThread::addActorModelPartMapping(vtkActor* actor, ModelPart* part)
-{
-	QMutexLocker locker(&mutex);
-	actorMap[actor] = part;
-}
 
-
-void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
-	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
-	QMutexLocker locker(&mutex);
-	for (const auto& pair : mainSceneMap) {
-		if (actorMap.find(pair.first) == actorMap.end()) {
-			// Add the actor to the VR scene
-			vtkSmartPointer<vtkActor> vrActor = pair.second->getNewActor();
-			renderer->AddActor(vrActor);
-			actorMap[vrActor] = pair.second;
-		}
-	}
-
-	// Find model parts in the VR scene but not in the main scene and remove corresponding actors from the VR scene
-	for (auto it = actorMap.begin(); it != actorMap.end(); /* no increment here */) {
-		if (mainSceneMap.find(it->first) == mainSceneMap.end()) {
-			// Remove the actor from the VR scene
-			renderer->RemoveActor(it->first);
-			it = actorMap.erase(it); // erase returns the iterator to the next element
-		}
-		else {
-			++it;
-		}
-	}
-}
+//void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
+//	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
+//	QMutexLocker locker(&mutex);
+//	for (const auto& pair : mainSceneMap) {
+//		if (actorMap.find(pair.first) == actorMap.end()) {
+//			// Add the actor to the VR scene
+//			vtkSmartPointer<vtkActor> vrActor = pair.second->getNewActor();
+//			renderer->AddActor(vrActor);
+//			actorMap[vrActor] = pair.second;
+//		}
+//	}
+//
+//	// Find model parts in the VR scene but not in the main scene and remove corresponding actors from the VR scene
+//	for (auto it = actorMap.begin(); it != actorMap.end(); /* no increment here */) {
+//		if (mainSceneMap.find(it->first) == mainSceneMap.end()) {
+//			// Remove the actor from the VR scene
+//			renderer->RemoveActor(it->first);
+//			it = actorMap.erase(it); // erase returns the iterator to the next element
+//		}
+//		else {
+//			++it;
+//		}
+//	}
+//}
 
 
 
@@ -200,7 +194,7 @@ void VRRenderThread::run() {
 	camera = vtkOpenVRCamera::New();
 	renderer->SetActiveCamera(camera);
 
-	vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
+	/*vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 	light->SetLightTypeToSceneLight();
 	light->SetPosition(5, 5, 15);
 	light->SetPositional(true);
@@ -211,7 +205,7 @@ void VRRenderThread::run() {
 	light->SetSpecularColor(1, 1, 1);
 	light->SetIntensity(0.5);
 
-	renderer->AddLight(light);
+	renderer->AddLight(light);*/
 	
 	/* Create Skybox*/
 	/*
