@@ -47,8 +47,10 @@ VRRenderThread::VRRenderThread(QObject* parent)
 
 	endRender = true;
 	syncRender = false;
-	shrinkFilter = false;
-	clipFilter = false;
+	shrinkFilterApplied = false;
+	shrinkFilterRemoved = false;
+	clipFilterApplied = false;
+	clipFilterRemoved = false;
 }
 
 
@@ -119,11 +121,17 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 		break;
 
 	case SHRINK_FILTER:
-		this->shrinkFilter = true;
+		this->shrinkFilterApplied = true;
 		break;
 
 	case CLIP_FILTER:
-		this->clipFilter = true;
+		this->clipFilterApplied = true;
+		break;
+	case REMOVE_SHRINK_FILTER:
+		this->shrinkFilterRemoved = true;
+		break;
+	case REMOVE_CLIP_FILTER:
+		this->clipFilterRemoved = true;
 		break;
 	}
 }
@@ -384,20 +392,26 @@ void VRRenderThread::run() {
 					mutex.unlock();
 				}
 
-				if (clipFilter)
+				if (clipFilterApplied)
 				{
 					applyClipFilter(true);
-					clipFilter = false;
+					clipFilterApplied = false;
 				}
-				else
+				if (clipFilterRemoved)
+				{
 					applyClipFilter(false);
-
-				if (shrinkFilter) {
-					applyShrinkFilter(true);
-					shrinkFilter = false;
+					clipFilterRemoved = false;
 				}
-				else
+
+				if (shrinkFilterApplied) {
 					applyShrinkFilter(true);
+					shrinkFilterApplied = false;
+				}
+				if (shrinkFilterRemoved)
+				{
+					applyShrinkFilter(true);
+					shrinkFilterRemoved = false;
+				}
 
 				/* Remember time now */
 				t_last = std::chrono::steady_clock::now();

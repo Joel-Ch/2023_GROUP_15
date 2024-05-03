@@ -134,14 +134,14 @@ MainWindow::~MainWindow()
 // Slots
 void MainWindow::handleButton1()
 {
-    vrThread->issueCommand(VRRenderThread::CLIP_FILTER);
-	emit statusUpdateMessage(QString("Clipping Filter"), 0);
+    vrThread->issueCommand(VRRenderThread::SHRINK_FILTER);
+	emit statusUpdateMessage(QString("Shrink Filter"), 0);
 }
 
 void MainWindow::handleButton2()
 {
-	vrThread->issueCommand(VRRenderThread::SHRINK_FILTER);
-	emit statusUpdateMessage(QString("Shrink Filter"), 0);
+	vrThread->issueCommand(VRRenderThread::REMOVE_SHRINK_FILTER);
+	emit statusUpdateMessage(QString("Shrink filter removed"), 0);
 }
 
 void MainWindow::handleTreeClicked(const QModelIndex &index)

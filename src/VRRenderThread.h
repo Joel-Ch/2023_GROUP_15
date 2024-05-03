@@ -58,7 +58,9 @@ public:
         SYNC_RENDER,
 		SYNC_ACTORS,
 		CLIP_FILTER,
-		SHRINK_FILTER
+		SHRINK_FILTER,
+		REMOVE_CLIP_FILTER,
+		REMOVE_SHRINK_FILTER
     } Command;
 
 
@@ -126,8 +128,10 @@ private:
     */
     bool syncRender;
     bool syncActors;
-    bool clipFilter;
-	bool shrinkFilter;
+    bool clipFilterApplied;
+	bool shrinkFilterApplied;
+    bool clipFilterRemoved;
+	bool shrinkFilterRemoved;
 
     /* A map to link actors to model parts */
     std::map<vtkActor*, ModelPart*> actorMap;
