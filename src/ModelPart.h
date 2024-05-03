@@ -147,6 +147,12 @@ public:
    */
   vtkSmartPointer<vtkActor> getActor() const;
 
+  /**
+  * @return pointer to actor for VR rendering
+  * @note Needs initialising with getNewActor() before use
+  */
+  vtkSmartPointer<vtkActor> getVRActor() const;
+
   /** Return new actor for use in VR
    * @return pointer to new actor
    */

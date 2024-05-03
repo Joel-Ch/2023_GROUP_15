@@ -47,10 +47,7 @@ VRRenderThread::VRRenderThread(QObject* parent)
 
 	endRender = true;
 	syncRender = false;
-	shrinkFilterApplied = false;
-	shrinkFilterRemoved = false;
-	clipFilterApplied = false;
-	clipFilterRemoved = false;
+	removeFiltersFlag = false;
 }
 
 
@@ -120,18 +117,8 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 		this->syncRender = true;
 		break;
 
-	case SHRINK_FILTER:
-		this->shrinkFilterApplied = true;
-		break;
-
-	case CLIP_FILTER:
-		this->clipFilterApplied = true;
-		break;
-	case REMOVE_SHRINK_FILTER:
-		this->shrinkFilterRemoved = true;
-		break;
-	case REMOVE_CLIP_FILTER:
-		this->clipFilterRemoved = true;
+	case REMOVE_FILTERS:
+		this->removeFiltersFlag = true;
 		break;
 	}
 }
@@ -162,32 +149,38 @@ void VRRenderThread::issueCommand(int cmd, double value) {
 //	}
 //}
 
-void VRRenderThread::applyShrinkFilter(bool applyFilter)
+void VRRenderThread::applyShrinkFilter(ModelPart* selectedPart)
 {
 	QMutexLocker locker(&mutex);
-	vtkActorCollection* actorList = renderer->GetActors();
-	vtkActor* a;
-	actorList->InitTraversal();
-	while ((a = (vtkActor*)actorList->GetNextActor())) {
-		if (a != nullptr) {
-			if (applyFilter) {
-				vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-				shrinkFilter->SetInputData(a->GetMapper()->GetInput());
-				shrinkFilter->SetShrinkFactor(0.5);
-				shrinkFilter->Update();
-				a->GetMapper()->SetInputConnection(shrinkFilter->GetOutputPort());
-			}
-			else {
-				// Reset the actor's data to the original data if the filter is not applied
-				vtkSmartPointer<vtkTrivialProducer> producer = vtkSmartPointer<vtkTrivialProducer>::New();
-				producer->SetOutput(actorMap[a]->getOriginalData());
-				a->GetMapper()->SetInputConnection(producer->GetOutputPort());
-			}
-		}
+	if (!this->isRunning()) {
+		return;
 	}
+	vtkActor* a =selectedPart->getVRActor();
+	vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+	shrinkFilter->SetInputData(a->GetMapper()->GetInput());
+	shrinkFilter->SetShrinkFactor(0.5);
+	shrinkFilter->Update();
+	a->GetMapper()->SetInputConnection(shrinkFilter->GetOutputPort());
 }
 
-void VRRenderThread::applyClipFilter(bool applyFilter)
+void VRRenderThread::applyClipFilter(ModelPart* selectedPart)
+{
+	QMutexLocker locker(&mutex);
+	if (!this->isRunning()) {
+		return;
+	}
+	vtkActor* a = selectedPart->getVRActor();
+	vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
+	plane->SetOrigin(0, 0, 0);
+	plane->SetNormal(-1, 0, 0);
+	vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+	clipFilter->SetInputData(a->GetMapper()->GetInput());
+	clipFilter->SetClipFunction(plane.Get());
+	clipFilter->Update();
+	a->GetMapper()->SetInputConnection(clipFilter->GetOutputPort());
+}
+
+void VRRenderThread::removeFilters()
 {
 	QMutexLocker locker(&mutex);
 	vtkActorCollection* actorList = renderer->GetActors();
@@ -195,22 +188,9 @@ void VRRenderThread::applyClipFilter(bool applyFilter)
 	actorList->InitTraversal();
 	while ((a = (vtkActor*)actorList->GetNextActor())) {
 		if (a != nullptr) {
-			if (applyFilter) {
-				vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
-				plane->SetOrigin(0, 0, 0);
-				plane->SetNormal(-1, 0, 0);
-				vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-				clipFilter->SetInputData(a->GetMapper()->GetInput());
-				clipFilter->SetClipFunction(plane.Get());
-				clipFilter->Update();
-				a->GetMapper()->SetInputConnection(clipFilter->GetOutputPort());
-			}
-			else {
-				// Reset the actor's data to the original data if the filter is not applied
-				vtkSmartPointer<vtkTrivialProducer> producer = vtkSmartPointer<vtkTrivialProducer>::New();
-				producer->SetOutput(actorMap[a]->getOriginalData());
-				a->GetMapper()->SetInputConnection(producer->GetOutputPort());
-			}
+			vtkSmartPointer<vtkTrivialProducer> producer = vtkSmartPointer<vtkTrivialProducer>::New();
+			producer->SetOutput(actorMap[a]->getOriginalData());
+			a->GetMapper()->SetInputConnection(producer->GetOutputPort());
 		}
 	}
 }
@@ -392,25 +372,10 @@ void VRRenderThread::run() {
 					mutex.unlock();
 				}
 
-				if (clipFilterApplied)
+				if (removeFiltersFlag)
 				{
-					applyClipFilter(true);
-					clipFilterApplied = false;
-				}
-				if (clipFilterRemoved)
-				{
-					applyClipFilter(false);
-					clipFilterRemoved = false;
-				}
-
-				if (shrinkFilterApplied) {
-					applyShrinkFilter(true);
-					shrinkFilterApplied = false;
-				}
-				if (shrinkFilterRemoved)
-				{
-					applyShrinkFilter(false);
-					shrinkFilterRemoved = false;
+					removeFilters();
+					removeFiltersFlag = false;
 				}
 
 				/* Remember time now */

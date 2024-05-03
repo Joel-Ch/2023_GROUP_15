@@ -57,10 +57,7 @@ public:
         ROTATE_Z,
         SYNC_RENDER,
 		SYNC_ACTORS,
-		CLIP_FILTER,
-		SHRINK_FILTER,
-		REMOVE_CLIP_FILTER,
-		REMOVE_SHRINK_FILTER
+		REMOVE_FILTERS
     } Command;
 
 
@@ -85,9 +82,11 @@ public:
       */
     void issueCommand(int cmd, double value = 0);
     
-    void applyClipFilter(bool applyFilter);
+    void applyClipFilter(ModelPart* selectedPart);
 
-	void applyShrinkFilter(bool applyFilter);
+	void applyShrinkFilter(ModelPart* selectedPart);
+
+	void removeFilters();
 
 
 protected:
@@ -128,10 +127,7 @@ private:
     */
     bool syncRender;
     bool syncActors;
-    bool clipFilterApplied;
-	bool shrinkFilterApplied;
-    bool clipFilterRemoved;
-	bool shrinkFilterRemoved;
+    bool removeFiltersFlag;
 
     /* A map to link actors to model parts */
     std::map<vtkActor*, ModelPart*> actorMap;

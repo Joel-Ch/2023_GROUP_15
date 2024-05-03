@@ -159,6 +159,11 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() const
     return actor;
 }
 
+vtkSmartPointer<vtkActor> ModelPart::getVRActor() const
+{
+	return VRActor;
+}
+
 vtkActor* ModelPart::getNewActor() {
 
     vtkSmartPointer<vtkPolyData> pd = vtkSmartPointer<vtkPolyData>::New();

@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeView = findChild<NewTreeView *>("treeView");
     ui->treeView->addAction(ui->actionItem_Options);
     ui->treeView->addAction(ui->actionDelete_Item);
+    ui->treeView->addAction(ui->actionClip_Filter);
+	ui->treeView->addAction(ui->actionShrink_Filter);
 
     // connections
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
@@ -20,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
 	connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
     connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
+    connect(ui->actionClip_Filter, &QAction::triggered, this, &MainWindow::on_actionClip_Filter_triggered);
+	connect(ui->actionShrink_Filter, &QAction::triggered, this, &MainWindow::on_actionShrink_Filter_triggered);
 
     /* Create/allocate the ModelList */
     this->partList = new ModelPartList("Parts List");
@@ -134,14 +138,14 @@ MainWindow::~MainWindow()
 // Slots
 void MainWindow::handleButton1()
 {
-    vrThread->issueCommand(VRRenderThread::SHRINK_FILTER);
-	emit statusUpdateMessage(QString("Shrink Filter"), 0);
+    // do nothing
+	emit statusUpdateMessage(QString("NO ACTION"), 0);
 }
 
 void MainWindow::handleButton2()
 {
-	vrThread->issueCommand(VRRenderThread::REMOVE_SHRINK_FILTER);
-	emit statusUpdateMessage(QString("Shrink filter removed"), 0);
+	vrThread->issueCommand(VRRenderThread::REMOVE_FILTERS);
+	emit statusUpdateMessage(QString("Filters removed"), 0);
 }
 
 void MainWindow::handleTreeClicked(const QModelIndex &index)
@@ -619,7 +623,60 @@ void MainWindow::onEndInteraction(vtkObject* caller, long unsigned int eventId, 
     }
 }
 
+void MainWindow::on_actionClip_Filter_triggered()
+{
+	disconnect(ui->actionClip_Filter, &QAction::triggered, this, &MainWindow::on_actionClip_Filter_triggered);
+	emit statusUpdateMessage(QString("Applying Clip Filter"), 0);
+    QModelIndex index = ui->treeView->currentIndex();
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
 
+    if (!selectedPart)
+    {
+        emit statusUpdateMessage(QString("No item selected"), 0);
+        return;
+    }
+
+	if (!vrThread->isRunning())
+    {
+		emit statusUpdateMessage(QString("VR not running"), 0);
+    }
+    else
+    {
+	    vrThread->applyClipFilter(selectedPart);
+	    emit statusUpdateMessage(QString("Clip Filter Applied"), 0);
+    }
+
+	connect(ui->actionClip_Filter, &QAction::triggered, this, &MainWindow::on_actionClip_Filter_triggered);
+}
+
+void MainWindow::on_actionShrink_Filter_triggered()
+
+{
+	disconnect(ui->actionShrink_Filter, &QAction::triggered, this, &MainWindow::on_actionShrink_Filter_triggered);
+
+    emit statusUpdateMessage(QString("Applying Clip Filter"), 0);
+    QModelIndex index = ui->treeView->currentIndex();
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    if (!selectedPart)
+    {
+        emit statusUpdateMessage(QString("No item selected"), 0);
+        return;
+}
+
+
+    if (!vrThread->isRunning())
+    {
+        emit statusUpdateMessage(QString("VR not running"), 0);
+    }
+    else
+    {
+	    vrThread->applyShrinkFilter(selectedPart);
+        emit statusUpdateMessage(QString("Clip Filter Applied"), 0);
+    }
+
+	connect(ui->actionShrink_Filter, &QAction::triggered, this, &MainWindow::on_actionShrink_Filter_triggered);
+}
 
 
 /*

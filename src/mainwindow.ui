@@ -180,6 +180,22 @@
     <enum>QAction::NoRole</enum>
    </property>
   </action>
+  <action name="actionShrink_Filter">
+   <property name="text">
+    <string>Shrink Filter</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionClip_Filter">
+   <property name="text">
+    <string>Clip Filter</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

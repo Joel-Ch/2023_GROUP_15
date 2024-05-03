@@ -174,6 +174,10 @@ public slots:
     */
     void on_actionSync_VR_triggered();
 
+	void on_actionShrink_Filter_triggered();
+
+	void on_actionClip_Filter_triggered();
+
     /**
      * @brief Receives dialog data.
      * @param name The name data.
