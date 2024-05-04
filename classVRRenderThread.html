@@ -73,6 +73,11 @@ $(function() {
 <div class="title">VRRenderThread Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class represents a thread that will be used to render the VR scene.  
+ <a href="classVRRenderThread.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="VRRenderThread_8h_source.html">VRRenderThread.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for VRRenderThread:</div>
 <div class="dyncontent">
@@ -82,7 +87,7 @@ Inheritance diagram for VRRenderThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af5393c7e3267e22c69da6e0617296e3c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+<tr class="memitem:af5393c7e3267e22c69da6e0617296e3c"><td class="memItemLeft" align="right" valign="top"><a id="af5393c7e3267e22c69da6e0617296e3c"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>END_RENDER</b>
 , <b>ROTATE_X</b>
 , <b>ROTATE_Y</b>
@@ -93,55 +98,52 @@ Public Types</h2></td></tr>
 , <b>REMOVE_FILTERS</b>
 <br />
  }</td></tr>
+<tr class="memdesc:af5393c7e3267e22c69da6e0617296e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to specify the type of command to issue to the VR thread. <br /></td></tr>
 <tr class="separator:af5393c7e3267e22c69da6e0617296e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a35976e55f6655840aa217aa8a066f196"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a35976e55f6655840aa217aa8a066f196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">More...</a><br /></td></tr>
 <tr class="separator:a35976e55f6655840aa217aa8a066f196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21c23037bf11cd2a1592076c7e499de0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">~VRRenderThread</a> ()</td></tr>
+<tr class="memitem:a21c23037bf11cd2a1592076c7e499de0"><td class="memItemLeft" align="right" valign="top"><a id="a21c23037bf11cd2a1592076c7e499de0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">~VRRenderThread</a> ()</td></tr>
+<tr class="memdesc:a21c23037bf11cd2a1592076c7e499de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
 <tr class="separator:a21c23037bf11cd2a1592076c7e499de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a145af5f93d8b56a6ac85a6d5f436b5fc">addActorOffline</a> (vtkActor *actor, <a class="el" href="classModelPart.html">ModelPart</a> *part)</td></tr>
+<tr class="memdesc:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This allows actors to be added to the VR renderer BEFORE the VR interactor has been started.  <a href="classVRRenderThread.html#a145af5f93d8b56a6ac85a6d5f436b5fc">More...</a><br /></td></tr>
 <tr class="separator:a145af5f93d8b56a6ac85a6d5f436b5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a> (int cmd, double value=0)</td></tr>
+<tr class="memdesc:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This allows commands to be issued to the VR thread in a thread safe way.  <a href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">More...</a><br /></td></tr>
 <tr class="separator:ac6b6f0a90cc007d5033aa38f9afeaf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97fac783faacb7b35490f250d093d7c7"><td class="memItemLeft" align="right" valign="top"><a id="a97fac783faacb7b35490f250d093d7c7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>applyClipFilter</b> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="memitem:a97fac783faacb7b35490f250d093d7c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">applyClipFilter</a> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="memdesc:a97fac783faacb7b35490f250d093d7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a clip filter to the selected part.  <a href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">More...</a><br /></td></tr>
 <tr class="separator:a97fac783faacb7b35490f250d093d7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="memItemLeft" align="right" valign="top"><a id="a4cb6ce06654e3f0990b77ac494eedfbe"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>applyShrinkFilter</b> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="memitem:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">applyShrinkFilter</a> (<a class="el" href="classModelPart.html">ModelPart</a> *selectedPart)</td></tr>
+<tr class="memdesc:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a shrink filter to the selected part.  <a href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">More...</a><br /></td></tr>
 <tr class="separator:a4cb6ce06654e3f0990b77ac494eedfbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8ae1f0008e5b82470d2061142aeeeb0"><td class="memItemLeft" align="right" valign="top"><a id="ae8ae1f0008e5b82470d2061142aeeeb0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeFilters</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0">removeFilters</a> ()</td></tr>
+<tr class="memdesc:ae8ae1f0008e5b82470d2061142aeeeb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all filters from the scene. <br /></td></tr>
 <tr class="separator:ae8ae1f0008e5b82470d2061142aeeeb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a887ba74b8a5b02f927e4564049b85ffb"><td class="memItemLeft" align="right" valign="top">enum VRRenderThread:: { ... } &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">Command</a></td></tr>
+<tr class="memitem:a887ba74b8a5b02f927e4564049b85ffb"><td class="memItemLeft" align="right" valign="top"><a id="a887ba74b8a5b02f927e4564049b85ffb"></a>
+enum VRRenderThread:: { ... } &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">Command</a></td></tr>
+<tr class="memdesc:a887ba74b8a5b02f927e4564049b85ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to specify the type of command to issue to the VR thread. <br /></td></tr>
 <tr class="separator:a887ba74b8a5b02f927e4564049b85ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:af5bbbaf8625fc42278476a43bf018661"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a> () override</td></tr>
+<tr class="memitem:af5bbbaf8625fc42278476a43bf018661"><td class="memItemLeft" align="right" valign="top"><a id="af5bbbaf8625fc42278476a43bf018661"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a> () override</td></tr>
+<tr class="memdesc:af5bbbaf8625fc42278476a43bf018661"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a re-implementation of a QThread function. <br /></td></tr>
 <tr class="separator:af5bbbaf8625fc42278476a43bf018661"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="af5393c7e3267e22c69da6e0617296e3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5393c7e3267e22c69da6e0617296e3c">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>List of command names </p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class represents a thread that will be used to render the VR scene. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a35976e55f6655840aa217aa8a066f196"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35976e55f6655840aa217aa8a066f196">&#9670;&nbsp;</a></span>VRRenderThread()</h2>
 
@@ -157,25 +159,14 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Constructor </p>
 
-</div>
-</div>
-<a id="a21c23037bf11cd2a1592076c7e499de0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21c23037bf11cd2a1592076c7e499de0">&#9670;&nbsp;</a></span>~VRRenderThread()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">VRRenderThread::~VRRenderThread </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Denstructor </p>
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent widget. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -205,7 +196,67 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This allows actors to be added to the VR renderer BEFORE the VR interactor has been started </p>
+
+<p>This allows actors to be added to the VR renderer BEFORE the VR interactor has been started. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">actor</td><td>The actor to add to the scene </td></tr>
+    <tr><td class="paramname">part</td><td>The model part that the actor is associated with </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a97fac783faacb7b35490f250d093d7c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97fac783faacb7b35490f250d093d7c7">&#9670;&nbsp;</a></span>applyClipFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VRRenderThread::applyClipFilter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classModelPart.html">ModelPart</a> *&#160;</td>
+          <td class="paramname"><em>selectedPart</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applies a clip filter to the selected part. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">selectedPart</td><td>The part to apply the filter to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4cb6ce06654e3f0990b77ac494eedfbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb6ce06654e3f0990b77ac494eedfbe">&#9670;&nbsp;</a></span>applyShrinkFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VRRenderThread::applyShrinkFilter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classModelPart.html">ModelPart</a> *&#160;</td>
+          <td class="paramname"><em>selectedPart</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applies a shrink filter to the selected part. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">selectedPart</td><td>The part to apply the filter to </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -234,49 +285,15 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This allows commands to be issued to the VR thread in a thread safe way. Function will set variables within the class to indicate the type of action / animation / etc to perform. The rendering thread will then impelement this. </p>
 
-</div>
-</div>
-<a id="af5bbbaf8625fc42278476a43bf018661"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5bbbaf8625fc42278476a43bf018661">&#9670;&nbsp;</a></span>run()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void VRRenderThread::run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This is a re-implementation of a QThread function </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a887ba74b8a5b02f927e4564049b85ffb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a887ba74b8a5b02f927e4564049b85ffb">&#9670;&nbsp;</a></span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum { ... }  VRRenderThread::Command</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>List of command names </p>
+<p>This allows commands to be issued to the VR thread in a thread safe way. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>The command to issue </td></tr>
+    <tr><td class="paramname">value</td><td>The value to pass with the command </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
