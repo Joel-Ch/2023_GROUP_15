@@ -1,0 +1,28 @@
+var classModelPart =
+[
+    [ "ModelPart", "classModelPart.html#a4f22ba9a54525edde005cb4eb7366648", null ],
+    [ "~ModelPart", "classModelPart.html#a0b3b00630e9866e3e8fd648d28b7f016", null ],
+    [ "appendChild", "classModelPart.html#a52074db110367665c3e262919e172c98", null ],
+    [ "child", "classModelPart.html#af32381b69415f0aa6bdfd84435f842cc", null ],
+    [ "childCount", "classModelPart.html#aea4bb035b2b3827c0abf677fb9dc68ce", null ],
+    [ "colour", "classModelPart.html#ad2c655985537b7ad3641f95fb296419b", null ],
+    [ "columnCount", "classModelPart.html#a94623f4e95be3c462297c1abc7b6f3c7", null ],
+    [ "data", "classModelPart.html#a178655da543bd0dae2d0ed1e2ea38a56", null ],
+    [ "getActor", "classModelPart.html#a60f905f171e3554a9500db10d46cf20d", null ],
+    [ "getNewActor", "classModelPart.html#ad40112df77afcccbc969d28243117831", null ],
+    [ "getOriginalData", "classModelPart.html#a416b7d13d9b712cee913dff21f74d485", null ],
+    [ "getVRActor", "classModelPart.html#ab1ad49d79defecdcaf6db5491b8d95e0", null ],
+    [ "isFolder", "classModelPart.html#a58139df61938b6090b005da2e8b0427d", null ],
+    [ "loadSTL", "classModelPart.html#a8d004c61b9f9cb0da895956a4c22b97b", null ],
+    [ "name", "classModelPart.html#aea788e821770db97fca79a5d5be0f926", null ],
+    [ "parentItem", "classModelPart.html#a9be3859d2a298e88d850a2480b7639f7", null ],
+    [ "removeChild", "classModelPart.html#a52b26b7adbeabaadce95ddf9df608937", null ],
+    [ "row", "classModelPart.html#a05bc0dd06a3658d9a2c46fa717dec910", null ],
+    [ "set", "classModelPart.html#a3232893d070ddcec42631bf5b043add8", null ],
+    [ "setColour", "classModelPart.html#abb0819f303fea07fdc053ba750d4684d", null ],
+    [ "setFolder", "classModelPart.html#aaa5eabdc73105590f989104f8010c196", null ],
+    [ "setName", "classModelPart.html#a8cad7d6be5b07838adc46fae8395946e", null ],
+    [ "setOriginalData", "classModelPart.html#ae6b9417cdff152e09b3e69de38c641aa", null ],
+    [ "setVisible", "classModelPart.html#a96c8cca32bd530bf28c6ab6a1ccc2353", null ],
+    [ "visible", "classModelPart.html#aa37200ef9b7eed6b970fef1b08234f3a", null ]
+];
