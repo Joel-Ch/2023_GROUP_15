@@ -21,7 +21,9 @@ jobs:
 
     # Generate Doxygen
     - name: Generate Doxygen
-      run: doxygen Doxygen/Doxyfile
+      run: |
+        sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
+        doxygen Doxygen/Doxyfile
 
     # Copy CSS files to the html output folder
     - name: Copy CSS
