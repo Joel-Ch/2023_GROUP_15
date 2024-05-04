@@ -27,6 +27,10 @@ jobs:
           sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
           doxygen Doxygen/Doxyfile
 
+        # Copy CSS files to the docs directory
+      - name: Copy CSS
+        run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/docs/html
+
       - name: Print docs directory contents
         run: ls -l ${{ github.workspace }}/docs
 
