@@ -79,7 +79,7 @@ OUTPUT_DIRECTORY       =  ../src/html
 
 # Sets the input folder as the source files folder
 
-INPUT                  = ../src
+INPUT                  = @ROOT_DIR@/src
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create up to 4096
 # sub-directories (in 2 levels) under the output directory of each output format
