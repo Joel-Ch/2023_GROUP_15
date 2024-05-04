@@ -5,8 +5,8 @@
  *     Template for model parts that will be added as treeview items
  *
  *     P Evans 2022
- * 
- * @brief This class represents a part in the model treeview
+ *
+ *     @brief This class represents a part in the model treeview
  */
 
 #ifndef VIEWER_MODELPART_H
@@ -26,6 +26,7 @@
 #include <vtkDataSetMapper.h>
 
 /** ModelPart class
+ * @class ModelPart
  * @brief This class represents a part in the model treeview
  */
 class ModelPart
@@ -123,13 +124,13 @@ public:
   QString name() const;
 
   /** Set folder flag
-	* @brief Set this item as a folder
-    */
+   * @brief Set this item as a folder
+   */
   void setFolder();
 
   /** Get folder flag
-	* @return true if this item is a folder
-	*/
+   * @return true if this item is a folder
+   */
   bool isFolder();
 
   /** Remove a child from this item
@@ -148,15 +149,15 @@ public:
   vtkSmartPointer<vtkActor> getActor() const;
 
   /**
-  * @return pointer to actor for VR rendering
-  * @note Needs initialising with getNewActor() before use
-  */
+   * @return pointer to actor for VR rendering
+   * @note Needs initialising with getNewActor() before use
+   */
   vtkSmartPointer<vtkActor> getVRActor() const;
 
   /** Return new actor for use in VR
    * @return pointer to new actor
    */
-  vtkActor* getNewActor();
+  vtkActor *getNewActor();
 
   void setOriginalData(vtkSmartPointer<vtkDataSet> data);
 
@@ -178,12 +179,12 @@ private:
 
   /* These are vtk properties that will be used to load/render a model of this part */
 
-  vtkSmartPointer<vtkSTLReader> file; /**< Datafile from which part loaded */
-  vtkSmartPointer<vtkMapper> mapper;  /**< Mapper for rendering */
-  vtkSmartPointer<vtkMapper> VRMapper;  /**< Mapper for rendering in VR*/
-  vtkSmartPointer<vtkActor> actor;    /**< Actor for rendering */
-  vtkSmartPointer<vtkActor> VRActor;    /**< Actor for rendering in VR*/
-  vtkColor3<unsigned char> vtkColour; /**< User defineable colour */
+  vtkSmartPointer<vtkSTLReader> file;  /**< Datafile from which part loaded */
+  vtkSmartPointer<vtkMapper> mapper;   /**< Mapper for rendering */
+  vtkSmartPointer<vtkMapper> VRMapper; /**< Mapper for rendering in VR*/
+  vtkSmartPointer<vtkActor> actor;     /**< Actor for rendering */
+  vtkSmartPointer<vtkActor> VRActor;   /**< Actor for rendering in VR*/
+  vtkColor3<unsigned char> vtkColour;  /**< User defineable colour */
 
   vtkSmartPointer<vtkDataSet> originalData; /**< Original data from file */
 };

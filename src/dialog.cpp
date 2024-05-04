@@ -1,3 +1,9 @@
+/**     @file dialog.cpp
+ *
+ *     EEEE2076 - Software Engineering & VR Project
+ *
+ */
+
 #include "dialog.h"
 #include "ui_dialog.h"
 #include <QMessageBox>

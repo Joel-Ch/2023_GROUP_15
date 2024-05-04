@@ -1,5 +1,7 @@
-/*
- * @file NewTreeView.cpp
+/**     @file NewTreeView.cpp
+ *
+ *     EEEE2076 - Software Engineering & VR Project
+ *
  */
 
 #include "NewTreeView.h"

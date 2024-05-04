@@ -8,7 +8,7 @@
 #include "vtkProperty.h"
 
 ModelPart::ModelPart(const QList<QVariant> &data, ModelPart *parent)
-	: m_itemData(data), m_parentItem(parent), folderFlag(false), VRActor(nullptr)
+    : m_itemData(data), m_parentItem(parent), folderFlag(false), VRActor(nullptr)
 {
 }
 
@@ -117,12 +117,12 @@ QString ModelPart::name() const
 
 void ModelPart::setFolder()
 {
-	folderFlag = true;
+    folderFlag = true;
 }
 
 bool ModelPart::isFolder()
 {
-	return folderFlag;
+    return folderFlag;
 }
 
 void ModelPart::removeChild(ModelPart *child)
@@ -161,10 +161,11 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() const
 
 vtkSmartPointer<vtkActor> ModelPart::getVRActor() const
 {
-	return VRActor;
+    return VRActor;
 }
 
-vtkActor* ModelPart::getNewActor() {
+vtkActor *ModelPart::getNewActor()
+{
 
     vtkSmartPointer<vtkPolyData> pd = vtkSmartPointer<vtkPolyData>::New();
 
@@ -172,7 +173,8 @@ vtkActor* ModelPart::getNewActor() {
 
     VRMapper = vtkSmartPointer<vtkDataSetMapper>::New();
 
-    if (file == nullptr) {
+    if (file == nullptr)
+    {
         qDebug() << "ERROR: nothing in file reader";
         return nullptr;
     }
@@ -189,10 +191,10 @@ vtkActor* ModelPart::getNewActor() {
 
 void ModelPart::setOriginalData(vtkSmartPointer<vtkDataSet> data)
 {
-	originalData = data;
+    originalData = data;
 }
 
 vtkSmartPointer<vtkDataSet> ModelPart::getOriginalData()
 {
-	return originalData;
+    return originalData;
 }

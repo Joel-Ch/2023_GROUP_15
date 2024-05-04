@@ -85,16 +85,25 @@ public slots:
     void accept() override;
 
 private:
+    /**
+     * @brief Initializes the dialog.
+     */
     Ui::Dialog *ui; /**< The user interface object for the dialog. */
 
+    /**
+     * @brief The selected color.
+     */
     QColor colour;
-    /**< The selected color. */
 
+    /**
+     * @brief The name of the item.
+     */
     QString name;
-    /**< The name of the item. */
 
+    /**
+     * @brief The visibility state of the item.
+     */
     bool visible;
-    /**< The visibility state of the item. */
 };
 
 #endif // DIALOG_H

@@ -1,8 +1,8 @@
-/**     @file ModelPartList.h
+/**     @file ModelPartList.cpp
  *
  *     EEEE2076 - Software Engineering & VR Project
  *
- *     Template for model part list that will be used to create the trewview.
+ *     Template for model part list that will be used to create the treeview.
  *
  *     P Evans 2022
  */

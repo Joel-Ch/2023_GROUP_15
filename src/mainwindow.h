@@ -43,6 +43,8 @@ namespace Ui
 QT_END_NAMESPACE /**< End of the Qt namespace. */
 
     /**
+     * @class MainWindow
+     * @ingroup GUI
      * @brief The MainWindow class represents the main window of the application.
      */
     class MainWindow : public QMainWindow
@@ -69,13 +71,12 @@ public:
      */
     void openDialog(const QString &name, const bool &visible, const QColor &colour);
 
-
     /**
-	* @brief Opens a file.
-	* @param fileName The file name.
-	* @param parentIndex The parent index. (set as null if no parent index)
-	*/
-	void openFile(const QString& fileName, QModelIndex& parentIndex);
+     * @brief Opens a file.
+     * @param fileName The file name.
+     * @param parentIndex The parent index. (set as null if no parent index)
+     */
+    void openFile(const QString &fileName, QModelIndex &parentIndex);
 
     /**
      * @brief Updates the render window.
@@ -98,13 +99,13 @@ public:
     void onClick(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData);
 
     /**
-    * @brief Handles the end interaction event.
-    * @param caller The caller object.
-    * @param eventId The event id.
-    * @param clientData The client data.
-    * @param callData The call data.
-    */
-    void onEndInteraction(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
+     * @brief Handles the end interaction event.
+     * @param caller The caller object.
+     * @param eventId The event id.
+     * @param clientData The client data.
+     * @param callData The call data.
+     */
+    void onEndInteraction(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData);
 
 signals:
     /**
@@ -158,25 +159,24 @@ public slots:
      */
     void on_actionDelete_Item_triggered();
 
-
-	/**
-    * @brief Handles the start VR event.
-	*/
-	void on_actionStart_VR_triggered();
+    /**
+     * @brief Handles the start VR event.
+     */
+    void on_actionStart_VR_triggered();
 
     /**
-    * @brief Handles the stop VR event.
-    */
-	void on_actionStop_VR_triggered();
+     * @brief Handles the stop VR event.
+     */
+    void on_actionStop_VR_triggered();
 
     /**
-    * @brief Handles the sync VR event.
-    */
+     * @brief Handles the sync VR event.
+     */
     void on_actionSync_VR_triggered();
 
-	void on_actionShrink_Filter_triggered();
+    void on_actionShrink_Filter_triggered();
 
-	void on_actionClip_Filter_triggered();
+    void on_actionClip_Filter_triggered();
 
     /**
      * @brief Receives dialog data.
@@ -187,16 +187,39 @@ public slots:
     void receiveDialogData(const QString &name, const bool &visible, const QColor &colour);
 
 private:
+    /**
+     * @brief The renderer object.
+     */
     vtkSmartPointer<vtkRenderer> renderer;
+
+    /**
+     * @brief The render window object.
+     */
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
 
+    /**
+     * @brief An actor to model part map
+     */
     std::unordered_map<vtkActor *, ModelPart *> actorToModelPart;
 
+    /**
+     * @brief ui object
+     */
     Ui::MainWindow *ui;
+
+    /**
+     * @brief The tree view object.
+     */
     ModelPartList *partList;
 
-	VRRenderThread *vrThread;
+    /**
+     * @brief The vrThread object.
+     */
+    VRRenderThread *vrThread;
 
-	double previousOrientation[3] = { 0, 0, 0 };
+    /**
+     * @brief The previous orientation.
+     */
+    double previousOrientation[3] = {0, 0, 0};
 };
 #endif // MAINWINDOW_H
