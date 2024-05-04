@@ -18,6 +18,10 @@ jobs:
       - name: Create docs directory
         run: mkdir -p ${{ github.workspace }}/docs
 
+        # Print the contents of the src directory
+      - name: Print src directory contents
+        run: ls -l ${{ github.workspace }}/src
+
       - name: Generate Doxygen
         run: |
           sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
@@ -25,3 +29,14 @@ jobs:
 
       - name: Print docs directory contents
         run: ls -l ${{ github.workspace }}/docs
+
+      # Deploy html output from Doxygen to gh-pages branch
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          # The branch the action should deploy to.
+          branch: gh-pages
+          # The folder the action should deploy.
+          folder: ${{ github.workspace }}/Doxygen/src/html
+          # The GitHub token
+          token: ${{ secrets.GITHUB_TOKEN }}
