@@ -76,6 +76,11 @@ PROJECT_ICON           =
 
 OUTPUT_DIRECTORY       =
 
+
+# Sets the input folder as the source files folder
+
+INPUT = ../src
+
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create up to 4096
 # sub-directories (in 2 levels) under the output directory of each output format
 # and will distribute the generated files over these directories. Enabling this
@@ -127,11 +132,6 @@ OUTPUT_LANGUAGE        = English
 # The default value is: YES.
 
 BRIEF_MEMBER_DESC      = YES
-
-
-# Sets the input folder as the source files folder
-
-INPUT = ../src
 
 # If the REPEAT_BRIEF tag is set to YES, doxygen will prepend the brief
 # description of a member or function before the detailed description

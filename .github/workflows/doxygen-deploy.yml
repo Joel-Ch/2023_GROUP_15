@@ -14,7 +14,7 @@ jobs:
     # A list of steps to follow to complete the build
     # (a list of commands to execute on the virtual computer)
     steps:
-      # This is a predefined action that checks out a copy of your code
+            # This is a predefined action that checks out a copy of your code
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -24,11 +24,11 @@ jobs:
       # Run Doxygen on Worksheet5 folder
       - name: Run Doxygen
         working-directory: ${{ github.workspace }}/Doxygen
-        run: doxygen Doxyfile
+        run: doxygen
 
-      - name: Copy CSS files
-        run: |
-         cp Doxygen/*.css html/
+      # Copy CSS files to the html output folder
+      - name: Copy CSS
+        run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/src/html
 
       # Deploy html output from Doxygen to gh-pages branch
       - name: Deploy
@@ -37,6 +37,6 @@ jobs:
           # The branch the action should deploy to.
           branch: gh-pages
           # The folder the action should deploy.
-          folder: ${{ github.workspace }}/html
+          folder: ${{ github.workspace }}/src/html
           # The GitHub token
           token: ${{ secrets.GITHUB_TOKEN }}
