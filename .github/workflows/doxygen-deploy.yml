@@ -37,6 +37,6 @@ jobs:
           # The branch the action should deploy to.
           branch: gh-pages
           # The folder the action should deploy.
-          folder: ${{ github.workspace }}/Doxygen/src/html
+          folder: ${{ github.workspace }}/docs/html
           # The GitHub token
           token: ${{ secrets.GITHUB_TOKEN }}
