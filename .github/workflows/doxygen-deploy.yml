@@ -26,6 +26,10 @@ jobs:
         working-directory: ${{ github.workspace }}/Doxygen
         run: doxygen
 
+      # Create html directory if it doesn't exist
+      - name: Create html directory
+        run: mkdir -p ${{ github.workspace }}/src/html
+
       # Copy CSS files to the html output folder
       - name: Copy CSS
         run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/src/html
