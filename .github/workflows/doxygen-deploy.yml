@@ -15,9 +15,9 @@ jobs:
     - name: Install Doxygen
       run: sudo apt-get install doxygen
       
-    # Create html directory if it doesn't exist
-    - name: Create html directory
-      run: mkdir -p ${{ github.workspace }}/src/html
+    # Create docs directory if it doesn't exist
+    - name: Create docs directory
+      run: mkdir -p ${{ github.workspace }}/docs
 
     # Generate Doxygen
     - name: Generate Doxygen
@@ -25,13 +25,13 @@ jobs:
         sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
         doxygen Doxygen/Doxyfile
 
-    # Print the contents of the html directory
-    - name: Print html directory contents
-      run: ls -l ${{ github.workspace }}/src/html
+    # Print the contents of the docs directory
+    - name: Print docs directory contents
+      run: ls -l ${{ github.workspace }}/docs
 
     # Copy CSS files to the html output folder
     - name: Copy CSS
-      run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/src/html
+      run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/docs/html
 
     # Deploy html output from Doxygen to gh-pages branch
     - name: Deploy

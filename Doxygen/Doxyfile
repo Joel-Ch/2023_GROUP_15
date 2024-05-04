@@ -74,7 +74,7 @@ PROJECT_ICON           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       =  @ROOT_DIR@/src/html
+OUTPUT_DIRECTORY       =  @ROOT_DIR@/docs
 
 
 # Sets the input folder as the source files folder
