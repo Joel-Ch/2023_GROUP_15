@@ -14,13 +14,15 @@ jobs:
 
     - name: Install Doxygen
       run: sudo apt-get install doxygen
-
-    - name: Generate Doxygen
-      run: doxygen Doxygen/Doxyfile
-
+      
     # Create html directory if it doesn't exist
     - name: Create html directory
       run: mkdir -p ${{ github.workspace }}/src/html
+
+    # Generate Doxygen
+    - name: Generate Doxygen
+      run: doxygen Doxygen/Doxyfile
+
 
     # Copy CSS files to the html output folder
     - name: Copy CSS
