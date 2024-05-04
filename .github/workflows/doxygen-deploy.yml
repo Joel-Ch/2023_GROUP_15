@@ -1,46 +1,38 @@
-name: doxygen-deploy
+name: Doxygen
 
 on:
   push:
-    branches: [main] # Note: this needs to be set to your default branch
-    # name (this might be "main" rather than "master")
+    branches:
+      - main  # Trigger the action on push events to your main branch
 
 jobs:
-  # The job that will build worksheet 5
-  deploy-VRBaseStation:
-    # Defines the operating system for the virtual computer
+  build:
     runs-on: ubuntu-latest
 
-    # A list of steps to follow to complete the build
-    # (a list of commands to execute on the virtual computer)
     steps:
-            # This is a predefined action that checks out a copy of your code
-      - name: Checkout
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install doxygen
-        run: sudo apt-get install -y doxygen
+    - name: Install Doxygen
+      run: sudo apt-get install doxygen
 
-      # Run Doxygen on Worksheet5 folder
-      - name: Run Doxygen
-        working-directory: ${{ github.workspace }}/Doxygen
-        run: doxygen
+    - name: Generate Doxygen
+      run: doxygen Doxygen/Doxyfile
 
-      # Create html directory if it doesn't exist
-      - name: Create html directory
-        run: mkdir -p ${{ github.workspace }}/src/html
+    # Create html directory if it doesn't exist
+    - name: Create html directory
+      run: mkdir -p ${{ github.workspace }}/src/html
 
-      # Copy CSS files to the html output folder
-      - name: Copy CSS
-        run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/src/html
+    # Copy CSS files to the html output folder
+    - name: Copy CSS
+      run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/src/html
 
-      # Deploy html output from Doxygen to gh-pages branch
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
-        with:
-          # The branch the action should deploy to.
-          branch: gh-pages
-          # The folder the action should deploy.
-          folder: ${{ github.workspace }}/src/html
-          # The GitHub token
-          token: ${{ secrets.GITHUB_TOKEN }}
+    # Deploy html output from Doxygen to gh-pages branch
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      with:
+        # The branch the action should deploy to.
+        branch: gh-pages
+        # The folder the action should deploy.
+        folder: ${{ github.workspace }}/src/html
+        # The GitHub token
+        token: ${{ secrets.GITHUB_TOKEN }}
