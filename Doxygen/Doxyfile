@@ -128,6 +128,11 @@ OUTPUT_LANGUAGE        = English
 
 BRIEF_MEMBER_DESC      = YES
 
+
+# Sets the input folder as the source files folder
+
+INPUT = ../src
+
 # If the REPEAT_BRIEF tag is set to YES, doxygen will prepend the brief
 # description of a member or function before the detailed description
 #
@@ -1405,8 +1410,8 @@ HTML_STYLESHEET        =
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  =doxygen-awesome.css \
-                         doxygen-awesome-dark.css
+HTML_EXTRA_STYLESHEET  =Doxygen/doxygen-awesome.css \
+                         Doxygen/doxygen-awesome-dark.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note

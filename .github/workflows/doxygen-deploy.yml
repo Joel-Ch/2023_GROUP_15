@@ -23,8 +23,12 @@ jobs:
 
       # Run Doxygen on Worksheet5 folder
       - name: Run Doxygen
-        working-directory: ${{ github.workspace }}/src
-        run: doxygen
+        working-directory: ${{ github.workspace }}/Doxygen
+        run: doxygen Doxyfile
+
+      - name: Copy CSS files
+        run: |
+         cp Doxygen/*.css html/
 
       # Deploy html output from Doxygen to gh-pages branch
       - name: Deploy
@@ -33,6 +37,6 @@ jobs:
           # The branch the action should deploy to.
           branch: gh-pages
           # The folder the action should deploy.
-          folder: ${{ github.workspace }}/src/html
+          folder: ${{ github.workspace }}/html
           # The GitHub token
           token: ${{ secrets.GITHUB_TOKEN }}
