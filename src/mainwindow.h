@@ -40,7 +40,7 @@ namespace Ui
 {
     class MainWindow;
 }
-QT_END_NAMESPACE /**< End of the Qt namespace. */
+QT_END_NAMESPACE
 
     /**
      * @class MainWindow
