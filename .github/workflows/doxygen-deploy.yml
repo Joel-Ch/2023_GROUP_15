@@ -10,36 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Install Doxygen
-      run: sudo apt-get install doxygen
-      
-    # Create docs directory if it doesn't exist
-    - name: Create docs directory
-      run: mkdir -p ${{ github.workspace }}/docs
+      - name: Install Doxygen
+        run: sudo apt-get install doxygen
 
-    # Generate Doxygen
-    - name: Generate Doxygen
-      run: |
-        sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
-        doxygen Doxygen/Doxyfile
+      - name: Create docs directory
+        run: mkdir -p ${{ github.workspace }}/docs
 
-    # Print the contents of the docs directory
-    - name: Print docs directory contents
-      run: ls -l ${{ github.workspace }}/docs
+      - name: Generate Doxygen
+        run: |
+          sed -i 's|@ROOT_DIR@|'"${{ github.workspace }}"'|g' Doxygen/Doxyfile
+          doxygen Doxygen/Doxyfile
 
-    # Copy CSS files to the html output folder
-    - name: Copy CSS
-      run: cp ${{ github.workspace }}/Doxygen/*.css ${{ github.workspace }}/docs/html
-
-    # Deploy html output from Doxygen to gh-pages branch
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4.2.5
-      with:
-        # The branch the action should deploy to.
-        branch: gh-pages
-        # The folder the action should deploy.
-        folder: ${{ github.workspace }}/src/html
-        # The GitHub token
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print docs directory contents
+        run: ls -l ${{ github.workspace }}/docs
