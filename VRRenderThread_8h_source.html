@@ -162,13 +162,11 @@ $(document).ready(function(){initNavTree('VRRenderThread_8h_source.html',''); in
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="comment">/* Standard VTK VR Classes */</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindow&gt; window;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindowInteractor&gt; interactor;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderer&gt; renderer;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  vtkSmartPointer&lt;vtkOpenVRCamera&gt; camera;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="comment">/* Use to synchronise passing of data to VR thread */</span></div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  QMutex mutex;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  QWaitCondition condition;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
@@ -178,24 +176,17 @@ $(document).ready(function(){initNavTree('VRRenderThread_8h_source.html',''); in
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="keywordtype">bool</span> endRender;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="comment">/* Some variables to indicate animation actions to apply.</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">   *</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordtype">double</span> rotateX; <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keywordtype">double</span> rotateY; <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keywordtype">double</span> rotateZ; <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">/* When set high calls the sync render section</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keywordtype">bool</span> syncRender;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keywordtype">bool</span> syncActors;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordtype">bool</span> removeFiltersFlag;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="comment">/* A map to link actors to model parts */</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  std::map&lt;vtkActor *, ModelPart *&gt; actorMap;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;};</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keywordtype">double</span> rotateX; <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="keywordtype">double</span> rotateY; <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordtype">double</span> rotateZ; <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordtype">bool</span> syncRender;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="keywordtype">bool</span> removeFiltersFlag;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  std::map&lt;vtkActor *, ModelPart *&gt; actorMap;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;};</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aModelPart_8h_html"><div class="ttname"><a href="ModelPart_8h.html">ModelPart.h</a></div><div class="ttdoc">This class represents a part in the model treeview.</div></div>
 <div class="ttc" id="aclassModelPart_html"><div class="ttname"><a href="classModelPart.html">ModelPart</a></div><div class="ttdoc">This class represents a part in the model treeview.</div><div class="ttdef"><b>Definition:</b> ModelPart.h:33</div></div>
 <div class="ttc" id="aclassVRRenderThread_html"><div class="ttname"><a href="classVRRenderThread.html">VRRenderThread</a></div><div class="ttdoc">This class represents a thread that will be used to render the VR scene.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.h:54</div></div>
