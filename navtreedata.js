@@ -25,6 +25,19 @@
 var NAVTREE =
 [
   [ "VRBaseStation", "index.html", [
+    [ "Doxygen", "md_Doxygen_readme.html", [
+      [ "Overview", "md_Doxygen_readme.html#autotoc_md1", null ]
+    ] ],
+    [ "VR Base Station", "md_readme.html", [
+      [ "Table of Contents", "md_readme.html#autotoc_md3", null ],
+      [ "Installation", "md_readme.html#autotoc_md4", null ],
+      [ "Usage", "md_readme.html#autotoc_md5", null ],
+      [ "Contributing", "md_readme.html#autotoc_md6", null ],
+      [ "License", "md_readme.html#autotoc_md7", null ]
+    ] ],
+    [ "src", "md_src_readme.html", [
+      [ "Overview", "md_src_readme.html#autotoc_md9", null ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
