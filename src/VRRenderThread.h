@@ -120,41 +120,38 @@ protected:
   void run() override;
 
 private:
-  /* Standard VTK VR Classes */
+  /** @brief Standard VTK VR Classes */
   vtkSmartPointer<vtkOpenVRRenderWindow> window;
   vtkSmartPointer<vtkOpenVRRenderWindowInteractor> interactor;
   vtkSmartPointer<vtkOpenVRRenderer> renderer;
   vtkSmartPointer<vtkOpenVRCamera> camera;
 
-  /* Use to synchronise passing of data to VR thread */
+  /** @brief Use to synchronise passing of data to VR thread */
   QMutex mutex;
   QWaitCondition condition;
 
-  /** List of actors that will need to be added to the VR scene */
+  /** @brief List of actors that will need to be added to the VR scene */
   vtkSmartPointer<vtkActorCollection> actors;
 
-  /** A timer to help implement animations and visual effects */
+  /** @brief A timer to help implement animations and visual effects */
   std::chrono::time_point<std::chrono::steady_clock> t_last;
 
-  /** This will be set to false by the constructor, if it is set to true
+  /** @brief This will be set to false by the constructor, if it is set to true
    * by the GUI then the rendering will end
    */
   bool endRender;
 
-  /* Some variables to indicate animation actions to apply.
-   *
-   */
+  /** @brief Some variables to indicate animation actions to apply. */
   double rotateX; /*< Degrees to rotate around X axis (per time-step) */
   double rotateY; /*< Degrees to rotate around Y axis (per time-step) */
   double rotateZ; /*< Degrees to rotate around Z axis (per time-step) */
 
-  /* When set high calls the sync render section
-   */
+  /** @brief When set high calls the sync render section */
   bool syncRender;
-  bool syncActors;
+  /** @brief When set high removes the filters from the scene */
   bool removeFiltersFlag;
 
-  /* A map to link actors to model parts */
+  /** @brief A map to link actors to model parts */
   std::map<vtkActor *, ModelPart *> actorMap;
 };
 
