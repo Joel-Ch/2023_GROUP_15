@@ -590,8 +590,6 @@ void MainWindow::on_actionStop_VR_triggered()
     emit statusUpdateMessage(QString("Stopping VR"), 0);
     vrThread->issueCommand(VRRenderThread::END_RENDER);
 
-    // TODO
-    //  the code crashes if you try to run the vr again after stopping it (we probably need to delete/not create two copies of  the renderer etc)
     connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
 }
 
@@ -605,6 +603,7 @@ void MainWindow::on_actionSync_VR_triggered()
     connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 }
 
+// Runs after the user has finished interacting with the render window
 void MainWindow::onEndInteraction(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
 {
     vtkRenderWindowInteractor *interactor = vtkRenderWindowInteractor::SafeDownCast(caller);
@@ -640,10 +639,8 @@ void MainWindow::on_actionClip_Filter_triggered()
     if (!selectedPart)
     {
         emit statusUpdateMessage(QString("No item selected"), 0);
-        return;
     }
-
-    if (!vrThread->isRunning())
+    else if (!vrThread->isRunning())
     {
         emit statusUpdateMessage(QString("VR not running"), 0);
     }
@@ -668,10 +665,8 @@ void MainWindow::on_actionShrink_Filter_triggered()
     if (!selectedPart)
     {
         emit statusUpdateMessage(QString("No item selected"), 0);
-        return;
     }
-
-    if (!vrThread->isRunning())
+    else if (!vrThread->isRunning())
     {
         emit statusUpdateMessage(QString("VR not running"), 0);
     }

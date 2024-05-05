@@ -31,7 +31,7 @@
  * in the constructor, as it will take control of the main thread to handle the VR interaction (headset
  * rotation etc. This means that a second thread is needed to handle the VR.
  */
-VRRenderThread::VRRenderThread(QObject *parent)
+VRRenderThread::VRRenderThread(QObject* parent)
 {
 	/* Initialise actor list */
 	actors = vtkActorCollection::New();
@@ -321,6 +321,8 @@ void VRRenderThread::run()
 		 */
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t_last).count() > 20)
 		{
+			// Tiny animation step
+			rotateY++;
 
 			/* Do things that might need doing ... */
 			vtkActorCollection *actorList = renderer->GetActors();
