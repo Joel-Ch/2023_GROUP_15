@@ -267,6 +267,9 @@ void VRRenderThread::run()
 	{
 		renderer->AddActor(a);
 	}
+	int items = renderer->GetActors()->GetNumberOfItems();
+	int collectionSize = actors->GetNumberOfItems();
+	emit sendVRMessage("testes");
 
 	/* The render window is the actual GUI window
 	 * that appears on the computer screen
