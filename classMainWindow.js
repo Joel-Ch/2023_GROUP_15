@@ -5,6 +5,7 @@ var classMainWindow =
     [ "handleButton1", "classMainWindow.html#a930de12c8da1bda6dad9c1548ecb9375", null ],
     [ "handleButton2", "classMainWindow.html#accf7f1ca023168f0c31d2f9580e8acab", null ],
     [ "handleTreeClicked", "classMainWindow.html#abfa3467a6bf77d8c3b0197025b41ab2d", null ],
+    [ "handleVRMessage", "classMainWindow.html#abc826827cc9f5c90d321a2c86fa13daf", null ],
     [ "on_actionClip_Filter_triggered", "classMainWindow.html#a4d2989a46b34f101de71017635907165", null ],
     [ "on_actionDelete_Item_triggered", "classMainWindow.html#ad4d8e6c5ee4510eccab33156937710a3", null ],
     [ "on_actionItem_Options_triggered", "classMainWindow.html#ad3d17973d3111f1ba9805217b6ab58cf", null ],

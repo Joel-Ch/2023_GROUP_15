@@ -8,5 +8,6 @@ var classVRRenderThread =
     [ "issueCommand", "classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a", null ],
     [ "removeFilters", "classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0", null ],
     [ "run", "classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661", null ],
+    [ "sendVRMessage", "classVRRenderThread.html#a8c1d3064ef914cb88fac95e036345f25", null ],
     [ "Command", "classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb", null ]
 ];

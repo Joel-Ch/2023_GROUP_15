@@ -7,5 +7,6 @@ var searchData=
   ['handlegreenslider_24',['handleGreenSlider',['../classDialog.html#a0a1c01ebb236167f15495d8bfa583334',1,'Dialog']]],
   ['handleredslider_25',['handleRedSlider',['../classDialog.html#a59e2860e7f6d58d4ed181c8a07492078',1,'Dialog']]],
   ['handletreeclicked_26',['handleTreeClicked',['../classMainWindow.html#abfa3467a6bf77d8c3b0197025b41ab2d',1,'MainWindow']]],
-  ['headerdata_27',['headerData',['../classModelPartList.html#a6a54464c7907f0c18c2f5edd7cb4a51e',1,'ModelPartList']]]
+  ['handlevrmessage_27',['handleVRMessage',['../classMainWindow.html#abc826827cc9f5c90d321a2c86fa13daf',1,'MainWindow']]],
+  ['headerdata_28',['headerData',['../classModelPartList.html#a6a54464c7907f0c18c2f5edd7cb4a51e',1,'ModelPartList']]]
 ];
