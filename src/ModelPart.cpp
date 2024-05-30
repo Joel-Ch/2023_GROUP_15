@@ -148,6 +148,14 @@ void ModelPart::loadSTL(QString fileName)
     // 3. Initialise the part's vtkActor and link to the mapper
     actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
+
+	// 2a. Intialise the part's vtkMapper for VR and link it to the STL reader
+	VRMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+	VRMapper->SetInputConnection(file->GetOutputPort());
+
+	// 3a. Initialise the part's vtkActor for VR and link to the mapper
+	VRActor = vtkActor::New();
+	VRActor->SetMapper(VRMapper);
 }
 
 vtkSmartPointer<vtkActor> ModelPart::getActor() const

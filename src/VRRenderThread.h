@@ -12,6 +12,7 @@
 #define VR_RENDER_THREAD_H
 
 /* Project headers */
+#include "ModelPart.h"
 
 /* Qt headers */
 #include <QThread>
@@ -37,7 +38,7 @@
 #include <vtkTrivialProducer.h>
 
 /* Other headers */
-#include "ModelPart.h"
+#include <deque>
 
 /* Note that this class inherits from the Qt class QThread which allows it to be a parallel thread
  * to the main() thread, and also from vtkCommand which allows it to act as a "callback" for the
@@ -52,7 +53,10 @@
  */
 class VRRenderThread : public QThread
 {
-  Q_OBJECT
+    Q_OBJECT
+
+    std::deque<vtkActor*> actorQueue;
+	std::deque<vtkActor*> RemoveActorQueue;
 
 public:
   
@@ -82,12 +86,19 @@ public:
   ~VRRenderThread();
 
   /** 
-   * @brief This allows actors to be added to the VR renderer BEFORE the VR
+   * @brief This allows actors to be added to the VR renderer BEFORE and during the VR
    * interactor has been started
    * @param actor The actor to add to the scene
    * @param part The model part that the actor is associated with
    */
-  void addActorOffline(vtkActor *actor, ModelPart *part);
+  void addActor(vtkActor *actor, ModelPart *part);
+
+  /**
+	* @brief This allows actors to be removed from the VR renderer BEFORE and during the VR
+	* interactor has been started
+	* @param actor The actor to remove from the scene
+    */
+  void removeActor(vtkActor* actor);
 
   /**
    * @brief This allows commands to be issued to the VR thread in a thread safe way.

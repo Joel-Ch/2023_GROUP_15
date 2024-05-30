@@ -75,24 +75,52 @@ VRRenderThread::~VRRenderThread()
 		interactor->Delete();
 }
 
-void VRRenderThread::addActorOffline(vtkActor *actor, ModelPart *part)
+void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
 {
 	QMutexLocker locker(&mutex);
 	/* Check to see if render thread is running */
-	if (!this->isRunning())
-	{
-		double *ac = actor->GetOrigin();
+    if (!this->isRunning())
+    {
+        double *ac = actor->GetOrigin();
 
-		actorMap[actor] = part;
-		part->setOriginalData(actor->GetMapper()->GetInput());
+        actorMap[actor] = part;
+        part->setOriginalData(actor->GetMapper()->GetInput());
 
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
-		actor->RotateX(-90);
-		actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
+        actor->RotateX(-90);
+        actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
-		actors->AddItem(actor);
+        actors->AddItem(actor);
+    }
+    else
+    {
+        // If the VR thread is running, add the actor to a queue
+        // The VR thread will later add these actors to the scene
+        actorQueue.push_back(actor);
+		issueCommand(VRRenderThread::SYNC_RENDER);
+	}
+}
+
+void VRRenderThread::removeActor(vtkActor* actor)
+{
+	QMutexLocker locker(&mutex);
+	if (!this->isRunning())
+	{
+		// remove actor from renderer
+		renderer->RemoveActor(actor);
+		// remove actor from actorMap
+		actorMap.erase(actor);
+		// remove item from actor collection
+		actors->RemoveItem(actor);
+	}
+	else
+	{
+		// If the VR thread is running, add the actor to a queue
+		// The VR thread will later remove these actors from the scene
+		RemoveActorQueue.push_back(actor);
+		issueCommand(VRRenderThread::SYNC_RENDER);
 	}
 }
 
@@ -385,6 +413,28 @@ void VRRenderThread::run()
 					bool visible = part->visible();
 					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
 					actor->SetVisibility(visible);
+				}
+
+				while (!actorQueue.empty())
+				{
+					vtkActor* actor = actorQueue.front();
+					actorQueue.pop_front();
+
+					// Add the actor to the scene
+					renderer->AddActor(actor);
+				}
+
+				while (!RemoveActorQueue.empty())
+				{
+					vtkActor* actor = RemoveActorQueue.front();
+					RemoveActorQueue.pop_front();
+
+					// Remove the actor from the scene
+					renderer->RemoveActor(actor);
+					// Remove the actor from the actorMap
+					actorMap.erase(actor);
+					// Remove the actor from the actor collection
+					actors->RemoveItem(actor);
 				}
 
 				// Reset the command

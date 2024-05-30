@@ -362,6 +362,9 @@ void MainWindow::openFile(const QString &filePath, QModelIndex &parentIndex)
     // Load the STL file
     newItem->loadSTL(filePath);
 
+	// Add actor to VR renderer
+	vrThread->addActor(newItem->getVRActor(), newItem);
+
     // Add the actor to the map
     actorToModelPart[newItem->getActor()] = newItem;
 }
@@ -493,11 +496,15 @@ void MainWindow::updateRenderFromTree(const QModelIndex &index)
                 if (!renderer->HasViewProp(actor))
                 {
                     renderer->AddActor(actor);
+
+					vrThread->addActor(selectedPart->getVRActor(), selectedPart);
                 }
             }
             else
             {
                 renderer->RemoveActor(actor);
+
+				vrThread->removeActor(selectedPart->getVRActor());
             }
         }
     }
@@ -561,22 +568,7 @@ void MainWindow::on_actionStart_VR_triggered()
 
     emit statusUpdateMessage(QString("Starting VR"), 0);
 
-    // Add list of actors using addActorOffline()
-    // (Link these to new mappers)
-    for (int i = 0; i < partList->rowCount(QModelIndex()); i++)
-    {
-        QModelIndex index = partList->index(i, 0, QModelIndex());
-        ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
-        vtkActor *actor = selectedPart->getNewActor();
-        if (actor)
-        {
-            // Copy properties from m_itemData to the new actor
-            // TODO
-
-            // Add the actor to the VR renderer
-            vrThread->addActorOffline(actor, selectedPart);
-        }
-    }
+	// Actors should already be added to the VR renderer
 
     // Start the thread
     vrThread->start();
