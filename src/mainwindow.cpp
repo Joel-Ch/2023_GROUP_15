@@ -193,6 +193,7 @@ void MainWindow::on_actionDelete_Item_triggered()
         emit statusUpdateMessage(QString("No item selected"), 0);
         return;
     }
+	vrThread->removeActor(selectedPart->getVRActor());
 
     // Remove the actor from the map
     actorToModelPart.erase(selectedPart->getActor());

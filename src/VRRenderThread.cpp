@@ -79,9 +79,7 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
 {
 	QMutexLocker locker(&mutex);
 	/* Check to see if render thread is running */
-    if (!this->isRunning())
-    {
-        double *ac = actor->GetOrigin();
+        //double *ac = actor->GetOrigin();
 
         actorMap[actor] = part;
         part->setOriginalData(actor->GetMapper()->GetInput());
@@ -89,8 +87,11 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
-        actor->RotateX(-90);
-        actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
+        //actor->RotateX(-90);
+        //actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
+
+    if (!this->isRunning())
+    {
 
         actors->AddItem(actor);
     }
@@ -420,6 +421,8 @@ void VRRenderThread::run()
 				{
 					vtkActor* actor = actorQueue.front();
 					actorQueue.pop_front();
+
+					actors->AddItem(actor);
 
 					// Add the actor to the scene
 					renderer->AddActor(actor);
