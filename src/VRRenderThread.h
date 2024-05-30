@@ -113,6 +113,9 @@ public:
    */
   void removeFilters();
 
+signals:
+	void sendVRMessage(const QString& text);
+
 protected:
   /** 
    * @brief This is a re-implementation of a QThread function

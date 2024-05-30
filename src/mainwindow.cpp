@@ -100,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
     renderer->AddLight(light);
 
     vrThread = new VRRenderThread();
+	connect(vrThread, &VRRenderThread::sendVRMessage, this, &MainWindow::handleVRMessage);
     /*
     // Create a skybox ------------------------------------------------------------------
     vtkSmartPointer<vtkTexture> texture = vtkSmartPointer<vtkTexture>::New();
@@ -601,6 +602,12 @@ void MainWindow::on_actionSync_VR_triggered()
     vrThread->issueCommand(VRRenderThread::SYNC_RENDER);
 
     connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
+}
+
+void MainWindow::handleVRMessage(const QString& text)
+{
+    // Show a message to the user
+    emit statusUpdateMessage(text,0);
 }
 
 // Runs after the user has finished interacting with the render window

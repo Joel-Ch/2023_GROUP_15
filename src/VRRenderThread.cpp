@@ -245,6 +245,7 @@ void VRRenderThread::run()
 
 	if (!window->IsHMDPresent())
 	{
+		emit sendVRMessage("No HMD detected");
 		return;
 	}
 

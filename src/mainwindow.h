@@ -186,6 +186,11 @@ public slots:
      */
     void receiveDialogData(const QString &name, const bool &visible, const QColor &colour);
 
+    /**
+	 * @brief Handles the VR status update message.
+     */
+	void handleVRMessage(const QString& text);
+
 private:
     /**
      * @brief The renderer object.
