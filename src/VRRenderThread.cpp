@@ -360,8 +360,6 @@ void VRRenderThread::run()
 		 */
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t_last).count() > 20)
 		{
-			// Tiny animation step
-			rotateY++;
 
 			/* Do things that might need doing ... */
 			vtkActorCollection *actorList = renderer->GetActors();
