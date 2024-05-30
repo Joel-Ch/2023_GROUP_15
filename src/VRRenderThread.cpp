@@ -56,7 +56,15 @@ VRRenderThread::VRRenderThread(QObject* parent)
 VRRenderThread::~VRRenderThread()
 {
 	if (actors != nullptr)
+	{
+		actors->InitTraversal();
+		vtkActor* actor;
+		while ((actor = (vtkActor*)actors->GetNextActor()))
+		{
+			renderer->RemoveActor(actor);
+		}
 		actors->Delete();
+	}
 	if (renderer != nullptr)
 		renderer->Delete();
 	if (window != nullptr)
