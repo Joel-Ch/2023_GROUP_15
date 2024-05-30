@@ -159,6 +159,7 @@ void VRRenderThread::applyShrinkFilter(ModelPart *selectedPart)
 	QMutexLocker locker(&mutex);
 	if (!this->isRunning())
 	{
+		emit sendVRMessage("VR thread not running");
 		return;
 	}
 	vtkActor *a = selectedPart->getVRActor();
@@ -174,6 +175,7 @@ void VRRenderThread::applyClipFilter(ModelPart *selectedPart)
 	QMutexLocker locker(&mutex);
 	if (!this->isRunning())
 	{
+		emit sendVRMessage("VR thread not running");
 		return;
 	}
 	vtkSmartPointer<vtkActor> a = selectedPart->getVRActor();
