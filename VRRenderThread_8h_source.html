@@ -145,70 +145,72 @@ $(document).ready(function(){initNavTree('VRRenderThread_8h_source.html',''); in
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ROTATE_Z,</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    SYNC_RENDER,</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    SYNC_ACTORS,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    REMOVE_FILTERS</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">   75</a></span>&#160;  } <a class="code" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">Command</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <a class="code" href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">~VRRenderThread</a>();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ad6f2e09ea14b8c5567afe95456126476">addActor</a>(vtkActor *actor, <a class="code" href="classModelPart.html">ModelPart</a> *part);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#abcadc7e6bac8be15bd6d90f6f9d10837">removeActor</a>(vtkActor* actor);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a>(<span class="keywordtype">int</span> cmd, <span class="keywordtype">double</span> value = 0);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">applyClipFilter</a>(<a class="code" href="classModelPart.html">ModelPart</a> *selectedPart);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">applyShrinkFilter</a>(<a class="code" href="classModelPart.html">ModelPart</a> *selectedPart);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0">removeFilters</a>();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;signals:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">void</span> sendVRMessage(<span class="keyword">const</span> QString&amp; text);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindow&gt; window;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindowInteractor&gt; interactor;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderer&gt; renderer;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  vtkSmartPointer&lt;vtkOpenVRCamera&gt; camera;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  QMutex mutex;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  QWaitCondition condition;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  vtkSmartPointer&lt;vtkActorCollection&gt; actors;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  std::chrono::time_point&lt;std::chrono::steady_clock&gt; t_last;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordtype">bool</span> endRender;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keywordtype">double</span> rotateX; <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordtype">double</span> rotateY; <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordtype">double</span> rotateZ; <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="keywordtype">bool</span> syncRender;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keywordtype">bool</span> removeFiltersFlag;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  std::map&lt;vtkActor *, ModelPart *&gt; actorMap;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;};</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    REMOVE_FILTERS,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ACTORS_CHANGED</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">   76</a></span>&#160;  } <a class="code" href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">Command</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <a class="code" href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <a class="code" href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">~VRRenderThread</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ad6f2e09ea14b8c5567afe95456126476">addActor</a>(vtkActor *actor, <a class="code" href="classModelPart.html">ModelPart</a> *part);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#abcadc7e6bac8be15bd6d90f6f9d10837">removeActor</a>(vtkActor* actor);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">issueCommand</a>(<span class="keywordtype">int</span> cmd, <span class="keywordtype">double</span> value = 0);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">applyClipFilter</a>(<a class="code" href="classModelPart.html">ModelPart</a> *selectedPart);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">applyShrinkFilter</a>(<a class="code" href="classModelPart.html">ModelPart</a> *selectedPart);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0">removeFilters</a>();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;signals:</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">void</span> sendVRMessage(<span class="keyword">const</span> QString&amp; text);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindow&gt; window;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderWindowInteractor&gt; interactor;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  vtkSmartPointer&lt;vtkOpenVRRenderer&gt; renderer;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  vtkSmartPointer&lt;vtkOpenVRCamera&gt; camera;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  QMutex mutex;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  QWaitCondition condition;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  vtkSmartPointer&lt;vtkActorCollection&gt; actors;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  std::chrono::time_point&lt;std::chrono::steady_clock&gt; t_last;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keywordtype">bool</span> endRender;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordtype">double</span> rotateX; <span class="comment">/*&lt; Degrees to rotate around X axis (per time-step) */</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordtype">double</span> rotateY; <span class="comment">/*&lt; Degrees to rotate around Y axis (per time-step) */</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordtype">double</span> rotateZ; <span class="comment">/*&lt; Degrees to rotate around Z axis (per time-step) */</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordtype">bool</span> syncRender;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordtype">bool</span> removeFiltersFlag;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordtype">bool</span> actorsChanged;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  std::map&lt;vtkActor *, ModelPart *&gt; actorMap;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;};</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aModelPart_8h_html"><div class="ttname"><a href="ModelPart_8h.html">ModelPart.h</a></div><div class="ttdoc">This class represents a part in the model treeview.</div></div>
 <div class="ttc" id="aclassModelPart_html"><div class="ttname"><a href="classModelPart.html">ModelPart</a></div><div class="ttdoc">This class represents a part in the model treeview.</div><div class="ttdef"><b>Definition:</b> ModelPart.h:33</div></div>
 <div class="ttc" id="aclassVRRenderThread_html"><div class="ttname"><a href="classVRRenderThread.html">VRRenderThread</a></div><div class="ttdoc">This class represents a thread that will be used to render the VR scene.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.h:55</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_a21c23037bf11cd2a1592076c7e499de0"><div class="ttname"><a href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">VRRenderThread::~VRRenderThread</a></div><div class="ttdeci">~VRRenderThread()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:56</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_a21c23037bf11cd2a1592076c7e499de0"><div class="ttname"><a href="classVRRenderThread.html#a21c23037bf11cd2a1592076c7e499de0">VRRenderThread::~VRRenderThread</a></div><div class="ttdeci">~VRRenderThread()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:57</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a35976e55f6655840aa217aa8a066f196"><div class="ttname"><a href="classVRRenderThread.html#a35976e55f6655840aa217aa8a066f196">VRRenderThread::VRRenderThread</a></div><div class="ttdeci">VRRenderThread(QObject *parent=nullptr)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:34</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_a4cb6ce06654e3f0990b77ac494eedfbe"><div class="ttname"><a href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">VRRenderThread::applyShrinkFilter</a></div><div class="ttdeci">void applyShrinkFilter(ModelPart *selectedPart)</div><div class="ttdoc">Applies a shrink filter to the selected part.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:186</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_a4cb6ce06654e3f0990b77ac494eedfbe"><div class="ttname"><a href="classVRRenderThread.html#a4cb6ce06654e3f0990b77ac494eedfbe">VRRenderThread::applyShrinkFilter</a></div><div class="ttdeci">void applyShrinkFilter(ModelPart *selectedPart)</div><div class="ttdoc">Applies a shrink filter to the selected part.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:197</div></div>
 <div class="ttc" id="aclassVRRenderThread_html_a887ba74b8a5b02f927e4564049b85ffb"><div class="ttname"><a href="classVRRenderThread.html#a887ba74b8a5b02f927e4564049b85ffb">VRRenderThread::Command</a></div><div class="ttdeci">enum VRRenderThread::@0 Command</div><div class="ttdoc">Enum to specify the type of command to issue to the VR thread.</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_a97fac783faacb7b35490f250d093d7c7"><div class="ttname"><a href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">VRRenderThread::applyClipFilter</a></div><div class="ttdeci">void applyClipFilter(ModelPart *selectedPart)</div><div class="ttdoc">Applies a clip filter to the selected part.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:202</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_abcadc7e6bac8be15bd6d90f6f9d10837"><div class="ttname"><a href="classVRRenderThread.html#abcadc7e6bac8be15bd6d90f6f9d10837">VRRenderThread::removeActor</a></div><div class="ttdeci">void removeActor(vtkActor *actor)</div><div class="ttdoc">This allows actors to be removed from the VR renderer BEFORE and during the VR interactor has been st...</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:107</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_ac6b6f0a90cc007d5033aa38f9afeaf2a"><div class="ttname"><a href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">VRRenderThread::issueCommand</a></div><div class="ttdeci">void issueCommand(int cmd, double value=0)</div><div class="ttdoc">This allows commands to be issued to the VR thread in a thread safe way.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:128</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_ad6f2e09ea14b8c5567afe95456126476"><div class="ttname"><a href="classVRRenderThread.html#ad6f2e09ea14b8c5567afe95456126476">VRRenderThread::addActor</a></div><div class="ttdeci">void addActor(vtkActor *actor, ModelPart *part)</div><div class="ttdoc">This allows actors to be added to the VR renderer BEFORE and during the VR interactor has been starte...</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:78</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_ae8ae1f0008e5b82470d2061142aeeeb0"><div class="ttname"><a href="classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0">VRRenderThread::removeFilters</a></div><div class="ttdeci">void removeFilters()</div><div class="ttdoc">Removes all filters from the scene.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:221</div></div>
-<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdoc">This is a re-implementation of a QThread function.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:242</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_a97fac783faacb7b35490f250d093d7c7"><div class="ttname"><a href="classVRRenderThread.html#a97fac783faacb7b35490f250d093d7c7">VRRenderThread::applyClipFilter</a></div><div class="ttdeci">void applyClipFilter(ModelPart *selectedPart)</div><div class="ttdoc">Applies a clip filter to the selected part.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:213</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_abcadc7e6bac8be15bd6d90f6f9d10837"><div class="ttname"><a href="classVRRenderThread.html#abcadc7e6bac8be15bd6d90f6f9d10837">VRRenderThread::removeActor</a></div><div class="ttdeci">void removeActor(vtkActor *actor)</div><div class="ttdoc">This allows actors to be removed from the VR renderer BEFORE and during the VR interactor has been st...</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:108</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_ac6b6f0a90cc007d5033aa38f9afeaf2a"><div class="ttname"><a href="classVRRenderThread.html#ac6b6f0a90cc007d5033aa38f9afeaf2a">VRRenderThread::issueCommand</a></div><div class="ttdeci">void issueCommand(int cmd, double value=0)</div><div class="ttdoc">This allows commands to be issued to the VR thread in a thread safe way.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:135</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_ad6f2e09ea14b8c5567afe95456126476"><div class="ttname"><a href="classVRRenderThread.html#ad6f2e09ea14b8c5567afe95456126476">VRRenderThread::addActor</a></div><div class="ttdeci">void addActor(vtkActor *actor, ModelPart *part)</div><div class="ttdoc">This allows actors to be added to the VR renderer BEFORE and during the VR interactor has been starte...</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:79</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_ae8ae1f0008e5b82470d2061142aeeeb0"><div class="ttname"><a href="classVRRenderThread.html#ae8ae1f0008e5b82470d2061142aeeeb0">VRRenderThread::removeFilters</a></div><div class="ttdeci">void removeFilters()</div><div class="ttdoc">Removes all filters from the scene.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:232</div></div>
+<div class="ttc" id="aclassVRRenderThread_html_af5bbbaf8625fc42278476a43bf018661"><div class="ttname"><a href="classVRRenderThread.html#af5bbbaf8625fc42278476a43bf018661">VRRenderThread::run</a></div><div class="ttdeci">void run() override</div><div class="ttdoc">This is a re-implementation of a QThread function.</div><div class="ttdef"><b>Definition:</b> VRRenderThread.cpp:253</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
