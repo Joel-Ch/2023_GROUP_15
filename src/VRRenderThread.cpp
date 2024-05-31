@@ -103,7 +103,7 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
     {
         // If the VR thread is running, add the actor to a queue
         // The VR thread will later add these actors to the scene
-		// Only add the actor to the queue if it's not already present
+		// Only add the actor to the queue if it's not already present in the queue
 		if (std::find(actorQueue.begin(), actorQueue.end(), actor) == actorQueue.end())
 		{
 			actorQueue.push_back(actor);
@@ -476,7 +476,10 @@ void VRRenderThread::run()
 					vtkActor* actor = actorQueue.front();
 					actorQueue.pop_front();
 
-					actors->AddItem(actor);
+					if (!actors->IsItemPresent(actor))
+						actors->AddItem(actor);
+					else
+						emit sendVRMessage("Actor already in collection");
 				}
 
 
