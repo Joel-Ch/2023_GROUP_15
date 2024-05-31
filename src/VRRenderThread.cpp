@@ -92,16 +92,23 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
         //actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
     if (!this->isRunning())
-    {
-
-        actors->AddItem(actor);
+    {	
+		// Only add the actor to the collection if it's not already present
+		if (!actors->IsItemPresent(actor))
+		{
+			actors->AddItem(actor);
+		}
     }
     else
     {
         // If the VR thread is running, add the actor to a queue
         // The VR thread will later add these actors to the scene
-        actorQueue.push_back(actor);
-		issueCommand(VRRenderThread::ACTORS_CHANGED);
+		// Only add the actor to the queue if it's not already present
+		if (std::find(actorQueue.begin(), actorQueue.end(), actor) == actorQueue.end())
+		{
+			actorQueue.push_back(actor);
+			issueCommand(VRRenderThread::ACTORS_CHANGED);
+		}
 	}
 }
 
