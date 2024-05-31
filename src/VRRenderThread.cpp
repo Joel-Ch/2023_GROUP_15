@@ -405,17 +405,6 @@ void VRRenderThread::run()
 			if (syncRender)
 			{
 				mutex.lock();
-				// Update all actors
-				actors->InitTraversal();
-				vtkActor *actor = nullptr;
-				while ((actor = actors->GetNextActor()) != nullptr)
-				{
-					ModelPart *part = actorMap[actor];
-					QColor colour = part->colour();
-					bool visible = part->visible();
-					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
-					actor->SetVisibility(visible);
-				}
 
 				while (!actorQueue.empty())
 				{
@@ -439,6 +428,20 @@ void VRRenderThread::run()
 					actorMap.erase(actor);
 					// Remove the actor from the actor collection
 					actors->RemoveItem(actor);
+					// Delete the actor
+					actor->Delete();
+				}
+
+				// Update all actors
+				actors->InitTraversal();
+				vtkActor *actor = nullptr;
+				while ((actor = actors->GetNextActor()) != nullptr)
+				{
+					ModelPart *part = actorMap[actor];
+					QColor colour = part->colour();
+					bool visible = part->visible();
+					actor->GetProperty()->SetColor(colour.redF(), colour.greenF(), colour.blueF());
+					actor->SetVisibility(visible);
 				}
 
 				// Reset the command
