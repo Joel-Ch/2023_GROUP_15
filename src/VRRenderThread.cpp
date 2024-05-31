@@ -119,7 +119,20 @@ void VRRenderThread::removeActor(vtkActor* actor)
 	{
 		// remove item from actor collection
 		if (actors->IsItemPresent(actor))
+		{
+			int sizeBefore = actors->GetNumberOfItems();
 			actors->RemoveItem(actor);
+			int sizeAfter = actors->GetNumberOfItems();
+
+			if (sizeBefore == sizeAfter)
+			{
+				emit sendVRMessage("Actor was not removed from collection");
+			}
+			else if (actors->IsItemPresent(actor))
+			{
+				emit sendVRMessage("Actor is still in collection after removal");
+			}
+		}
 		else
 			emit sendVRMessage("Actor not found in actor collection (while offline)");
 	}
@@ -307,7 +320,7 @@ void VRRenderThread::run()
 	light->SetPositional(true);
 	light->SetConeAngle(90);
 	light->SetFocalPoint(0, 0, 0);
-	light->SetDiffuseColor(1, 1, 1);
+	light->SetDiffuseColor(1, 0.5, 1);
 	light->SetAmbientColor(1, 1, 1);
 	light->SetSpecularColor(1, 1, 1);
 	light->SetIntensity(0.5);
@@ -375,7 +388,6 @@ void VRRenderThread::run()
 		 */
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t_last).count() > 20)
 		{
-
 			/* Do things that might need doing ... */
 			vtkActorCollection *actorList = renderer->GetActors();
 			vtkActor *a;
