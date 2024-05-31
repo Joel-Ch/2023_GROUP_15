@@ -71,7 +71,8 @@ public:
     ROTATE_Z,
     SYNC_RENDER,
     SYNC_ACTORS,
-    REMOVE_FILTERS
+    REMOVE_FILTERS,
+    ACTORS_CHANGED
   } Command;
 
   /**  
@@ -164,6 +165,8 @@ private:
   bool syncRender;
   /** @brief When set high removes the filters from the scene */
   bool removeFiltersFlag;
+  /** @brief When set high calls the changed actors section */
+  bool actorsChanged;
 
   /** @brief A map to link actors to model parts */
   std::map<vtkActor *, ModelPart *> actorMap;

@@ -46,6 +46,7 @@ VRRenderThread::VRRenderThread(QObject* parent)
 	endRender = true;
 	syncRender = false;
 	removeFiltersFlag = false;
+	actorsChanged = false;
 }
 
 /* Standard destructor - this is important here as the class will be destroyed when the user
@@ -100,28 +101,34 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
         // If the VR thread is running, add the actor to a queue
         // The VR thread will later add these actors to the scene
         actorQueue.push_back(actor);
-		issueCommand(VRRenderThread::SYNC_RENDER);
+		issueCommand(VRRenderThread::ACTORS_CHANGED);
 	}
 }
 
 void VRRenderThread::removeActor(vtkActor* actor)
 {
 	QMutexLocker locker(&mutex);
+	
+	// remove actor from actorMap
+	if (actorMap.count(actor) > 0)
+		actorMap.erase(actor);
+	else
+		emit sendVRMessage("Actor not found in actorMap");
+	
 	if (!this->isRunning())
 	{
-		// remove actor from renderer
-		renderer->RemoveActor(actor);
-		// remove actor from actorMap
-		actorMap.erase(actor);
 		// remove item from actor collection
-		actors->RemoveItem(actor);
+		if (actors->IsItemPresent(actor))
+			actors->RemoveItem(actor);
+		else
+			emit sendVRMessage("Actor not found in actor collection (while offline)");
 	}
 	else
 	{
 		// If the VR thread is running, add the actor to a queue
 		// The VR thread will later remove these actors from the scene
 		RemoveActorQueue.push_back(actor);
-		issueCommand(VRRenderThread::SYNC_RENDER);
+		issueCommand(VRRenderThread::ACTORS_CHANGED);
 	}
 }
 
@@ -154,6 +161,10 @@ void VRRenderThread::issueCommand(int cmd, double value)
 
 	case REMOVE_FILTERS:
 		this->removeFiltersFlag = true;
+		break;
+	
+	case ACTORS_CHANGED:
+		this->actorsChanged = true;
 		break;
 	}
 }
@@ -406,32 +417,6 @@ void VRRenderThread::run()
 			{
 				mutex.lock();
 
-				while (!actorQueue.empty())
-				{
-					vtkActor* actor = actorQueue.front();
-					actorQueue.pop_front();
-
-					actors->AddItem(actor);
-
-					// Add the actor to the scene
-					renderer->AddActor(actor);
-				}
-
-				while (!RemoveActorQueue.empty())
-				{
-					vtkActor* actor = RemoveActorQueue.front();
-					RemoveActorQueue.pop_front();
-
-					// Remove the actor from the scene
-					renderer->RemoveActor(actor);
-					// Remove the actor from the actorMap
-					actorMap.erase(actor);
-					// Remove the actor from the actor collection
-					actors->RemoveItem(actor);
-					// Delete the actor
-					actor->Delete();
-				}
-
 				// Update all actors
 				actors->InitTraversal();
 				vtkActor *actor = nullptr;
@@ -446,6 +431,59 @@ void VRRenderThread::run()
 
 				// Reset the command
 				syncRender = false;
+				mutex.unlock();
+			}
+
+			if (actorsChanged)
+			{
+				mutex.lock();
+
+				while (!RemoveActorQueue.empty())
+				{
+					vtkActor* actor = RemoveActorQueue.front();
+					RemoveActorQueue.pop_front();
+
+					// Remove the actor from the actor collection
+					if (actors->IsItemPresent(actor))
+						actors->RemoveItem(actor);
+					else 
+						emit sendVRMessage("Actor not found in actor collection");
+					// Delete the actor
+					//actor->Delete(); -> unneeded, actor is a smart pointer
+				}
+
+				while (!actorQueue.empty())
+				{
+					vtkActor* actor = actorQueue.front();
+					actorQueue.pop_front();
+
+					actors->AddItem(actor);
+				}
+
+
+				// remove all actors from renderer
+				vtkActorCollection* actorList = renderer->GetActors();
+				vtkActor* a;
+				actorList->InitTraversal();
+				while ((a = (vtkActor*)actorList->GetNextActor()))
+				{
+					if (a != nullptr)
+					{
+						renderer->RemoveActor(a);
+					}
+				}
+
+				// add actors from actors collection to renderer
+				actors->InitTraversal();
+				while ((a = (vtkActor*)actors->GetNextActor()))
+				{
+					if (a != nullptr)
+					{
+						renderer->AddActor(a);
+					}
+				}
+
+				actorsChanged = false;
 				mutex.unlock();
 			}
 
