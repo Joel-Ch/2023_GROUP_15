@@ -14,7 +14,6 @@ var classMainWindow =
     [ "on_actionShrink_Filter_triggered", "classMainWindow.html#a198d435d98be0009c5f307188525ba70", null ],
     [ "on_actionStart_VR_triggered", "classMainWindow.html#a8ded108feb37f7794e2251f99c2136c1", null ],
     [ "on_actionStop_VR_triggered", "classMainWindow.html#ab479b73b552fa37576cffd1e65965d91", null ],
-    [ "on_actionSync_VR_triggered", "classMainWindow.html#a88fc14a44cd3f25a202e6de5af5024c2", null ],
     [ "onClick", "classMainWindow.html#acafd65bdc08cecdd7bf2c071f470084e", null ],
     [ "onEndInteraction", "classMainWindow.html#a94312478f0d91c4b7586efb562e62857", null ],
     [ "openDialog", "classMainWindow.html#a4765b81196c7f3b77ac9de9b3b41587c", null ],

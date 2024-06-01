@@ -12,7 +12,7 @@ var classModelPart =
     [ "getNewActor", "classModelPart.html#ad40112df77afcccbc969d28243117831", null ],
     [ "getOriginalData", "classModelPart.html#a416b7d13d9b712cee913dff21f74d485", null ],
     [ "getVRActor", "classModelPart.html#ab1ad49d79defecdcaf6db5491b8d95e0", null ],
-    [ "isFolder", "classModelPart.html#a58139df61938b6090b005da2e8b0427d", null ],
+    [ "isFolder", "classModelPart.html#a7e047df74369249f9dc85b1eec4e494e", null ],
     [ "loadSTL", "classModelPart.html#a8d004c61b9f9cb0da895956a4c22b97b", null ],
     [ "name", "classModelPart.html#aea788e821770db97fca79a5d5be0f926", null ],
     [ "parentItem", "classModelPart.html#a9be3859d2a298e88d850a2480b7639f7", null ],

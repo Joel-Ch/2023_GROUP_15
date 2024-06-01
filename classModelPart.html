@@ -135,8 +135,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaa5eabdc73105590f989104f8010c196"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#aaa5eabdc73105590f989104f8010c196">setFolder</a> ()</td></tr>
 <tr class="memdesc:aaa5eabdc73105590f989104f8010c196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set this item as a folder.  <a href="classModelPart.html#aaa5eabdc73105590f989104f8010c196">More...</a><br /></td></tr>
 <tr class="separator:aaa5eabdc73105590f989104f8010c196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58139df61938b6090b005da2e8b0427d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#a58139df61938b6090b005da2e8b0427d">isFolder</a> ()</td></tr>
-<tr class="separator:a58139df61938b6090b005da2e8b0427d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e047df74369249f9dc85b1eec4e494e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#a7e047df74369249f9dc85b1eec4e494e">isFolder</a> () const</td></tr>
+<tr class="separator:a7e047df74369249f9dc85b1eec4e494e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52b26b7adbeabaadce95ddf9df608937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#a52b26b7adbeabaadce95ddf9df608937">removeChild</a> (<a class="el" href="classModelPart.html">ModelPart</a> *<a class="el" href="classModelPart.html#af32381b69415f0aa6bdfd84435f842cc">child</a>)</td></tr>
 <tr class="separator:a52b26b7adbeabaadce95ddf9df608937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d004c61b9f9cb0da895956a4c22b97b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#a8d004c61b9f9cb0da895956a4c22b97b">loadSTL</a> (QString fileName)</td></tr>
@@ -147,11 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab1ad49d79defecdcaf6db5491b8d95e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad40112df77afcccbc969d28243117831"><td class="memItemLeft" align="right" valign="top">vtkActor *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#ad40112df77afcccbc969d28243117831">getNewActor</a> ()</td></tr>
 <tr class="separator:ad40112df77afcccbc969d28243117831"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6b9417cdff152e09b3e69de38c641aa"><td class="memItemLeft" align="right" valign="top"><a id="ae6b9417cdff152e09b3e69de38c641aa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setOriginalData</b> (vtkSmartPointer&lt; vtkDataSet &gt; <a class="el" href="classModelPart.html#a178655da543bd0dae2d0ed1e2ea38a56">data</a>)</td></tr>
+<tr class="memitem:ae6b9417cdff152e09b3e69de38c641aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#ae6b9417cdff152e09b3e69de38c641aa">setOriginalData</a> (vtkSmartPointer&lt; vtkDataSet &gt; <a class="el" href="classModelPart.html#a178655da543bd0dae2d0ed1e2ea38a56">data</a>)</td></tr>
 <tr class="separator:ae6b9417cdff152e09b3e69de38c641aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a416b7d13d9b712cee913dff21f74d485"><td class="memItemLeft" align="right" valign="top"><a id="a416b7d13d9b712cee913dff21f74d485"></a>
-vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getOriginalData</b> ()</td></tr>
+<tr class="memitem:a416b7d13d9b712cee913dff21f74d485"><td class="memItemLeft" align="right" valign="top">vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModelPart.html#a416b7d13d9b712cee913dff21f74d485">getOriginalData</a> ()</td></tr>
 <tr class="separator:a416b7d13d9b712cee913dff21f74d485"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -378,6 +376,24 @@ vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="b
 
 </div>
 </div>
+<a id="a416b7d13d9b712cee913dff21f74d485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a416b7d13d9b712cee913dff21f74d485">&#9670;&nbsp;</a></span>getOriginalData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vtkSmartPointer&lt; vtkDataSet &gt; ModelPart::getOriginalData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get Original Data </p><dl class="section return"><dt>Returns</dt><dd>pointer to original data </dd></dl>
+
+</div>
+</div>
 <a id="ab1ad49d79defecdcaf6db5491b8d95e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab1ad49d79defecdcaf6db5491b8d95e0">&#9670;&nbsp;</a></span>getVRActor()</h2>
 
@@ -397,8 +413,8 @@ vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="b
 
 </div>
 </div>
-<a id="a58139df61938b6090b005da2e8b0427d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58139df61938b6090b005da2e8b0427d">&#9670;&nbsp;</a></span>isFolder()</h2>
+<a id="a7e047df74369249f9dc85b1eec4e494e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e047df74369249f9dc85b1eec4e494e">&#9670;&nbsp;</a></span>isFolder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,7 +423,7 @@ vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="b
           <td class="memname">bool ModelPart::isFolder </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -614,6 +630,30 @@ vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td><td class="memItemRight" valign="b
 <p>Set part name </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>is the name to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae6b9417cdff152e09b3e69de38c641aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6b9417cdff152e09b3e69de38c641aa">&#9670;&nbsp;</a></span>setOriginalData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ModelPart::setOriginalData </td>
+          <td>(</td>
+          <td class="paramtype">vtkSmartPointer&lt; vtkDataSet &gt;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set Original Data </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>is the original data to set </td></tr>
   </table>
   </dd>
 </dl>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['newtreeview_95',['NewTreeView',['../classNewTreeView.html',1,'']]]
+  ['newtreeview_98',['NewTreeView',['../classNewTreeView.html',1,'']]]
 ];
