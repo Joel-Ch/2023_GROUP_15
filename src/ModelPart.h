@@ -131,7 +131,7 @@ public:
   /** Get folder flag
    * @return true if this item is a folder
    */
-  bool isFolder();
+  bool isFolder() const;
 
   /** Remove a child from this item
    * @param child is the child to remove
@@ -159,8 +159,14 @@ public:
    */
   vtkActor *getNewActor();
 
+  /** Set Original Data
+  * @param data is the original data to set
+  */
   void setOriginalData(vtkSmartPointer<vtkDataSet> data);
 
+  /** Get Original Data
+  * @return pointer to original data
+  */
   vtkSmartPointer<vtkDataSet> getOriginalData();
 
 private:

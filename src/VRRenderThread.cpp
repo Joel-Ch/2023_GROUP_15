@@ -40,13 +40,13 @@ VRRenderThread::VRRenderThread(QObject* parent)
 	rotateX = 0.;
 	rotateY = 0.;
 	rotateZ = 0.;
-
-	// TODO how do we initialise the command enum
-
 	endRender = true;
 	syncRender = false;
 	removeFiltersFlag = false;
 	actorsChanged = false;
+
+	// TODO how do we initialise the command enum
+
 }
 
 /* Standard destructor - this is important here as the class will be destroyed when the user
@@ -56,6 +56,7 @@ VRRenderThread::VRRenderThread(QObject* parent)
  */
 VRRenderThread::~VRRenderThread()
 {
+	/* Check if things exist before removing them */
 	if (actors != nullptr)
 	{
 		actors->InitTraversal();
@@ -79,8 +80,6 @@ VRRenderThread::~VRRenderThread()
 void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
 {
 	QMutexLocker locker(&mutex);
-	/* Check to see if render thread is running */
-        //double *ac = actor->GetOrigin();
 
         actorMap[actor] = part;
         part->setOriginalData(actor->GetMapper()->GetInput());
@@ -88,12 +87,15 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
 		/* I have found that these initial transforms will position the FS
 		 * car model in a sensible position but you can experiment
 		 */
+        //double *ac = actor->GetOrigin();
         //actor->RotateX(-90);
         //actor->AddPosition(-ac[0] + 0, -ac[1] - 100, -ac[2] - 200);
 
+		// These transforms break it, so I just removed them for now -> with more time this would be implemented
+
     if (!this->isRunning())
     {	
-		// Only add the actor to the collection if it's not already present
+		/* Only add the actor to the collection if it's not already present */
 		if (!actors->IsItemPresent(actor))
 		{
 			actors->AddItem(actor);
@@ -101,9 +103,10 @@ void VRRenderThread::addActor(vtkActor *actor, ModelPart *part)
     }
     else
     {
-        // If the VR thread is running, add the actor to a queue
-        // The VR thread will later add these actors to the scene
-		// Only add the actor to the queue if it's not already present in the queue
+        /* If the VR thread is running, add the actor to a queue
+        * The VR thread will later add these actors to the scene
+		* Only add the actor to the queue if it's not already present in the queue
+		*/
 		if (std::find(actorQueue.begin(), actorQueue.end(), actor) == actorQueue.end())
 		{
 			actorQueue.push_back(actor);
@@ -145,8 +148,9 @@ void VRRenderThread::removeActor(vtkActor* actor)
 	}
 	else
 	{
-		// If the VR thread is running, add the actor to a queue
-		// The VR thread will later remove these actors from the scene
+		/* If the VR thread is running, add the actor to a queue
+		* The VR thread will later remove these actors from the scene 
+		*/
 		RemoveActorQueue.push_back(actor);
 		issueCommand(VRRenderThread::ACTORS_CHANGED);
 	}
@@ -189,31 +193,6 @@ void VRRenderThread::issueCommand(int cmd, double value)
 	}
 }
 
-// void VRRenderThread::syncVRActors(std::unordered_map<vtkActor*, ModelPart*>& mainSceneMap) {
-//	// Find model parts in the main scene but not in the VR scene and add corresponding actors to the VR scene
-//	QMutexLocker locker(&mutex);
-//	for (const auto& pair : mainSceneMap) {
-//		if (actorMap.find(pair.first) == actorMap.end()) {
-//			// Add the actor to the VR scene
-//			vtkSmartPointer<vtkActor> vrActor = pair.second->getNewActor();
-//			renderer->AddActor(vrActor);
-//			actorMap[vrActor] = pair.second;
-//		}
-//	}
-//
-//	// Find model parts in the VR scene but not in the main scene and remove corresponding actors from the VR scene
-//	for (auto it = actorMap.begin(); it != actorMap.end(); /* no increment here */) {
-//		if (mainSceneMap.find(it->first) == mainSceneMap.end()) {
-//			// Remove the actor from the VR scene
-//			renderer->RemoveActor(it->first);
-//			it = actorMap.erase(it); // erase returns the iterator to the next element
-//		}
-//		else {
-//			++it;
-//		}
-//	}
-// }
-
 void VRRenderThread::applyShrinkFilter(ModelPart *selectedPart)
 {
 	QMutexLocker locker(&mutex);
@@ -222,6 +201,8 @@ void VRRenderThread::applyShrinkFilter(ModelPart *selectedPart)
 		emit sendVRMessage("VR thread not running");
 		return;
 	}
+
+	/* Define and apply shrink filter */
 	vtkActor *a = selectedPart->getVRActor();
 	vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
 	shrinkFilter->SetInputData(a->GetMapper()->GetInput());
@@ -238,6 +219,10 @@ void VRRenderThread::applyClipFilter(ModelPart *selectedPart)
 		emit sendVRMessage("VR thread not running");
 		return;
 	}
+
+	/* Define and apply clip filter 
+	* NB: These values are entirely arbitrary and just clip filter the entire model at the moment
+	*/
 	vtkSmartPointer<vtkActor> a = selectedPart->getVRActor();
 	vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
 	plane->SetOrigin(0, 0, 0);
@@ -276,7 +261,7 @@ void VRRenderThread::run()
 	 * This means if you try to edit the VR model from the GUI thread while the VR thread is
 	 * running, the program could become corrupted and crash. The solution is to get the VR thread
 	 * to edit the model. Any decision to change the VR model will come fromthe user via the GUI thread,
-	 * so there needs to be a mechanism to pass data from the GUi thread to the VR thread.
+	 * so there needs to be a mechanism to pass data from the GUI thread to the VR thread.
 	 */
 
 	vtkNew<vtkNamedColors> colors;
@@ -301,7 +286,6 @@ void VRRenderThread::run()
 	}
 	int items = renderer->GetActors()->GetNumberOfItems();
 	int collectionSize = actors->GetNumberOfItems();
-	emit sendVRMessage("testes");
 
 	/* The render window is the actual GUI window
 	 * that appears on the computer screen
@@ -321,13 +305,14 @@ void VRRenderThread::run()
 	camera = vtkOpenVRCamera::New();
 	renderer->SetActiveCamera(camera);
 
+	/* Create a light */
 	vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 	light->SetLightTypeToSceneLight();
 	light->SetPosition(5, 5, 15);
 	light->SetPositional(true);
 	light->SetConeAngle(90);
 	light->SetFocalPoint(0, 0, 0);
-	light->SetDiffuseColor(1, 0.5, 1);
+	light->SetDiffuseColor(1, 1, 1);
 	light->SetAmbientColor(1, 1, 1);
 	light->SetSpecularColor(1, 1, 1);
 	light->SetIntensity(0.5);
@@ -362,6 +347,8 @@ void VRRenderThread::run()
 	// Add the skybox to the renderer
 	renderer->AddActor(skybox);
 	*/
+
+
 	/* The render window interactor captures mouse events
 	 * and will perform appropriate camera or actor manipulation
 	 * depending on the nature of the events.
@@ -399,44 +386,29 @@ void VRRenderThread::run()
 			vtkActorCollection *actorList = renderer->GetActors();
 			vtkActor *a;
 
-			/* X Rotation */
+			/* adds a tiny animation */
+			rotateX += 0.1;
+
+			/* Rotation */
 			actorList->InitTraversal();
 			while ((a = (vtkActor *)actorList->GetNextActor()))
 			{
 				if (a != nullptr)
 				{
 					a->RotateX(rotateX);
-				}
-			}
-			rotateX = 0;
-
-			/* Y Rotation */
-			actorList->InitTraversal();
-			while ((a = (vtkActor *)actorList->GetNextActor()))
-			{
-				if (a != nullptr)
-				{
 					a->RotateY(rotateY);
-				}
-			}
-			rotateY = 0;
-
-			/* Z Rotation */
-			actorList->InitTraversal();
-			while ((a = (vtkActor *)actorList->GetNextActor()))
-			{
-				if (a != nullptr)
-				{
 					a->RotateZ(rotateZ);
 				}
 			}
+			rotateX = 0;
+			rotateY = 0;
 			rotateZ = 0;
 
 			if (syncRender)
 			{
 				mutex.lock();
 
-				// Update all actors
+				/* Update all actors */
 				actors->InitTraversal();
 				vtkActor *actor = nullptr;
 				while ((actor = actors->GetNextActor()) != nullptr)
@@ -448,7 +420,7 @@ void VRRenderThread::run()
 					actor->SetVisibility(visible);
 				}
 
-				// Reset the command
+				/* Reset the command */
 				syncRender = false;
 				mutex.unlock();
 			}
@@ -457,20 +429,22 @@ void VRRenderThread::run()
 			{
 				mutex.lock();
 
+				/* If an actor is in the remove queue, remove it from the actor collection */
 				while (!RemoveActorQueue.empty())
 				{
 					vtkActor* actor = RemoveActorQueue.front();
 					RemoveActorQueue.pop_front();
 
-					// Remove the actor from the actor collection
+					/* Remove the actor from the actor collection */
 					if (actors->IsItemPresent(actor))
 						actors->RemoveItem(actor);
 					else 
 						emit sendVRMessage("Actor not found in actor collection");
-					// Delete the actor
+					/* Delete the actor */
 					//actor->Delete(); -> unneeded, actor is a smart pointer
 				}
 
+				/* Add actors from actorQueue to actors collection */
 				while (!actorQueue.empty())
 				{
 					vtkActor* actor = actorQueue.front();
@@ -478,12 +452,10 @@ void VRRenderThread::run()
 
 					if (!actors->IsItemPresent(actor))
 						actors->AddItem(actor);
-					else
-						emit sendVRMessage("Actor already in collection");
 				}
 
 
-				// remove all actors from renderer
+				/* remove all actors from renderer */
 				vtkActorCollection* actorList = renderer->GetActors();
 				vtkActor* a;
 				actorList->InitTraversal();
@@ -495,7 +467,7 @@ void VRRenderThread::run()
 					}
 				}
 
-				// add actors from actors collection to renderer
+				/* add actors from actors collection to renderer */
 				actors->InitTraversal();
 				while ((a = (vtkActor*)actors->GetNextActor()))
 				{
@@ -519,8 +491,9 @@ void VRRenderThread::run()
 			t_last = std::chrono::steady_clock::now();
 		}
 	}
+	/* This is now after rendering has stopped: */
 
-	// Delete the actors
+	/* Delete the actors from renderer */
 	vtkActorCollection *actorList = renderer->GetActors();
 	actorList->InitTraversal();
 	while ((a = (vtkActor *)actorList->GetNextActor()))
@@ -530,6 +503,8 @@ void VRRenderThread::run()
 			a->Delete();
 		}
 	}
+
+	/* Delete the actors from the actor collection */
 	actors->InitTraversal();
 	while ((a = (vtkActor *)actors->GetNextActor()))
 	{
@@ -539,6 +514,7 @@ void VRRenderThread::run()
 		}
 	}
 
+	/* Close the window and clean up */
 	window->Finalize();
 	renderer->RemoveAllViewProps();
 	renderer->RemoveAllLights();

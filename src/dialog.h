@@ -76,6 +76,9 @@ public slots:
 
     /**
      * @brief Slot for setting the initial values of the dialog.
+	 * @param name The name of the item.
+	 * @param visible The visibility state of the item.
+	 * @param colour The colour of the item.
      */
     void setInitialValues(const QString &name, const bool &visible, const QColor &colour);
 

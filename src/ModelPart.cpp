@@ -120,7 +120,7 @@ void ModelPart::setFolder()
     folderFlag = true;
 }
 
-bool ModelPart::isFolder()
+bool ModelPart::isFolder() const
 {
     return folderFlag;
 }

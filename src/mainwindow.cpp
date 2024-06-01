@@ -14,12 +14,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->treeView = findChild<NewTreeView *>("treeView");
+    /* add dropdown menu actions */
     ui->treeView->addAction(ui->actionItem_Options);
     ui->treeView->addAction(ui->actionDelete_Item);
     ui->treeView->addAction(ui->actionClip_Filter);
     ui->treeView->addAction(ui->actionShrink_Filter);
 
-    // connections
+    /* connections */
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->pushButton, &QPushButton::released, this, &MainWindow::handleButton2);
     connect(ui->pushButton_2, &QPushButton::released, this, &MainWindow::handleButton1);
@@ -28,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDelete_Item, &QAction::triggered, this, &MainWindow::on_actionDelete_Item_triggered);
     connect(ui->actionStart_VR, &QAction::triggered, this, &MainWindow::on_actionStart_VR_triggered);
     connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
-    connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
     connect(ui->actionClip_Filter, &QAction::triggered, this, &MainWindow::on_actionClip_Filter_triggered);
     connect(ui->actionShrink_Filter, &QAction::triggered, this, &MainWindow::on_actionShrink_Filter_triggered);
 
@@ -44,25 +44,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Create a render window interactor ------------------------------------------------------------------
 
-    // Create a prop picker
+    /* Create a prop picker */
     vtkSmartPointer<vtkPropPicker> PropPicker = vtkSmartPointer<vtkPropPicker>::New();
 
-    // Set the tolerance for the picker
+    /* Set the tolerance for the picker */
     // PropPicker->SetTolerance(0.0005);
 
-    // Connect the picker to the render window
+    /* Connect the picker to the render window */
     renderWindow->GetInteractor()->SetPicker(PropPicker);
 
-    // Connect the event with a callback function
+    /* Connect the event with a callback function */
     vtkSmartPointer<vtkCallbackCommand> clickCallback = vtkSmartPointer<vtkCallbackCommand>::New();
 
-    // Create a lambda function that captures clicks and calls onClick
+    /* Create a lambda function that captures clicks and calls onClick */
     auto onClickLambda = [](vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
     {
         static_cast<MainWindow *>(clientData)->onClick(caller, eventId, clientData, callData);
     };
 
-    // Set the callback to the lambda function
+    /* Set the callback to the lambda function */
     clickCallback->SetClientData(this);
     clickCallback->SetCallback(onClickLambda);
 
@@ -70,19 +70,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     // ---------------------------------------------------------------------------------------------------
 
-    // Create a lambda function that captures rotation and calls onEndInteraction
+    /* Create a lambda function that captures rotation and calls onEndInteraction */
     auto onEndInteractionLambda = [](vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
     {
         static_cast<MainWindow *>(clientData)->onEndInteraction(caller, eventId, clientData, callData);
     };
 
-    // Set the callback to the lambda function
+    /*Set the callback to the lambda function */
     vtkSmartPointer<vtkCallbackCommand> interactionEndCallback = vtkSmartPointer<vtkCallbackCommand>::New();
     interactionEndCallback->SetClientData(this);
     interactionEndCallback->SetCallback(onEndInteractionLambda);
     renderWindow->GetInteractor()->AddObserver(vtkCommand::EndInteractionEvent, interactionEndCallback);
 
-    // Add a renderer
+    /* Add a renderer */
     renderer = vtkSmartPointer<vtkRenderer>::New();
     renderWindow->AddRenderer(renderer);
 
@@ -145,7 +145,8 @@ MainWindow::~MainWindow()
 void MainWindow::handleButton1()
 {
     // do nothing
-    emit statusUpdateMessage(QString("NO ACTION"), 0);
+	emit statusUpdateMessage(QString("Item Options"), 0);
+	on_actionItem_Options_triggered();
 }
 
 void MainWindow::handleButton2()
@@ -178,13 +179,13 @@ void MainWindow::handleTreeClicked(const QModelIndex &index)
 
 void MainWindow::on_actionDelete_Item_triggered()
 {
-    // Disconnect the action's signal - otherwise it goes twice
+    /* Disconnect the action's signal - otherwise it goes twice */
     disconnect(ui->actionDelete_Item, &QAction::triggered, this, &MainWindow::on_actionDelete_Item_triggered);
 
-    // Status Bar Message
+    /* Status Bar Message */
     emit statusUpdateMessage(QString("Delete Item"), 0);
 
-    // Get the selected item
+    /* Get the selected item */
     QModelIndex index = ui->treeView->currentIndex();
     ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
 
@@ -193,12 +194,13 @@ void MainWindow::on_actionDelete_Item_triggered()
         emit statusUpdateMessage(QString("No item selected"), 0);
         return;
     }
-	vrThread->removeActor(selectedPart->getVRActor());
 
-    // Remove the actor from the map
+	vrThread->removeActor(selectedPart->getVRActor());
+    
+    /* Remove the actor from the map */
     actorToModelPart.erase(selectedPart->getActor());
 
-    // Delete the selected item
+    /* Delete the selected item */
     QModelIndex parentIndex = index.parent();
     int row = index.row();
     if (partList->removeRow(row, parentIndex))
@@ -210,13 +212,13 @@ void MainWindow::on_actionDelete_Item_triggered()
         emit statusUpdateMessage(QString("Item Not Deleted"), 0);
     }
 
-    // Reconnect the action's signal
+    /* Reconnect the action's signal */
     connect(ui->actionDelete_Item, &QAction::triggered, this, &MainWindow::on_actionDelete_Item_triggered);
 
-    // Update the tree view
+    /* Update the tree view */
     partList->dataChanged(parentIndex, parentIndex);
 
-    // Update the render window
+    /* Update the render window */
     updateRender();
 }
 
@@ -227,12 +229,18 @@ void MainWindow::on_actionOpen_File_triggered()
 {
     emit statusUpdateMessage(QString("Opening File"), 0);
 
-    // Open a file dialog
+    /* Open a file dialog */
     QString filePath = QFileDialog::getOpenFileName(
         this,
         tr("Open File"),
         "C:\\",
         tr("STL Files(*.stl);;Text Files(*.txt)"));
+
+	if (filePath.isEmpty())
+	{
+		emit statusUpdateMessage(QString("File Open Cancelled"), 0);
+		return;
+	}
 
     QModelIndex index;
     openFile(filePath, index);
@@ -246,25 +254,25 @@ void MainWindow::on_actionOpen_Folder_triggered()
 {
     emit statusUpdateMessage(QString("Opening Folder"), 0);
 
-    // Open a directory dialog
+    /* Open a directory dialog */
     QString dirName = QFileDialog::getExistingDirectory(
         this,
         tr("Open Directory"),
         "C:\\",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    // Check if a directory was selected
+    /* Check if a directory was selected */
     if (!dirName.isEmpty())
     {
         emit statusUpdateMessage(QString("Folder Opened: ") + dirName, 0);
 
-        // Get all STL files in the directory
+        /* Get all STL files in the directory */
         QDir directory(dirName);
         QStringList stlFiles = directory.entryList(QStringList() << "*.stl"
                                                                  << "*.STL",
                                                    QDir::Files);
 
-        // Create a QProgressDialog
+        /* Create a QProgressDialog */
         QProgressDialog progress("Loading Files...", "Cancel", 0, stlFiles.size(), this);
         progress.setWindowModality(Qt::WindowModal);
 
@@ -273,17 +281,17 @@ void MainWindow::on_actionOpen_Folder_triggered()
         {
             parentIndex = ui->treeView->currentIndex();
         }
-        // Create a new parent item with the folder name
+        /* Create a new parent item with the folder name */
         QList<QVariant> parentData = {dirName /*, true, QColor(255, 255, 255) */};
         QModelIndex folderIndex = partList->appendChild(parentIndex, parentData);
 
-        // Set the folder flag
+        /* Set the folder flag */
         static_cast<ModelPart *>(folderIndex.internalPointer())->setFolder();
 
         int i = 0;
         foreach (QString fileName, stlFiles)
         {
-            // Update the progress dialog
+            /* Update the progress dialog */
             progress.setValue(i++);
             if (progress.wasCanceled())
                 break;
@@ -292,12 +300,12 @@ void MainWindow::on_actionOpen_Folder_triggered()
         }
         progress.setValue(stlFiles.size());
 
-        // Update the tree view
+        /* Update the tree view */
         partList->dataChanged(QModelIndex(), QModelIndex());
 
         updateRender();
     }
-    // If no directory was selected
+    /* If no directory was selected */
     else
     {
         emit statusUpdateMessage(QString("Folder Open Cancelled"), 0);
@@ -313,60 +321,60 @@ void MainWindow::openFile(const QString &filePath, QModelIndex &parentIndex)
         return;
     }
 
-    // Get the current index
+    /* Get the current index */
     QModelIndex index = ui->treeView->currentIndex();
 
     QString fileName = QFileInfo(filePath).fileName();
 
-    // Default values for the new item
+    /* Default values for the new item */
     QString visible("true");
     QColor colour(255, 255, 255);
 
-    // Create a new blank item
+    /* Create a new blank item*/
     ModelPart *newItem{};
 
-    // Check if a parent index is provided (if a folder is opened)
+    /* Check if a parent index is provided (if a folder is opened) */
     if (parentIndex.isValid())
     {
-        // initialise the new item with the parent item's data
+        /* initialise the new item with the parent item's data*/
         newItem = new ModelPart({fileName, visible, colour});
-        // Get the parent item
+        /* Get the parent item */
         ModelPart *parentPart = static_cast<ModelPart *>(parentIndex.internalPointer());
-        // Append the new item to the parent item
+        /* Append the new item to the parent item */
         parentPart->appendChild(newItem);
     }
-    // Check if an item is selected (if a file is opened as a child)
+    /* Check if an item is selected (if a file is opened as a child) */
     else if (ui->treeView->selectionModel()->hasSelection())
     {
-        // If no parent index is provided but an item is selected, append the new item to the selected item
+        /* If no parent index is provided but an item is selected, append the new item to the selected item */
         QModelIndex selectedIndex = ui->treeView->currentIndex();
-        // initialise the new item with the selected item's data
+        /* initialise the new item with the selected item's data */
         newItem = new ModelPart({fileName, visible, colour});
-        // Get the selected item
+        /* Get the selected item */
         ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
-        // Append the new item to the selected item
+        /* Append the new item to the selected item */
         selectedPart->appendChild(newItem);
     }
-    // Check if no item is selected (if a file is opened as a top-level item)
+    /* Check if no item is selected (if a file is opened as a top-level item) */
     else
     {
-        // If no parent index is provided and no item is selected, create a new top-level item
+        /* If no parent index is provided and no item is selected, create a new top-level item */
         QList<QVariant> data = {fileName, visible, colour};
         QModelIndex newIndex = partList->appendChild(parentIndex, data);
-        // Get the new item
+        /* Get the new item */
         newItem = static_cast<ModelPart *>(newIndex.internalPointer());
     }
 
-    // Update the tree view
+    /* Update the tree view */
     partList->dataChanged(index, index);
 
-    // Load the STL file
+    /* Load the STL file */
     newItem->loadSTL(filePath);
 
-	// Add actor to VR renderer
+	/* Add actor to VR renderer */
 	vrThread->addActor(newItem->getVRActor(), newItem);
 
-    // Add the actor to the map
+    /* Add the actor to the map */
     actorToModelPart[newItem->getActor()] = newItem;
 }
 
@@ -375,13 +383,13 @@ void MainWindow::openFile(const QString &filePath, QModelIndex &parentIndex)
 
 void MainWindow::on_actionItem_Options_triggered()
 {
-    // Disconnect the action's signal - otherwise it goes twice
+    /* Disconnect the action's signal - otherwise it goes twice */
     disconnect(ui->actionItem_Options, &QAction::triggered, this, &MainWindow::on_actionItem_Options_triggered);
 
-    // Status Bar Message
+    /* Status Bar Message */
     emit statusUpdateMessage(QString("Item Options"), 0);
 
-    // Get the selected item
+    /* Get the selected item */
     QModelIndex index = ui->treeView->currentIndex();
     ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
 
@@ -397,32 +405,32 @@ void MainWindow::on_actionItem_Options_triggered()
         return;
     }
 
-    // Open the dialog with the selected item's data
+    /* Open the dialog with the selected item's data */
     openDialog(selectedPart->name(), selectedPart->visible(), selectedPart->colour());
 
-    // Reconnect the action's signal
+    /* Reconnect the action's signal */
     connect(ui->actionItem_Options, &QAction::triggered, this, &MainWindow::on_actionItem_Options_triggered);
 }
 
 void MainWindow::openDialog(const QString &name, const bool &isVisible, const QColor &colour)
 {
-    // Create a dialog object
+    /* Create a dialog object */
     Dialog _dialog(this);
 
-    // Connect the dialog's signal to the MainWindow's slot
+    /* Connect the dialog's signal to the MainWindow's slot */
     connect(&_dialog, &Dialog::sendingData, this, &MainWindow::receiveDialogData);
 
-    // Set the dialog's initial values
+    /* Set the dialog's initial values */
     _dialog.setInitialValues(name, isVisible, colour);
 
-    // Show the dialog
+    /* Show the dialog */
     _dialog.exec();
 }
 
 void MainWindow::receiveDialogData(const QString &name, const bool &visible, const QColor &colour)
 {
 
-    // Display the data in the status bar
+    /* Display the data in the status bar */
     emit statusUpdateMessage(QString("Colour: R%1 G%2 B%3")
                                      .arg(colour.red())
                                      .arg(colour.green())
@@ -431,11 +439,11 @@ void MainWindow::receiveDialogData(const QString &name, const bool &visible, con
                                  QString(" Visible? ") + QString::number(visible),
                              0);
 
-    // Get the selected item
+    /* Get the selected item */
     QModelIndex index = ui->treeView->currentIndex();
     ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
 
-    // Set the selected item's data
+    /* Set the selected item's data */
     selectedPart->setName(name);
     selectedPart->setVisible(visible);
     selectedPart->setColour(colour);
@@ -456,10 +464,7 @@ void MainWindow::updateRender()
         updateRenderFromTree(partList->index(i, 0, QModelIndex()));
     }
 
-    // This line won't render any more than the first item in the list
-    // updateRenderFromTree(partList->index(0, 0, QModelIndex()));
-
-    // Reset Camera
+    /* Reset Camera */
     renderer->ResetCamera();
     renderer->ResetCameraClippingRange();
     renderer->Render();
@@ -470,37 +475,37 @@ void MainWindow::updateRenderFromTree(const QModelIndex &index)
     if (index.isValid())
     {
         ModelPart *selectedPart = static_cast<ModelPart *>(index.internalPointer());
-        if (selectedPart->isFolder())
+        if (!selectedPart->isFolder())
         {
-            return;
-        }
-        // Retrieve actor from selected part and add to renderer
-        vtkSmartPointer<vtkActor> actor = selectedPart->getActor();
-        if (actor)
-        {
-            QColor qcolor = selectedPart->colour();
-            double red = qcolor.redF();
-            double green = qcolor.greenF();
-            double blue = qcolor.blueF();
 
-            // Set the color of the actor
-            actor->GetProperty()->SetColor(red, green, blue);
-
-            // Check visibility and add or remove actor from renderer
-            if (selectedPart->visible())
+            /* Retrieve actor from selected part and add to renderer */
+            vtkSmartPointer<vtkActor> actor = selectedPart->getActor();
+            if (actor)
             {
-                if (!renderer->HasViewProp(actor))
+                QColor qcolor = selectedPart->colour();
+                double red = qcolor.redF();
+                double green = qcolor.greenF();
+                double blue = qcolor.blueF();
+
+                /* Set the color of the actor */
+                actor->GetProperty()->SetColor(red, green, blue);
+
+                /* Check visibility and add or remove actor from renderer */
+                if (selectedPart->visible())
                 {
-                    renderer->AddActor(actor);
+                    if (!renderer->HasViewProp(actor))
+                    {
+                        renderer->AddActor(actor);
 
-					vrThread->addActor(selectedPart->getVRActor(), selectedPart);
+                        vrThread->addActor(selectedPart->getVRActor(), selectedPart);
+                    }
                 }
-            }
-            else
-            {
-                renderer->RemoveActor(actor);
+                else
+                {
+                    renderer->RemoveActor(actor);
 
-				vrThread->removeActor(selectedPart->getVRActor());
+                    vrThread->removeActor(selectedPart->getVRActor());
+                }
             }
         }
     }
@@ -521,25 +526,25 @@ void MainWindow::updateRenderFromTree(const QModelIndex &index)
 
 void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *clientData, void *callData)
 {
-    // create interactor
+    /* create interactor */
     vtkRenderWindowInteractor *interactor = vtkRenderWindowInteractor::SafeDownCast(caller);
     if (interactor)
     {
         int *clickPos = interactor->GetEventPosition();
 
-        // create picker
+        /* create picker */
         vtkSmartPointer<vtkPropPicker> picker = vtkSmartPointer<vtkPropPicker>::New();
         if (picker->Pick(clickPos[0], clickPos[1], 0, renderer))
         {
-            // get the clicked actor
+            /* get the clicked actor */
             vtkActor *actor = picker->GetActor();
             if (actor)
             {
-                // get the corresponding item
+                /* get the corresponding item */
                 ModelPart *selectedPart = actorToModelPart[actor];
                 emit statusUpdateMessage(QString("Clicked on: ") + selectedPart->name(), 0);
                 QModelIndex index = partList->index(selectedPart, QModelIndex());
-                // select the corresponding item in the tree view
+                /* select the corresponding item in the tree view */
                 if (index.isValid())
                 {
                     ui->treeView->setCurrentIndex(index);
@@ -548,7 +553,7 @@ void MainWindow::onClick(vtkObject *caller, long unsigned int eventId, void *cli
         }
         else
         {
-            // if no actor was clicked
+            /* if no actor was clicked */
             emit statusUpdateMessage(QString(""), 0);
             ui->treeView->clearSelection();
         }
@@ -564,12 +569,10 @@ void MainWindow::on_actionStart_VR_triggered()
 
     emit statusUpdateMessage(QString("Starting VR"), 0);
 
-	// Actors should already be added to the VR renderer
+	/* Actors should already be added to the VR renderer -> this is done when you open files */
 
-    // Start the thread
+    /* Start the thread */
     vrThread->start();
-
-    // TODO: Update the VR render window?
 }
 
 void MainWindow::on_actionStop_VR_triggered()
@@ -580,16 +583,6 @@ void MainWindow::on_actionStop_VR_triggered()
     vrThread->issueCommand(VRRenderThread::END_RENDER);
 
     connect(ui->actionStop_VR, &QAction::triggered, this, &MainWindow::on_actionStop_VR_triggered);
-}
-
-void MainWindow::on_actionSync_VR_triggered()
-{
-    disconnect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
-
-    emit statusUpdateMessage(QString("Syncing VR"), 0);
-    vrThread->issueCommand(VRRenderThread::SYNC_RENDER);
-
-    connect(ui->actionSync_VR, &QAction::triggered, this, &MainWindow::on_actionSync_VR_triggered);
 }
 
 void MainWindow::handleVRMessage(const QString& text)
@@ -610,7 +603,7 @@ void MainWindow::onEndInteraction(vtkObject *caller, long unsigned int eventId, 
         {
             const double *currentOrientation = camera->GetOrientation();
 
-            // Only issue the rotation commands if the orientation has changed
+            /* Only issue the rotation commands if the orientation has changed */
             if (currentOrientation[0] != previousOrientation[0] ||
                 currentOrientation[1] != previousOrientation[1] ||
                 currentOrientation[2] != previousOrientation[2])
@@ -635,6 +628,10 @@ void MainWindow::on_actionClip_Filter_triggered()
     {
         emit statusUpdateMessage(QString("No item selected"), 0);
     }
+    else if (selectedPart->isFolder())
+	{
+		emit statusUpdateMessage(QString("Cannot apply filter to a folder"), 0);
+	}
     else if (!vrThread->isRunning())
     {
         emit statusUpdateMessage(QString("VR not running"), 0);
@@ -661,6 +658,10 @@ void MainWindow::on_actionShrink_Filter_triggered()
     {
         emit statusUpdateMessage(QString("No item selected"), 0);
     }
+	else if (selectedPart->isFolder())
+	{
+		emit statusUpdateMessage(QString("Cannot apply filter to a folder"), 0);
+	}
     else if (!vrThread->isRunning())
     {
         emit statusUpdateMessage(QString("VR not running"), 0);
@@ -673,15 +674,3 @@ void MainWindow::on_actionShrink_Filter_triggered()
 
     connect(ui->actionShrink_Filter, &QAction::triggered, this, &MainWindow::on_actionShrink_Filter_triggered);
 }
-
-/*
-List of cool bonus features:
-
-- Deselection of items
-- Opening a folder and adding all files in the folder as children of the folder
-- Deleting an item
-- Dialog box has a colour display and a text box for the hex code
-- Dialog box is cancellable
-- Status bar updates with messages
-- Clicking on an actor in the render window selects the corresponding item in the tree view
-*/

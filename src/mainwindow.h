@@ -169,13 +169,14 @@ public slots:
      */
     void on_actionStop_VR_triggered();
 
-    /**
-     * @brief Handles the sync VR event.
-     */
-    void on_actionSync_VR_triggered();
-
+	/**
+	* @brief Handles the shrink filter event.
+    */
     void on_actionShrink_Filter_triggered();
 
+	/**
+	* @brief Handles the clip filter event.
+	*/
     void on_actionClip_Filter_triggered();
 
     /**
@@ -188,6 +189,7 @@ public slots:
 
     /**
 	 * @brief Handles the VR status update message.
+	 * @param text The message to be displayed.
      */
 	void handleVRMessage(const QString& text);
 
